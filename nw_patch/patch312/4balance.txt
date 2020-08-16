@@ -1,0 +1,128 @@
+4BALANCE.TXT
+Technical Information Document (TID)# 2926169
+
+Load Balancing on a local LAN
+-----------------------------
+NOTE: This paper is based on the assumption that you are using the
+IPXRTR.NLM in IPX65A.EXE (or later).
+         
+          _______                             Client A     _______ 
+         |      | NIC1________IPX Network 123___| ________|       |      
+         | File |                                         |       |      
+         |      |                                         |       |
+         |      | NIC2____IPX Network 123_________________| Switch| 
+         |Server|                                         |       |
+         |      |                                         |       |
+         |      | NIC3_______IPX Network 123______________|_______| 
+         |______|                                | 
+                                               Client B 
+
+Scenario: 
+You have 2, or more, network cards bound to the same IPX network number
+(address) to different ports in the same switch.  You can get more
+bandwidth from this LAN with Load Balancing.
+ 
+
+A. How do I enable Load Balancing on the local LAN? 
+1. Enable NLSP routing in the Protocols->IPX section of INETCFG.    
+
+2. SET LOAD BALANCE LOCAL LAN = ON, after IPXRTR has been loaded (at the
+AUTOEXEC.NCF is fine). This is an added option in INETCFG version 3.30 and above.
+
+ 
+3. Set "Maximum Number of Path Splits to 8, in the Protocols->IPX->Expert
+Configuration Options of INETCFG.
+ 
+B. How do I check that it's working? 
+1. Load MONITOR (LAN/WAN Information) and compare the packets SENT from
+each of the cards bound to the same IPX network number.  
+The number of packets should be more or less equal, although one will be
+slightly higher, as the server sends all non-broadcast NLSP packets onto an
+IPX network through just one card.  Remember, the server has no control
+over how packets are received - you may have only one client attached and
+it will be sending all data to one card in the server.
+ 
+2. With Load Balancing turned on, the server should only be sending one RIP
+to the Specific Route Requests it receives.  You can check this in a
+LANalyzer trace or with TRACK ON. 
+ 
+ 
+C. What is the server doing differently that enables Load Balancing?
+ 
+1. IPX NCP packets and Specific Route Response packets, destined for the
+local LAN, will be sent from the NICs in a round robin fashion.  The NLSP
+MaxPathSplits parameter tells IPXRTR how many duplicate, equal cost paths,
+to store in its forwarding table.  When IPXRTR has a packet to send to
+network 123, it looks in the forwarding table and uses the equal cost paths
+to that network in a round robin.  (ie. This time the packet goes out NIC
+1, next time NIC 2, NIC 3 and back to NIC 1, etc.)
+ 
+2.  The server will only send one response for Specific Route RIP Requests.
+
+When NetWare clients try to reach an IPX service, for the first time, they
+broadcast a Specific Route Request for the IPX network number, where that
+service resides (this is sometimes called a Get Local Target RIP Request). 
+Because it is broadcast, this packet is received on all NICs bound to that
+LAN.  Instead of responding through each NIC, IPXRTR will send only one RIP
+response and that response will be part of the round robin for packets to
+that LAN.
+       
+NetWare clients cache the MAC address provided in the RIP response, and
+use it to reach that particular IPX network, until they lose the
+connection.  In the context of Load Balancing, clients receive RIP
+responses from random cards in the server (they are part of the round robin
+of packets coming from the server), and this should help balance the
+incoming load to the server.  Note that you may not see a well balanced
+incoming load to a server with just a few clients - they all could be
+sending to the same card in the server, and one could be sending a lot more
+data than others.  Over time and with more clients, the incoming load
+should become more balanced over the NICs.
+ 
+D. Does this work for both RIP/SAP and NLSP? 
+No, only NLSP, but that shouldn't cause any problems on your network
+because NLSP is RIP/SAP compatible.
+ 
+E. Why do you need to load IPXRTR and enable NLSP routing for Load
+Balancing on the local LAN, when there are no routers in the picture?
+  
+The server will build and use a Forwarding Table with duplicate equal cost
+routes - that results in the outgoing packets being balanced between the
+NICs.  This is what NLSP allows.  Even when a packet is only going to the
+local segment, IPXRTR needs to look in the Forwarding Table to find the
+Next Hop to that segment.  Also, IPXRTR needs to see incoming Specific
+Route Requests so that it knows to send only one response.  
+Basically, IPXRTR should be handling all IPX packets coming and going from
+the server, there is no logic for this in the old IPX routing software.
+ 
+F. Will this Load Balancing effect the other segments the server is
+attached to?
+ 
+No, since those other segments have different IPX network numbers, they
+will have different entries in the Forwarding Table and not be effected
+by what's happening on your load balanced segment.  If, however, you have
+doubled up the cards on several segments, the SET LOAD BALANCE LOCAL
+LAN=ON will enable Load Balancing on all segments; there's no way to
+balance on just one of those IPX networks.  It's either all or none.
+ 
+ 
+G. Is it safe to do Load Balancing in a bridged token ring segment? 
+ 
+Sometimes, but be careful!  In the scenario below it is safe to bind the
+two NICs to the same IPX number.  HOWEVER, if you turn on Load Balancing,
+sometimes the server will be sending packets to Client 2 out of NIC 1,
+through the bridge.  This probably isn't what you want.  What you probably
+want, is all traffic between Server and Client 2 to go through NIC2. 
+Without Load Balancing, the server will respond to Specific RIP Requests
+out of both NICs, and the Client2 will use the one it receives first - very
+likely one out of NIC2.
+
+DO NOT LOAD BALANCE IN THIS SCENARIO: 
+            |                                        | 
+   LAN abc  |_________NIC 1--Server--NIC 2___________|   LAN abc 
+            |                                        | 
+            |                                        | 
+Client 1--- |                                        |-----Client 2 
+            |                                        | 
+            |_____________Bridge_____________________| 
+            |                                        | 
+            |                                        | 

@@ -1,0 +1,230 @@
+
+
+
+RPLVP1.DOC
+
+This RPLVP1.DOC file accompanies RPLKTx.EXE and provides instructions
+for installation and usage of RPL.VP1 on NetWare v2.x servers and
+external routers.  It also provides instructions on how to install
+the virtual ethernet 802.2 drivers.
+
+
+    RPL.VP1 - This is the Remote Program Load VAP for the NetWare V2.x OS or
+External Router.  To load properly, AppleTalk Phase-II Lan drivers  must be
+linked into the 2.x Server or External Router.   RPL.VP1 must be copied into
+the SYS:SYSTEM directory on a server, or, for external routers, the vap may
+be copied onto the same directory where ROUTER.EXE resides.  To implement
+RPL.VP1, refer to the section in this document  titled:  INSTALLING RPL.VP1.
+
+
+     RPCONFIG.COM -  This utility configures two parameters on RPL.VP1: (1) 
+To enable RPL on lan A,B,C, or D, or any combination of these.  Default: RPL
+is enabled on A,B,C, and D.  (2)  To set the name of the RPL file that is
+downloaded by the RPL vap to the workstation.  This file is NOT the
+NET$DOS.SYS file.  It is the Remote Program Load file (e.g. TOKEN.RPL).  The
+default name is:  *.RPL.
+
+     RPCONFIG.COM is menu driven.  Just type RPCONFIG and it will help you
+along.  ("*.rpl" refers to ANY file with a .rpl extention.)
+
+     TOKEN.RPL - This is the file that RPL.VP1 downloads to a workstation
+when the RPL boot ROM requests to be loaded.  This file loads in ram with the
+vap, and waits to be down-loaded to a workstation.  When a server or external
+router boots, RPL.VP1 loads and creates its own RAM AREA in the server's or
+external router's ram.  Then, RPL.VP1 searches for TOKEN.RPL and loads it
+into this RAM AREA.  TOKEN.RPL must reside in the SYS:LOGIN directory! If
+loading on a server, RPL.VP1 connects internally to this server to search for
+SYS:LOGIN\TOKEN.RPL. But, if loading on an external router, RPL.VP1 connects
+externally (out on the wire) to a server to find TOKEN.RPL.  In the latter
+case, the first server on the wire to respond to RPL.VP1's connect request,
+must have TOKEN.RPL in the SYS:LOGIN directory.  The server can EITHER be
+NetWare V3.1x or V2.x and TOKENRPL.NLM or RPL.VP1 need not be loaded on
+either of these servers for the external router to successfully locate and
+upload TOKEN.RPL from them.
+
+     ETHER.RPL - This file is used for IBM Ethernet Remote Program Load.  It
+functions the same way respectively for IBM Ethernet RPL as TOKEN.RPL
+functions for IBM Token-Ring RPL.  It must be copied into the SYS:LOGIN
+directory and it is accessed by RPL.VP1 in exactly the same manner as for
+TOKEN.RPL.  To implement ETHER.RPL, refer to the section in this document
+titled:  INSTALLING RPL.VP1.
+
+
+***************************************************************************
+GENERAL EXPLANATION OF REMOTE PROGRAM LOAD --- (RPL)
+***************************************************************************
+
+                         NOVELL RPL VAP
+     In order for RPL PROMs to be able to boot from various systems,
+they use a "Staged Boot" idea.  That means it sends out a generic "Find"
+frame, and expects whichever kind of system it is on to be able to 
+interpret and respond with a "Found" frame.  Then the RPL PROM asks for 
+a file to be downloaded.  This file (TOKEN.RPL, PCN2L.RPL, ETHER.RPL,
+RBOOT.RPL, or F1ETH.RPL) will be the NetWare specific file that contains
+bootstrap code to boot from a NOVELL network.
+
+     In the past, the only way to get NetWare to respond to the RPL packets
+was to make the driver capable of recognizing those packets, and responding
+accordingly.  This was mostly because the Find Frame is sent to a multicast
+address, and NetWare 286 didn't support multicast addressing.  With the
+advent of AppleTalk Phase II drivers, a VAP can receive and respond to
+multicast addresses, making this the preferred way of doing things.
+
+****************************************************************************
+INSTALLING RPL.VP1
+****************************************************************************
+      RPL.VP1 must be loaded after ROUTE.VP0, if source routing is to be
+supported. It supports several .RPL download files:  TOKEN.RPL, ETHER.RPL,
+PCN2L.RPL, RBOOT.RPL, and F1ETH.RPL.
+     In order to work with multiple LAN drivers, or multiple .RPL files, the
+RPL VAP must be configured.  This is done by running RPCONFIG.  RPCONFIG
+prints out a help screen and prompts for inputs.
+     When the RPL VAP comes up, it will load specified .RPL files, and
+connect them with specified LAN drivers.  Then, when the VAP receives a 
+"Find" and subsequent "Send File requests" from a given RPL PROM, it will
+respond with the proper .RPL file. 
+     Since the VAP attaches without logging in, it only has read rights in
+the SYS:LOGIN subdirectory.  Therefore, THE .RPL FILES ARE EXPECTED TO BE
+LOCATED IN SYS:LOGIN.
+     The server that responds to the Find Frame, and downloads the .RPL 
+file, is not guaranteed to be the server that the workstation will attach 
+to during the RPL sequence.  This means that the BOOTCONF.SYS files, and 
+DOS Boot Disk Image Files (NET$DOS.SYS, etc.) will still need to be in 
+SYS:LOGIN of every server that could respond to the Get Nearest Server 
+request.  Not just the server with the RPL VAP loaded.
+
+
+********************************************************************
+Installing virtual Ethernet 802.2 drivers to accomodate workstations
+that need to run Ethernet_802.2 frame types with the IPX Protocol.
+********************************************************************
+
+The following virtual 802.2 Ethernet drivers are included
+in this RPL KIT:
+
+
+A8022         LAN           152  5-12-93  3:24p 
+A8022         OBJ         3,620  4-14-93 11:19a 
+B8022         OBJ         3,620  4-14-93 11:19a 
+C8022         OBJ         3,620  4-14-93 11:19a 
+D8022         OBJ         3,620  4-14-93 11:19a 
+
+
+
+Please refer to the instructions below to install the drivers.
+
+ 
+1) Copy the *.LAN files to the NetWare v2.2 SYSTEM-1 diskette.
+
+2) Copy the *.OBJ files to the LAN_DRV_001 diskette.
+
+3) Regen the NET$OS.EXE or ROUTER.EXE with these new drivers. 
+
+
+**********************************************
+
+VIRTUAL DRIVERS (ETHERNET_802.2)
+
+        
+The A8022 lan drivers are virtual 802.2 drivers which may be linked into 2.2 
+servers (requiring the regeneration of the operating system file NET$OS.EXE).
+These virtual drivers allow both 802.3 and 802.2 frame types to exist on a 
+single physical LAN.
+
+Virtual Lan Driver Restrictions:
+
+1. The 802.2 virtual driver will work on Netware 2.2 servers and External
+   Routers.
+
+2. Only lan drivers written that support Apple Talk phase II will function
+with the virtual 802.2 driver.  If you attempt to use a driver that doesn't
+support Apple Talk phase II the symptom would be similar to the following:
+
+        FOR EXAMPLE  If Nic Card were lan A and virtual driver were lan B
+               a.  INSTALL would work and you could link and configure 
+                   the NET$OS.EXE correctly.
+               b.  When the server tries to come up, you could see something
+		   similar to garbage caracters when initializing lan B:
+
+                   INITIALIZING LAN A.
+                   INITIALIZING LAN B #**@%&$$$%@&$&#&@#&$@&@#&&@$&$(!(*
+ 
+3.  All Ethernet_802.2 packets on Netware 2.2 will have a max packet size
+of 512 bytes.  This is due to an architectural limitation, because
+802.2 has an additional 3 bytes in the header that the 802.3 packet
+did not.
+
+4. 802.3 and 802.2 on the same physical LAN board represent 2 different
+logical LANs.  There can only be a maximum of three physical ethernet LAN 
+boards in the system if they are to both support the two frame types. 
+EXAMPLES: NON DEDICATED 2.2 server with 3 NIC cards would be configured as 
+follows LAN A - NE2             NET = 1
+        LAN B - NE2             NET = 2
+        LAN C - NE2             NET = 3
+        LAN D - Virtual Driver. NET = 4
+        LAN E - NON-DEDICATED   NET = 5
+
+Booting the server would show.
+      INITIALIZING LAN A     (LAN A NET=1 ETHERNET_802.3
+      INITIALIZING LAN B     (LAN B NET=2 ETHERNET_802.3
+      INITIALIZING LAN C     (LAN C NET=3 ETHERNET_802.3
+      INITIALIZING LAN D     (LAN D NET=4 ETHERNET_802.2 on LAN A
+      INITIALIZING LAN E     (LAN E NET=5 (Non-dedicated w/s)
+      INITIALIZING LAN F     (LAN F NET=4 ETHERNET_802.2 on LAN B
+      INTITALIZING LAN G     (LAN G NET=4 ETHERNET_802.2 on LAN C.
+
+     NOTE:  Dconfig must then be run on lans F and G to assign IPX
+     Network Addresses for the Ethernet_802.2 frame type.  For example,
+     LAN F NET=4 should be changed to NET=6
+     LAN G NET=4 should be changed to NET=7
+     Any other file servers running Ethernet_802.2 frames on LAN D, 
+     LAN F, or LAN G must have identical IPX network numbers.  For
+     Example:
+     All servers on LAN D must have NET=4 for Ethernet_802.2 frames
+     All servers on LAN F must have NET=6 for Ethernet_802.2 frames
+     All servers on LAN G must have NET=7 for Ethernet_802.2 frames
+ 
+                                                  
+5. You must use the new DCONFIG.EXE contained herein to change the 
+net addresses for FRAME ETHERNET_802.2 for LANS F and G.
+
+NOTE: The Macintosh Apple Talk phase II VAPs for NetWare v2.15 & v2.2 
+products can coexist with the 802.2 virtual driver.
+        
+To implement the 802.2 virtual lan drivers do the following steps:
+
+1. Run INSTALL.EXE for a v2.2 Server or ROUTEGEN.EXE for a v2.2 Router. 
+2. Select the Ethernet Lan driver for the Ethernet Lan adapter being 
+   used (this will be assigned to LAN A).
+4. Next, select lan drivers for any other physical boards.
+3. Now select the Virtual 802.2 Lan driver as the Last lan adapter in 
+   the system (this will assign the virtual lan driver to the Ethernet
+   adapters which will be the next logical lan letter.
+
+Note:  If you have two cards in the server that need to support 802.2 frames
+       select the second physical Lan adapter as the second card (assigned 
+       LAN B in the system), and then select the 8022 VIRTUAL drivers as the 
+       third Lan adapter (it will be assigned LAN C and LAN F respectively).
+
+
+
+***************************************************************************** 
+                    DISCLAIMER  
+  
+Novell, Inc. makes no representations or warranties with respect to
+any NetWare software, and specifically disclaims any express or
+implied warranties of merchantability, title, or fitness for a
+particular purpose.  
+
+Distribution of any NetWare software is forbidden without the
+express written consent of Novell, Inc.  Further, Novell reserves
+the right to discontinue distribution of any NetWare software.
+
+Novell is not responsible for lost profits or revenue, loss of use
+of the software, loss of data, costs of re-creating lost data, the
+cost of any substitute equipment or program, or claims by any party
+other than you.  Novell strongly recommends a backup be made before
+any software is installed.   Technical support for this software
+may be provided at the discretion of Novell.
+*****************************************************************************
+

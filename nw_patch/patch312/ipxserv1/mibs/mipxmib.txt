@@ -1,0 +1,319 @@
+MobileIPX DEFINITIONS ::= BEGIN
+
+-- This MIB defines the management information for a system serving
+-- as a Home Router in the Mobile IPX protocol.  The MIB consists
+-- of two groups:
+--
+--    1.  System Group - contains general information about 
+--                       Mobile IPX on the system.
+--    2.  Mobile Client Group - contains information about all known
+--                       mobile clients.
+--
+-- The MIB is designed to support a Mobile IPX implementation running on one
+-- system which may provide one or more virtual networks.  All tables in this
+-- MIB are linked to an instance of IPX via the system instance
+-- identifier as defined in the IPX MIB.
+
+IMPORTS
+        enterprises, Counter
+                FROM RFC1155-SMI
+        OBJECT-TYPE
+                FROM RFC-1212
+        PhysAddress
+                FROM RFC1213-MIB;
+
+novell  OBJECT IDENTIFIER ::= { enterprises 23 }
+nExperimental  OBJECT IDENTIFIER ::= { novell 4 }
+mipx     OBJECT IDENTIFIER ::= { nExperimental 23 }
+
+-- Groups
+
+mipxSystem OBJECT IDENTIFIER ::= {mipx 1}
+mipxClient OBJECT IDENTIFIER ::= {mipx 2}
+
+
+-- Types
+
+NetNumber ::= OCTET STRING (SIZE(4))
+
+
+-- System Group
+--   This group contains global information about each virtual network
+--   supported by each instance of Mobile IPX running on one system.
+
+mipxSysTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF MIPXSysEntry
+   ACCESS      not-accessible
+   STATUS      mandatory
+   DESCRIPTION "The Mobile IPX system table."
+   ::= {mipxSystem 1}
+
+mipxSysEntry OBJECT-TYPE
+   SYNTAX      MIPXSysEntry
+   ACCESS      not-accessible
+   STATUS      mandatory
+   DESCRIPTION "Each entry corresponds to one virtual network
+                supported by one instance of Mobile IPX running on 
+                the system."
+   INDEX       {
+                mipxSysInstance,
+                mipxSysVirtualNetNumber
+               }
+   ::= {mipxSysTable 1}
+
+MIPXSysEntry ::= SEQUENCE {
+                        mipxSysInstance
+                           INTEGER,
+                        mipxSysVirtualNetNumber
+                           NetNumber,
+                        mipxSysState
+                           INTEGER,
+                        mipxSysMajorVersion
+                           INTEGER,
+                        mipxSysMinorVersion
+                           INTEGER,
+                        mipxSysTTLOverrideValue
+                           INTEGER,
+                        mipxSysBroadcastOption
+                           INTEGER,
+                        mipxSysClientCount
+                           INTEGER,
+                        mipxSysInReceives
+                           Counter,
+                        mipxSysBroadcastForwarded
+                           Counter,
+                        mipxSysBadSeqNumber
+                           Counter,
+                        mipxSysBadVersion
+                           Counter,
+                        mipxSysDiscards
+                           Counter,
+                        mipxSysResourceFailures
+                           Counter
+                    }
+
+mipxSysInstance OBJECT-TYPE
+   SYNTAX      INTEGER
+   ACCESS      read-write
+   STATUS      mandatory
+   DESCRIPTION "The unique identifier of the instance of mobile IPX
+                and IPX (via ipxSysInstance) to which this entry
+                corresponds."
+   ::= {mipxSysEntry 1}
+
+mipxSysVirtualNetNumber OBJECT-TYPE
+   SYNTAX      NetNumber
+   ACCESS      read-write
+   STATUS      mandatory
+   DESCRIPTION "The IPX network number which supports virtual addresses
+                 for mobile clients."
+   ::= {mipxSysEntry 2}
+
+mipxSysState OBJECT-TYPE
+   SYNTAX      INTEGER {
+                        off(1),
+                        on(2)
+                       }
+   ACCESS      read-write
+   STATUS      mandatory
+   DESCRIPTION "Indicates the operational state of this instance of Mobile
+                   IPX."
+   ::= {mipxSysEntry 3}
+
+mipxSysMajorVersion OBJECT-TYPE
+   SYNTAX      INTEGER
+   ACCESS      read-only
+   STATUS      mandatory
+   DESCRIPTION "The major version number of this instance of Mobile IPX."
+   ::= {mipxSysEntry 4}
+
+mipxSysMinorVersion OBJECT-TYPE
+   SYNTAX      INTEGER   
+   ACCESS      read-only
+   STATUS      mandatory
+   DESCRIPTION "The minor version number of this instance of Mobile IPX."
+   ::= {mipxSysEntry 5}
+
+mipxSysTTLOverrideValue OBJECT-TYPE
+   SYNTAX      INTEGER
+   ACCESS      read-write
+   STATUS      mandatory
+   DESCRIPTION "If the Time to Live value is 0, override is disabled.
+                Otherwise, this entry indicates the active override value."
+   ::= {mipxSysEntry 6}
+
+mipxSysBroadcastOption OBJECT-TYPE
+   SYNTAX      INTEGER {
+                        off(1),
+                        on(2)
+                       }
+   ACCESS      read-write
+   STATUS      mandatory
+   DESCRIPTION "If the Broadcast option is on, broadcast packets destined
+                for the virtual network will be forwarded to each mobile 
+                client."
+   DEFVAL      { on }
+   ::= {mipxSysEntry 7}
+
+mipxSysClientCount OBJECT-TYPE
+   SYNTAX      INTEGER
+   ACCESS      read-only
+   STATUS      mandatory
+   DESCRIPTION "The number of mobile clients currently signed on with
+                this router."
+   ::= {mipxSysEntry 8}
+
+mipxSysInReceives OBJECT-TYPE
+   SYNTAX      Counter
+   ACCESS      read-only
+   STATUS      mandatory
+   DESCRIPTION "The total number of IPX packets received which are
+                destined to mobile clients, including those with errors."
+   ::= {mipxSysEntry 9}
+
+mipxSysBroadcastForwarded OBJECT-TYPE
+   SYNTAX      Counter
+   ACCESS      read-only
+   STATUS      mandatory
+   DESCRIPTION "The number of times this instance of mobile IPX received a
+                broadcast to the virtual network and forwarded it out
+                as a unicast to the mobile client."
+   ::= {mipxSysEntry 10}
+
+mipxSysBadSeqNumber OBJECT-TYPE
+   SYNTAX      Counter
+   ACCESS      read-only
+   STATUS      mandatory
+   DESCRIPTION "The number of binding updates discarded due to unexpected
+                sequence number."
+   ::= {mipxSysEntry 11}
+
+mipxSysBadVersion OBJECT-TYPE
+   SYNTAX      Counter
+   ACCESS      read-only
+   STATUS      mandatory
+   DESCRIPTION "The number of mobile IPX packets discarded due to
+                incompatible version."
+   ::= {mipxSysEntry 12}
+
+mipxSysDiscards OBJECT-TYPE
+   SYNTAX      Counter
+   ACCESS      read-only
+   STATUS      mandatory
+   DESCRIPTION "The number of mobile IPX packets discarded due to reasons 
+                other than those accounted for mipxSysBadSeqNumber, 
+                mipxSysBadVersion."
+   ::= {mipxSysEntry 13}
+
+mipxSysResourceFailures OBJECT-TYPE
+   SYNTAX      Counter
+   ACCESS      read-only
+   STATUS      mandatory
+   DESCRIPTION "The number of times this instance of mobile IPX has been
+                unable to obtain needed resources (memory, etc.)."
+   ::= {mipxSysEntry 14}
+
+
+-- Mobile Client Group
+--   This group provides a representation of the mobile client database
+--   by all instances of IPX on the system.
+
+mipxClientTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF MIPXClientEntry
+   ACCESS      not-accessible
+   STATUS      mandatory
+   DESCRIPTION "The Mobile IPX Client Table contains information about
+                  all known roaming clients."
+   ::= {mipxClient 1}
+
+mipxClientEntry OBJECT-TYPE
+   SYNTAX      MIPXClientEntry
+   ACCESS      not-accessible
+   STATUS      mandatory
+   DESCRIPTION "Each entry corresponds to one mobile client."
+   INDEX       {
+                mipxClientSysInstance,
+                mipxClientVirtualNetNumber,
+                mipxClientVirtualNode
+               }
+   ::= {mipxClientTable 1}
+
+MIPXClientEntry ::= SEQUENCE {
+                     mipxClientSysInstance
+                        INTEGER,
+                     mipxClientVirtualNetNumber
+                        NetNumber,
+                     mipxClientVirtualNode
+                        OCTET STRING,
+                     mipxClientLocalNetNumber
+                        NetNumber,
+                     mipxClientLocalNode
+                        OCTET STRING,
+                     mipxClientOriginalTimeToLive
+                        INTEGER,
+                     mipxClientRemainingLifeTime
+                        INTEGER,
+                     mipxClientLocationChange
+                        Counter
+                    }
+
+mipxClientSysInstance OBJECT-TYPE
+   SYNTAX      INTEGER
+   ACCESS      read-only
+   STATUS      mandatory
+   DESCRIPTION "The unique identifier of the instance of mobile IPX and IPX
+                (via ipxSysInstance) to which this entry corresponds."
+   ::= {mipxClientEntry 1}
+
+mipxClientVirtualNetNumber OBJECT-TYPE
+   SYNTAX      NetNumber
+   ACCESS      read-only
+   STATUS      mandatory
+   DESCRIPTION "The constant IPX network number of this mobile client."
+   ::= {mipxClientEntry 2}
+
+mipxClientVirtualNode OBJECT-TYPE
+   SYNTAX      OCTET STRING (SIZE(6))
+   ACCESS      read-only
+   STATUS      mandatory
+   DESCRIPTION "The constant IPX node address of this mobile client."
+   ::= {mipxClientEntry 3}
+
+mipxClientLocalNetNumber OBJECT-TYPE
+   SYNTAX      NetNumber
+   ACCESS      read-only
+   STATUS      mandatory
+   DESCRIPTION "The local network number of this mobile client."
+   ::= {mipxClientEntry 4}
+
+mipxClientLocalNode OBJECT-TYPE
+   SYNTAX      OCTET STRING (SIZE(6))
+   ACCESS      read-only
+   STATUS      mandatory
+   DESCRIPTION "The local IPX node address of this mobile client."
+   ::= {mipxClientEntry 5}
+
+mipxClientOriginalTimeToLive OBJECT-TYPE
+   SYNTAX      INTEGER
+   ACCESS      read-only
+   STATUS      mandatory
+   DESCRIPTION "The number of seconds indicating the negotiated time to live
+                for this binding."
+   ::= {mipxClientEntry 6}
+
+mipxClientRemainingLifeTime OBJECT-TYPE
+   SYNTAX      INTEGER
+   ACCESS      read-only
+   STATUS      mandatory
+   DESCRIPTION "The number of seconds prior to expiration of this binding."
+   ::= {mipxClientEntry 7}
+
+mipxClientLocationChange OBJECT-TYPE
+   SYNTAX      Counter
+   ACCESS      read-only
+   STATUS      mandatory
+   DESCRIPTION "The number of times this client changes location or
+                local network number."
+   ::= {mipxClientEntry 8}
+
+END

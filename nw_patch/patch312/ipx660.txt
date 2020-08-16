@@ -1,0 +1,259 @@
+NOVELL TECHNICAL INFORMATION DOCUMENT
+
+TITLE:  IPX Upgrade for NetWare 3.1x, 4.1x
+README FOR:  IPX660.EXE
+
+NOVELL PRODUCTS and VERSIONS:
+NIAS Routing - NBM
+NetWare 4.11
+NetWare 3.11
+intraNetWare
+NetWare 4.1
+NIAS Remote - Dial-In / Dial-Out - NBM
+NetWare Connect 2.0
+NetWare 3.12
+NetWare MultiProtocol Router 3.1
+SFT III 4.11
+
+ABSTRACT:
+
+IPX660 contains the latest common IPXRTR stack (version 6.60) for NetWare
+3.11/3.12/4.1/4.11 platforms. It supercedes IPXRT4.EXE, 41RTR4.EXE, IPX65G.EXE. 
+Reuploaded for minor readme change.
+
+  It provides several fixes to IPXRTR.NLM and related NLMs. For 3.11 & 3.12
+servers that do not have IPXRT3.EXE or IPXRT4.EXE installed, it enhances the
+native IPX routing cabilities and provides NLSP functionality by installing
+IPXRTR.NLM and related NLMs.
+
+
+ -----------------------------------------------------------------
+ DISCLAIMER
+ THE ORIGIN OF THIS INFORMATION MAY BE INTERNAL OR EXTERNAL TO
+ NOVELL.  NOVELL MAKES ALL REASONABLE EFFORTS TO VERIFY THIS
+ INFORMATION.  HOWEVER, THE INFORMATION PROVIDED IN THIS DOCUMENT
+ IS FOR YOUR INFORMATION ONLY.  NOVELL MAKES NO EXPLICIT OR IMPLIED
+ CLAIMS TO THE VALIDITY OF THIS INFORMATION.
+ -----------------------------------------------------------------
+
+
+SYMPTOM:
+
+
+ FIXES carried over from IPX65B.EXE:
+
+  1.  Clients dialing into NetWare Connect servers could not connect, after
+ installing Support Pack 3 or IPX65A.EXE. (IPXCP negotiation issues were
+fixed.)
+
+
+  FIXES carried over from IPX65A.EXE:
+
+  1.  Server abends reported in IPXRTR.NLM.
+  2.  If an attempt to load IPXRTR.NLM in the MS engine of a 4.1x SFT III
+  server is done, IPXRTR.NLM will not load, and a message will be reported.
+  (It still loads in the I/O engines.)
+  3.  Improved IPXRTR error messages on the server console.
+  4.  Workstation performing a remote boot was unable to connect to a server.
+  when load balancing turned on.
+  5.  Server with IPXRTR.NLM loaded was not able to ping the internal IPX
+  net number and a node address of all FFs.
+  6.  The new SET command, SET REQUIRED NETWORK FOR SERVICES
+  = OFF, would allow the server to "absorb" a specific service (SAP) if the
+  specific network number did not exist, but the IPX default route existed.
+  However, if the specific network number AND the IPX default route existed,
+  then the software had a bug where it would NOT "absorb" the service.
+  7.  Server with IPXRTR.NLM loaded was not abiding by the "split horizon" rule
+ completely.
+  8. See PREVFIX.TXT for a list of fixes and features that were included in
+  IPXRT4 and 41RTR4.EXE.
+
+
+
+
+
+SOLUTION: 
+
+All the listed symptoms are fixed by IPX660.EXE.
+
+ Tips
+
+   A. If you want to use Load Balancing, between clients and a local
+  server, read 4BALANCE.TXT for 4.1 servers, 4BAL_SFT.TXT for 4.1
+  SFT III servers, or 3BALANCE.TXT for 3.12 servers.
+
+  B. If you will be using TCP/IP, download, and apply  the latest TCPIP patch.
+
+  If the following undefined symbols occur when loading IPXCON.NLM,
+  NetCfgMakeConfigPath, then install the latest TCPIP patch.
+
+  C. Refer to the NetWare for Macintosh 4.10 for Appletalk updates.
+
+  D. If you will be using INETCFG or IPXRTR on an 4.x SFT III server:
+           a. INETCFG requires a CLIB dated March 95, or later.
+           b. refer to TID 1007934
+  Note: To run IPXRTR on NW4.10 environment system must include all OS
+  patches including CHKLANFX.NLM.
+
+  E.  Refer to the file TRBSHT.TXT for tips on examining and
+  troubleshooting your NLSP network.
+
+  F.  PRODUCT INTEROPERABILITY
+
+  Every effort has been made to identify Novell and third-party products
+  that require RIP or SAP to operate.  Other Novell or third-party products
+  that have not yet been identified might also require RIP or SAP.  If you have
+  a product that loses connectivity through a Novell NLSP server, complete the
+  following steps:
+  1. Unload IPXRTRNM and IPXRTR by entering the following commands at
+  the server prompt:
+      UNLOAD IPXRTRNM <Enter>
+      UNLOAD IPXRTR <Enter>
+  2. Reload IPXRTR and IPXRTRNM by entering the following commands at
+  the server prompt:
+      LOAD IPXRTR routing=RIPSAP <Enter>
+      LOAD IPXRTRNM <Enter>
+
+  This returns the IPX router to RIP/SAP-only mode.
+  If connectivity returns, the server requires RIP or SAP to function.
+
+  G. SERVMAN configurations for IPX RIP/SAP and SAP filtering do not take
+  effect with FIPX65C.
+
+  H. IPXRTR.NLM will not load if IRWASM.NLM is already loaded.  If you
+  want to run IPXRTR.NLM on the same system as NetWare SNA Links 1.0 software,
+  ensure that the LOAD IPXRTR command line precedes the LOAD IRWASM
+  command line in your AUTOEXEC.NCF file.
+
+  I. Old style QMS printers do not interoperate on NLSP only networks.  They
+  require RIP and SAP for the NetWare servers on which the print queues
+  reside.  For further information, read QMS.TXT.
+ J. 1.  NetWare 3.12 and 3.11 servers do not have a
+  SYS:ETC\NLSP.CFG file installed, by default.  The LSP Size can be
+  increased/decreased in this file.  With IPXRTR v6.60, when a NLSP.CFG
+  file does not exist, the LSP Size default is 1024.   (In versions
+  prior to IPXRTR v6.5, the LSP Size default was 512.)
+
+Self-Extracting File Name: ipx660.exe
+
+Files Included     Size     Date      Time
+
+..\
+      IPX660.TXT     (This file)
+    31XCONFG.TXT            8311         9-23-98      8:42:08 pm
+    3BALANCE.TXT            6809         9-23-98      8:36:00 pm
+    4BALANCE.TXT            6671         9-23-98      5:55:08 pm
+    4BAL_SFT.TXT           11912         9-23-98      8:36:34 pm
+     PREVFIX.TXT            5521         9-23-98      8:37:30 pm
+         QMS.TXT            1198          6-3-97      5:15:36 pm
+      TRBSHT.TXT            9671         9-23-98      8:39:10 pm
+..\IPXSERV1\
+    MPRDINST.MSG             850          6-2-97      8:30:26 pm
+    MPRDINST.NLM            7224          6-2-97      8:30:26 pm
+    PINSTALL.HLP            5530          6-7-97     12:48:50 am
+    PINSTALL.NLM          173730         7-22-97      8:53:04 pm
+     PSCRIPT.DAT            4154        11-20-97     12:07:38 am
+..\IPXSERV1\IPX\
+     ICM_SPX.NLM            7724         6-25-98     12:02:08 am
+     IPXPING.NLM           46172         6-24-98     11:38:28 pm
+      IPXRTR.NLM          453085         6-24-98     10:43:26 pm
+    IPXRTRNM.NLM           76292         6-24-98     10:55:50 pm
+    IPXSTACK.NLM           28318         6-24-98     11:00:22 pm
+    NLSPAUTO.NLM            6885          1-4-96     12:29:04 am
+         TUI.NLM           53812          6-2-97      7:02:42 pm
+..\IPXSERV1\IPX\NLS4\
+     IPXPING.HLP            6870        12-15-97     11:07:06 pm
+     IPXPING.MSG            1300         6-24-98     11:37:44 pm
+      IPXRTR.MSG           17871         6-24-98     10:41:56 pm
+    IPXRTRNM.MSG             309         6-24-98     10:55:00 pm
+    IPXSTACK.MSG            1431         6-24-98     10:59:42 pm
+         TUI.MSG            3016          6-2-97      7:02:40 pm
+..\IPXSERV1\MIBS\
+     IAMGMIB.TXT           23881         5-13-96      4:46:36 pm
+      IPXMIB.TXT           45208        10-28-96     11:10:28 pm
+     MIPXMIB.TXT           10548          2-9-94      6:09:32 pm
+     NLSPMIB.TXT           69501        10-28-96      9:28:24 pm
+      RIPMIB.TXT           13421          4-5-94      4:08:20 pm
+..\IPXSERV2\
+..\IPXSERV2\IPX\
+      IPXCON.NLM          412282         6-24-98     11:15:18 pm
+..\IPXSERV2\IPX\NLS4\
+      IPXCON.HLP          159463         6-13-97      8:45:32 pm
+      IPXCON.MSG           40950         6-24-98     11:14:14 pm
+..\IPXSERV3\
+..\IPXSERV3\IPX\
+      IPXCFG.NLM          354307         8-13-98     11:43:32 pm
+      IPXFLT.NLM           74439         6-24-98     11:23:06 pm
+    STATICON.NLM          278999         6-24-98     11:32:44 pm
+..\IPXSERV3\IPX\NLS4\
+      IPXCFG.HLP           88621        10-25-97     12:38:28 am
+      IPXCFG.MSG           36361         6-24-98     11:49:06 pm
+      IPXFLT.MSG            1119         6-24-98     11:22:26 pm
+    STATICON.HLP           21248         6-13-97      8:45:32 pm
+    STATICON.MSG           26177         6-24-98     11:31:46 pm
+..\SUPP\
+      PPPTSM.NLM          181607          5-8-97     11:24:46 am
+
+
+Installation Instructions:
+
+  Warning: Do NOT install IPX660 on a server or router running
+  NetWare MultiProtocol Router 2.x,
+  MPR Plus 2.x,
+  NetWare WAN Links 2.0, or a
+  NetWare 3 SFT III server.
+
+  To install IPX660 on a local server, complete these steps:
+
+  1. If your server is running NetWare 3.11 or 3.12, then install LIBUPB.EXE.
+  (Abends may occur if this update is not applied.)
+
+  2.  If your server is running MPR 3.0, then copy the PPPTSM.NLM from the
+  SUPP directory.    It is version 3.02, dated Sept 18, 1996. 
+
+  3. Backup the files on your server that are included in this update.
+  They are listed below.
+
+  4. Explode the file IPX660 into an empty directory on the server.
+  (To explode the file, type IPX660.EXE <Enter>.)
+
+  NOTE:  If floppies are created for this install, then copy the files
+  in the directory IPXSERV1 onto one floppy and label it IPXSERV1 with the DOS
+ label command. Copy the files in the directory IPXSERV2 onto the second floppy
+  and label the second floppy IPXSERV2 and copy the files in the directory
+  IPXSERV3 onto the third floppy and label it IPXSERV3.
+
+  5. At the server console prompt, type LOAD INSTALL <Enter>.
+
+  6. Select Product Options, then press <Enter>.
+ 
+  7. Select Install a product not listed, then press <Enter>. This software
+cannot be installed remotely.
+
+  8. Point INSTALL to the path containing the IPXSERV1 directory.
+  For example, SYS:\IPX660\IPXSERV1 
+
+  If you are installing from floppy, then the floppies must be labeled
+  IPXSERV1, IPXSERV2 and IPXSERV3 (with the DOS label command) correspondingly;
+  otherwise, the install will continue to ask you to insert the disk.
+
+
+  After the installation completes, when you select
+  View/Configure/Remove installed products, the following product will
+  be listed:
+  IPXRTR    V6.60    IPX Upgrade for NetWare Servers
+
+  9. Before restarting the server, perform the steps in 31XCONFG.TXT
+  to configure IPXRTR on a 3.11 or 3.12 NetWare server.
+
+  NOTE:  IPXRTR configuration on a NetWare 4.1 and 4.11 is done in INETCFG
+  when you configure and bind IPX.
+
+
+
+ -----------------------------------------------------------------
+ Any trademarks referenced in this document are the property of their
+respective owners.  Consult your product manuals for complete trademark
+information.
+ -----------------------------------------------------------------
+

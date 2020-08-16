@@ -1,0 +1,200 @@
+NOVELL TECHNICAL INFORMATION DOCUMENT
+
+TITLE:  Updated 2.2 and 3.x Pserver/Rprinter files
+README FOR:  PS3X02.EXE
+
+NOVELL PRODUCTS and VERSIONS:
+NetWare 3.12
+NetWare 3.11
+NetWare 2.2
+
+ABSTRACT:
+
+  This file contains updated NetWare Print Server NLM (3.76, PTF
+950523), EXE (3.77), and VAP (1.26) files, as well as an updated
+RPRINTER (3.75) file.  The NLM is new for PS3X02.EXE.
+
+
+
+-----------------------------------------------------------------
+ DISCLAIMER
+ THE ORIGIN OF THIS INFORMATION MAY BE INTERNAL OR EXTERNAL TO
+NOVELL.  NOVELL
+ MAKES EVERY EFFORT WITHIN ITS MEANS TO VERIFY THIS INFORMATION. 
+HOWEVER, THE
+ INFORMATION PROVIDED IN THIS DOCUMENT IS FOR YOUR INFORMATION
+ONLY.  NOVELL
+ MAKES NO EXPLICIT OR IMPLIED CLAIMS TO THE VALIDITY OF THIS
+INFORMATION.
+
+-----------------------------------------------------------------
+
+
+SYMPTOM:
+
+SYMPTOMS for PSERVER.NLM:
+
+ Symptom 1: Large print jobs remain in the queue after they have
+printed.  The queue may then become unusable.  The file server
+may run out of disk space.  The total size of the print job is
+approximately 33 MB or larger (actual print job size x number of
+copies specified).
+
+ Symptom 2: PSERVER shows status of "printing" but the RPRINTER
+status shows "waiting for job".
+
+ Symptom 3: PSERVER incorrectly shows status of "not connected"
+for RPRINTER that is running.
+
+ SYMPTOM for PSERVER.VAP:
+
+ When loading the PSERVER.VAP, the DTR and RTS lines are set high
+and maintained high the entire time the VAP is loaded.
+
+ SYMPTOM for RPRINTER.EXE:
+
+ When RPRINTER.EXE v3.75 is loaded, the form feed (or buffer)
+indicator at the attached printer lights.  This is true only for
+parallel connected printers.
+
+
+CAUSE
+
+CAUSE for PSERVER.NLM symptom 1:
+
+ The size of the fields used to process the print jobs limited
+the print job size to 33 MB.
+
+ CAUSE for PSERVER.NLM symtom 2:
+
+ PSERVER was not checking for SPX error codes.
+
+ CAUSE for PSERVER.NLM symtom 3:
+
+ Under some conditions, the information about one RPRINTER
+connection with problems were being attributed to the wrong
+connection.
+
+ CAUSE for PSERVER.VAP symptom:
+
+ Serial port control register set wrong.
+
+ CAUSE for RPRINTER.EXE symptom:
+
+ Whatever character that happens to be in the parallel port
+transmit buffer is strobed into the printer's receive buffer
+during the initialization of RPRINTER.
+
+
+
+SOLUTION: 
+
+SOLUTION:
+
+ Apply the files in the PS3X02.EXE self-extracting file.
+
+
+
+Self-Extracting File Name: ps3x02.exe
+
+Files Included     Size     Date      Time
+
+..\
+      PS3X02.TXT     (This file)
+     PSERVER.EXE          109714         2-11-94      2:46:08 pm
+     PSERVER.NLM           52662         5-30-95      7:49:16 am
+     PSERVER.VAP           65218         6-15-92      2:46:00 pm
+    PTCH_HIS.TXT            9244         6-30-95     12:47:16 pm
+    RPRINTER.EXE           64532        11-15-93     10:23:16 am
+    RPRINTER.HLP            5038          5-4-93     12:39:26 pm
+
+
+Installation Instructions:
+
+PSERVER.VAP:
+
+ AUTO-LOAD NOTES:
+
+ When running this new PSERVER.VAP on a NetWare 2.2 server, the
+VAP will prompt you for the Print Server name the first time the
+VAP is loaded.  From that point on the PSERVER.VAP will
+acknowledge the Print Server Name until the name is cleared.
+
+ To CLEAR a Print Server Name, the user will simply type the
+following at the console prompt on the NetWare 2.2 file server:
+
+ PSERVER CLEARNAME
+
+ This will cause the PSERVER.VAP to prompt the user for a Print
+Server Name the next time the PSERVER.VAP is loaded.
+
+ Installation:
+
+ 1. Make a backup copy of the PSERVER.VAP file.
+
+ 2. Copy the new PSERVER.VAP file over the original version.
+
+ 3. To use the new PSERVER VAP, reboot the file server.
+
+
+ PSERVER.NLM:
+
+ Installation:
+
+ 1. Flag PSERVER.NLM as SRW (Sharable Read Write) in the
+SYS:SYSTEM directory.
+
+ 2. Rename the existing PSERVER.NLM to PSERVER.OLD for backup
+purposes.
+
+ 3. Copy the new PSERVER.NLM file to the SYS:SYSTEM directory.
+
+ 4. Flag the new PSERVER.NLM file to SRO (Sharable Read Only).
+
+ 5. To use the new NLM, load PSERVER at the console using the
+following syntax:
+
+    :LOAD PSERVER <PRINT SERVER NAME> [POLL=xx] [DELAY=x]
+
+ PSERVER.EXE:
+
+ Installation:
+
+ 1. Flag PSERVER.EXE as SRW (Sharable Read Write) in the
+SYS:PUBLIC directory.
+
+ 2. Rename the existing PSERVER.EXE to PSERVER.OLD for backup
+purposes.
+
+ 3. Copy the new PSERVER.EXE to the SYS:PUBLIC directory.
+
+ 4. Flag the new PSERVER.EXE to SRO (Sharable Read Only).
+
+
+ RPRINTER.EXE
+
+ Installation:
+
+ 1. Flag RPRINTER.EXE file as SRW (Sharable Read Write) in the
+PUBLIC directory.
+
+ 2. Rename RPRINTER.EXE file to RPRINTER.OLD in the PUBLIC
+directory for backup purposes.
+
+ 3. Copy RPRINTER.EXE file to the PUBLIC directory on your
+system.
+
+ 4. Flag the new copy of RPRINTER.EXE file back to SRO (Sharable
+Read-Only).
+
+
+
+-----------------------------------------------------------------
+ Any trademarks referenced in this document are the property of
+their
+ respective owners.  Consult your product manuals for complete
+trademark
+ information.
+
+-----------------------------------------------------------------
+

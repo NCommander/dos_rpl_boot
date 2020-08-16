@@ -1,0 +1,214 @@
+Patch History:
+
+PSERVER.VAP:
+
+   PSERVER.VAP    NetWare 286 v2.15c and above
+   02-11-91  64130  1.21
+   1)     This VAP shipped with NetWare 2.2 and 3.11.
+
+   07-10-91  64994  1.22
+   1)     This file fixes a bug that causes the rewind option to return to the
+   beginning of a document, ignoring the page number specified by the user.  
+   This problem occurs when in text mode.
+
+   2)     This file addresses a problem of tabs not working properly.
+
+   3)     This file contains the auto load feature that allows an unattended
+   load of the PSERVER.VAP.  This auto-load feature will ONLY be available on 
+   a NetWare 2.2 File Server.
+
+   02-27-92  65202  1.22r
+   1)     Upon loading PSERVER.VAP, the DTR and RTS lines are set high and
+   maintained high the entire time the VAP is loaded.
+
+   06-15-92  65218  1.26
+   1)     Version 122.r was revised to 1.26 and passed testing.
+
+
+PSERVER.NLM:
+
+   PSERVER.NLM    NetWare 3.1x
+   02-11-91  51208  1.21
+   1)     This NLM shipped with NetWare 3.11.
+
+   07-10-91  50358  1.22
+   1)     This file fixed a problem when printing large graphics documents
+   with serial and parallel printers.  This problem is created by a special
+   condition that causes the pointer to override the print buffer.  As a
+   result, garbage characters are printed in the middle of a document.  After
+   the block of bad data is printed, the printer resumes printing the document
+   as it should.
+
+   2)     This file addresses a problem of the rewind function not working
+   correctly when in text mode.
+
+   03-03-92  51302  1.22r
+   1)     This file causes DTR and RTS on the serial port to stay high after
+   the Print Server comes up.
+
+   2)     This file fixes a problem that causes print job corruption in the
+   form of ASCII characters or form feeds.  This corruption is known to occur
+   on PaintJet printers but may occur on others as well.
+
+   3)     This file allows the user to specify how often the print server
+   services jobs.  Currently, the polling time default is every 15 seconds.
+   The poll time can now be set by a load-time parameter using the following
+   syntax:
+
+     : LOAD PSERVER <PRINT SERVER NAME> POLL=xx
+
+   where xx (1 - 30) equals the number of seconds the queue waits before
+   checking for jobs to be serviced.  If the POLL parameter is not entered,
+   the default value is used.  If an invalid POLL value or if incorrect
+   syntax is entered, the user is given the correct syntax and the range of
+   correct values and the user is then prompted to press any key to continue.
+
+   08-12-92  51866  1.27
+   1)     Version 1.22r was revised to 1.27 and passed testing.
+
+   08-11-93  52566  3.76
+   1)     This file fixed an anomaly that caused the RPRINTER status to show
+   RPRINTER was servicing a job, when in fact, the RPRINTER was not servicing
+   the print job.
+
+   2)     When using a Hewlett Packard Token Ring JetDirect card with upgraded
+   firmware the printer would never attach to the print server.  Hewlett
+   Packard did a reset while their card was in a connecting state so the
+   printer would never attach to the print server.
+
+   05-26-94  52547  3.76
+   1)     Large print jobs remain in the queue after they have printed.  The
+   queue may then become unusable.  The file server may run out of disk space. 
+   The total size of the print job is approximately 33 MB or larger (actual
+   print job size x number of copies specified).  The size of the fields used
+   to process the print jobs limited the print job size to 33 MB.
+
+   05-30-95  52662  3.76  PTF 950523  
+   1)     The print server shows that a job is printing but the Rprinter
+   status shows waiting for job.  This is an SPX error return code problem.
+   2)     An Rprinter connection that is reporting problems may be attributed
+   to the wrong connection and cause that connection to go to a not connected
+   status.
+
+PSERVER.EXE
+
+   PSERVER.EXE    NetWare 286 v2.15c and above
+   02-11-91  107928  1.21
+   1)     This file is the .EXE file that shipped with NetWare 2.2 and 3.11.
+
+   07-10-91  108184  1.22
+   1)     This file fixes a possible data corruption problem when printing
+   large graphics documents with serial and parallel printers.  Although this
+   bug has not been seen with the PSERVER.EXE, it has been known to occur with
+   PSERVER.NLM.  This problem is created by a special condition which causes
+   the pointer to override the print buffer.  As a result, garbage characters
+   are printed in the middle of a document.  After the block of bad data is
+   printed, the printer resumes printing the document as it should.
+
+   2)     This file addresses a problem of the rewind function not working
+   correctly when in text mode.  It was also found that tabs were not working
+   correctly in the previous release.
+
+   03-02-93  108294  1.22r
+   1)     This file causes DTR and RTS on the serial port to stay high after
+   the Print Server is installed.
+
+   2)     This file also fixes a problem that causes print job corruption in
+   the form of ASCII characters or form feeds.  This corruption is known to
+   occur on PaintJet printers but may occur on others as well.
+
+   10-29-92  109116  1.36
+   1)     This file contains NCP Packet Signing.
+
+   05-21-93   109650  Version Number: 3.75
+   1)     This file fixed a problem where remote printers when detecting a
+   port already in use were not disconnecting from the print server.  They
+   remained in a "Waiting for Job" state.
+
+   02-11-94   109714   Version Number: 3.77
+   1)     This file fixed a problem with the Hewlett Packard Token Ring
+   Jetdirect card that was recently updated by H.P.  With HP's upgraded
+   firmware they did a reset while their card was in a connecting state so
+   the printer would never attach to the print server.
+
+
+RPRINTER.EXE:
+
+   RPRINTER.EXE   NetWare 2.15c and above
+   02-06-91  92378  1.21
+   1)     This is the .EXE file that shipped with NetWare 2.2 and 3.11.
+
+   07-01-91  58472  1.21b
+   1)     This file fixes Xon/Xoff not working.
+
+   02-18-92  59448  1.22r
+   1)     This file fixes a intermittent problem when attempting to establish
+   a remote connection.  Often when the attempt is made, the print server
+   responds with a message indicating that it is unable to establish a remote
+   connection, and that the remote printer is already in use.
+
+   2)     If a workstation batch file continually loads and reloads RPRINTER,
+   a workstation hang could occur. IPXODI.COM with a date of 02-07-92 is
+   needed to solve this problem.  This problem should only occur if you are
+   using ODI Shell for DOS.
+
+   3)     This version of RPRINTER.EXE addresses a problem with RPRINTER 1.21
+   that was included with Netware 2.2 and 3.11.  The problem was that if
+   XON\XOFF was defined, RPRINTER would continue to utilize hardware
+   handshaking. The result was that the printer buffer would overflow or the
+   printer would go offline.
+
+   4)     This version of RPRINTER.EXE also contains a fix for a bug that
+   caused Rprinter to quit accepting jobs after aborting a job that was
+   waiting for a form to be mounted.
+
+   5)     This version of RPRINTER.EXE also contains a fix for a bug that
+   causes lost characters or slow printing when printing documents.  This is
+   known to occur with a PS/2 Model 60 or 50 when running RPRINTER 1.21.
+
+   6)     This version causes DTR and RTS on the serial port to stay high
+   after the print server comes up.
+
+   7)     This version contains a command line parameter to set the strobe
+   time as follows:
+
+     RPRINTER <PRINT SERVER NAME> PRINTER# Tx
+
+     where x is a number from 1 to 9.
+
+   8)     This version contains a fix for an intermittent problem when using
+   DOS 5.0.  When loading RPRINTER.EXE the workstation would hang.
+
+   06-04-92  59756  1.26
+   1)     Version 1.22r was revised to 1.26 and passed testing.
+
+   05-04-93  64532  3.75
+   1)     This version of RPRINTER incorporates a change that allows the use
+   of polled mode on all Parallel and Serial ports.  When loading RPRINTER,
+   use the -P command line parameter.
+
+   2)     This version of RPRINTER allows you to unload the last installed
+   RPRINTER without specifying the print server and printer number.  This is
+   accomplished by using the -R command line parameter
+
+   3)     This version of RPRINTER displays a usage screen by including the /?
+   command line parameter.
+
+   11-15-93  64532  3.75
+   1)     When RPRINTER.EXE v3.75 is loaded, the form feed (or buffer)
+   indicator at the attached printer lights.  This is true only for parallel
+   connected printers.  Whatever character that happens to be in the parallel
+   port transmit buffer is strobed into the printer's receive buffer during
+   the initialization of RPRINTER.
+
+
+-----------------------------------------------------------------
+Any trademarks referenced in this document are the property of their
+respective owners.  Consult your product manuals for complete trademark
+information.
+-----------------------------------------------------------------
+
+
+
+
+ÿ

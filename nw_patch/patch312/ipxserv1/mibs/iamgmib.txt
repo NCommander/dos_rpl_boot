@@ -1,0 +1,721 @@
+IAMG DEFINITIONS ::= BEGIN
+
+-- This MIB defines the management information for the IPX
+-- Address Mapping Gateway (IAMG).
+--
+-- The MIB is divided into five groups:
+--
+--   1. System:      Contains general information about the
+--                   configuration and functioning of the
+--                   IPX Address Mapping Gateway.
+--
+--   2. Circuit:     Indicates whether the IAMG is enabled
+--                   for each circuit.
+--
+--   3. Mappings:    Lists the active mappings.
+--
+--   4. Nonmappable: Lists the networks excluded from mapping.
+--
+--   5. Gateways:    Lists other IPX Address Mapping Gateways
+--                   that map to the same network.
+--
+-- This MIB is linked to the IPX and NLSP MIBs via the system 
+-- instance identifier that is the primary index of each table.
+--
+
+IMPORTS
+     enterprises, Counter
+          FROM RFC1155-SMI
+     OBJECT-TYPE
+          FROM RFC-1212;
+
+novell    OBJECT IDENTIFIER ::= {enterprises 23}
+mibDoc    OBJECT IDENTIFIER ::= {novell 2}
+iamg      OBJECT IDENTIFIER ::= {mibDoc 61}
+
+
+-- Groups
+iamgSystem        OBJECT IDENTIFIER ::= {iamg 1}
+iamgCircuit       OBJECT IDENTIFIER ::= {iamg 2}
+iamgMappings      OBJECT IDENTIFIER ::= {iamg 3}
+iamgNonMappable   OBJECT IDENTIFIER ::= {iamg 4}
+iamgGateways      OBJECT IDENTIFIER ::= {iamg 5}
+
+
+-- Types
+NetNumber ::= OCTET STRING (SIZE(4))
+NodeAddress ::= OCTET STRING (SIZE(6))
+
+
+-- System Group
+--   This group contains information global to each IAMG
+--   running on the system.
+
+-- System Table
+--   This table contains an entry for each instance of the
+--   IAMG running on the system.
+
+iamgSysTable OBJECT-TYPE
+     SYNTAX       SEQUENCE OF IAMGSysEntry
+     ACCESS       not-accessible
+     STATUS       mandatory
+     DESCRIPTION  "The IPX Address Mapping Gateway system table."
+     ::= {iamgSystem 1}
+
+iamgSysEntry OBJECT-TYPE
+     SYNTAX       IAMGSysEntry
+     ACCESS       not-accessible
+     STATUS       mandatory
+     DESCRIPTION  "Each entry corresponds to one instance
+                   of the IPX Address Mapping Gateway."
+     INDEX        {iamgSysInstance}
+     ::= {iamgSysTable 1}
+
+IAMGSysEntry ::= SEQUENCE {
+                    iamgSysInstance
+                         INTEGER,
+                    iamgSysState,
+                         INTEGER,
+                    iamgSysGatewayAddress,
+                         NetNumber,
+                    iamgSysMappingCount
+                         INTEGER,
+                    iamgSysMapHoldTime
+                         INTEGER,
+                    iamgSysPacketsReverseMapped
+                         Counter,
+                    iamgSysPacketsMapped
+                         Counter,
+                    iamgSysInMappingRequests
+                         Counter,
+                    iamgSysInMappingResponses
+                         Counter,
+                    iamgSysOutMappingRequests
+                         Counter,
+                    iamgSysOutMappingResponses
+                         Counter,
+                    iamgSysOverloaded
+                         INTEGER,
+                    iamgSysNumOverloads
+                         Counter,
+                    iamgSysMACAddressConflict
+                         INTEGER,
+                    iamgSysSupportsFragmentation
+                         INTEGER,
+                    iamgSysMaxMappings
+                         Counter,
+                    iamgSysInForwardingRequests
+                         Counter,
+                    iamgSysOutForwardingRequests
+                         Counter,
+                    }
+
+iamgSysInstance OBJECT-TYPE
+     SYNTAX       INTEGER
+     ACCESS       read-write
+     STATUS       mandatory
+     DESCRIPTION  "The unique identifier of the instance
+                  of the IPX Address Mapping Gateway. 
+                  This value links the instance of the 
+                  IPX Address Mapping Gateway to the instance 
+                  of IPX running on the system (that is, the
+                  value of iamgSysInstance is the
+                  same as the value of ipxSysInstance). 
+                  This value may be written to only when
+                  creating a new entry in the table."
+     ::= {iamgSysEntry 1}
+
+iamgSysState OBJECT-TYPE
+     SYNTAX    INTEGER (
+                         off(1),
+                         on(2)
+                      )
+     ACCESS    read-write
+     STATUS    mandatory
+     DESCRIPTION    "Indicates whether the IPX Address Mapping 
+                Gateway is active."
+     ::= {iamgSysEntry 2}
+
+iamgSysGatewayAddress OBJECT-TYPE
+     SYNTAX    NetNumber
+     ACCESS    read-write
+     STATUS    mandatory
+     DESCRIPTION    "Indicates the network number mapped to
+                by this instance of the IPX Address Mapping 
+                Gateway."
+     ::= {iamgSysEntry 3}
+
+iamgSysMappingCount OBJECT-TYPE
+     SYNTAX    INTEGER
+     ACCESS    read-only
+     STATUS    mandatory
+     DESCRIPTION    "The current number of entries in the 
+                mappings table."
+     ::= {iamgSysEntry 4}
+
+iamgSysMapHoldTime OBJECT-TYPE
+     SYNTAX    INTEGER (1..65535)
+     ACCESS    read-write
+     STATUS    mandatory
+     DESCRIPTION    "The amount of time, in minutes, that a mapping
+                remains active after the last packet is received
+                from a node."
+     ::= {iamgSysEntry 5}
+
+iamgSysPacketsReverseMapped OBJECT-TYPE
+     SYNTAX    Counter
+     ACCESS    read-only
+     STATUS    mandatory
+     DESCRIPTION    "The number of packets received that were addressed
+                to the gateway network and that matched an entry in the 
+                mapping table."
+     ::= {iamgSysEntry 6}
+
+iamgSysPacketsMapped OBJECT-TYPE
+     SYNTAX    Counter
+     ACCESS    read-only
+     STATUS    mandatory
+     DESCRIPTION    "The number of packets transmitted with a mapped
+                address."
+     ::= {iamgSysEntry 7}
+
+iamgSysInMappingRequests OBJECT-TYPE
+     SYNTAX    Counter
+     ACCESS    read-only
+     STATUS    mandatory
+     DESCRIPTION    "The number of requests received from other IPX
+                Address Mapping Gateways to identify an unknown 
+                node."
+     ::= {iamgSysEntry 8}
+
+
+iamgSysInMappingResponses OBJECT-TYPE
+     SYNTAX    Counter
+     ACCESS    read-only
+     STATUS    mandatory
+     DESCRIPTION    "The number of requests made by this IPX
+                Address Mapping Gateway to which other gateways 
+                responded."
+     ::= {iamgSysEntry 9}
+
+iamgSysOutMappingRequests OBJECT-TYPE
+     SYNTAX    Counter
+     ACCESS    read-only
+     STATUS    mandatory
+     DESCRIPTION    "The number of times this IPX Address Mapping Gateway 
+                was unable to find a node value in the mapping table 
+                and requested help from other gateways."
+     ::= {iamgSysEntry 10}
+
+iamgSysOutMappingResponses OBJECT-TYPE
+     SYNTAX    Counter
+     ACCESS    read-only
+     STATUS    mandatory
+     DESCRIPTION    "The number of requests from other IPX
+                Address Mapping Gateways to which this gateway 
+                responded."
+     ::= {iamgSysEntry 11}
+
+iamgSysOverloaded OBJECT-TYPE
+     SYNTAX    INTEGER (
+                         no(1),
+                         yes(2)
+                      )
+     ACCESS    read-only
+     STATUS    mandatory
+     DESCRIPTION    "Indicates whether the IPX Address Mapping 
+                Gateway is unable to map new addresses
+                because of lack of resources."
+     ::= {iamgSysEntry 12}
+
+iamgSysNumOverloads OBJECT-TYPE
+     SYNTAX    Counter
+     ACCESS    read-only
+     STATUS    mandatory
+     DESCRIPTION    "The number of times the IPX Address Mapping 
+                Gateway has become overloaded."
+     ::= {iamgSysEntry 13}
+
+iamgSysMACAddressConflict OBJECT-TYPE
+     SYNTAX    INTEGER (
+                         no(1),
+                         yes(2)
+                      )
+     ACCESS    read-write
+     STATUS    mandatory
+     DESCRIPTION    "Indicates whether the IPX Address Mapping 
+                Gateway has detected the same MAC
+                address on different networks."
+     ::= {iamgSysEntry 14}
+
+iamgSysSupportsFragmentation OBJECT-TYPE
+     SYNTAX    INTEGER (
+                         no(1),
+                         yes(2)
+                      )
+     ACCESS    read-write
+     STATUS    mandatory
+     DESCRIPTION    "Indicates whether this IPX Address Mapping 
+                Gateway supports RFC 1791 IPX fragmentation."
+     ::= {iamgSysEntry 15}
+
+iamgSysMaxMappings OBJECT-TYPE
+     SYNTAX    Counter
+     ACCESS    read-write
+     STATUS    mandatory
+     DESCRIPTION    "Indicates the maximum number of mappings this IPX 
+                Address Mapping Gateway supports. A value of 0xFFFFFFFF
+                indicates unlimited mappings are supported."
+     ::= {iamgSysEntry 16}
+
+iamgSysInForwardingRequests OBJECT-TYPE
+     SYNTAX    Counter
+     ACCESS    read-write
+     STATUS    mandatory
+     DESCRIPTION    "Indicates the number of redirected data packets
+                received by this IPX Address Mapping Gateway from other 
+                IAMGs because of unknown reverse mappings."
+     ::= {iamgSysEntry 17}
+
+iamgSysOutForwardingRequests OBJECT-TYPE
+     SYNTAX    Counter
+     ACCESS    read-write
+     STATUS    mandatory
+     DESCRIPTION    "Indicates the number of data packets this IAMG sent
+                to other IAMGs because of an unknown reverse mapping."
+     ::= {iamgSysEntry 18}
+
+-- Circuit Group
+--   This group contains the IPX Address Mapping Gateway 
+--   information for each circuit.
+
+-- Circuit Table
+--   This table contains an entry for each known circuit,
+--   describing whether the IPX Address Mapping Gateway 
+--   is enabled on it. This table is linked to the circuit
+--   tables in the IPX and NLSP MIBs via iamgCircIndex.
+
+iamgCircTable OBJECT-TYPE
+     SYNTAX    SEQUENCE OF IAMGCircEntry
+     ACCESS    not-accessible
+     STATUS    mandatory
+     DESCRIPTION    "The IPX Address Mapping Gateway Circuit table."
+     ::= {iamgCircuit 1}
+
+iamgCircEntry OBJECT-TYPE
+     SYNTAX    IAMGCircEntry
+     ACCESS    not-accessible
+     STATUS    mandatory
+     DESCRIPTION    "Each entry corresponds to one circuit."
+     INDEX          {
+                iamgCircSysInstance,
+                iamgCircIndex
+               }
+     ::= {iamgCircTable 1}
+
+IAMGCircEntry ::= SEQUENCE {
+                         iamgCircSysInstance
+                              INTEGER,
+                         iamgCircIndex
+                              INTEGER,
+                         iamgCircState
+                              INTEGER
+                         }
+
+
+iamgCircSysInstance OBJECT-TYPE
+     SYNTAX    INTEGER
+     ACCESS    read-write
+     STATUS    mandatory
+     DESCRIPTION    "The unique identifier of the instance
+                of the IPX Address Mapping Gateway and 
+                IPX (via ipxSysInstance).
+                This value may be written to only when
+                creating a new entry in the table."
+     ::= {iamgCircEntry 1}
+
+iamgCircIndex OBJECT-TYPE
+     SYNTAX    INTEGER
+     ACCESS    read-write
+     STATUS    mandatory
+     DESCRIPTION    "The identifier of this circuit, which 
+                corresponds to ipxCircIndex (the index of
+                ipxCircTable in the IPX MIB) and nlspCircIndex
+                (the index of nlspCircTable in the NLSP MIB).
+                This value may be written only when creating 
+                a new entry in the table."
+     ::= {iamgCircEntry 2}
+
+iamgCircState OBJECT-TYPE
+     SYNTAX    INTEGER (
+                         off(1),
+                         on(2)
+                      )
+     ACCESS    read-write
+     STATUS    mandatory
+     DESCRIPTION    "Indicates whether IPX address mapping is
+                performed on traffic over this circuit."
+     ::= {iamgCircEntry 3}
+
+
+-- Mapping Group
+--   This group contains the active mappings.
+
+-- Mapping Table, by original network:node
+--   This table contains the active mappings, indexed by the
+--   actual network:node pair.
+
+iamgMapTable OBJECT-TYPE
+     SYNTAX    SEQUENCE OF IAMGMapEntry
+     ACCESS    not-accessible
+     STATUS    mandatory
+     DESCRIPTION    "The mapping table, indexed by actual 
+                network:node pair."
+     ::= {iamgMappings 1}
+
+iamgMapEntry OBJECT-TYPE
+     SYNTAX    IAMGMapEntry
+     ACCESS    not-accessible
+     STATUS    mandatory
+     DESCRIPTION    "Each entry gives the mapping between 
+                the actual network:node pair and the 
+                mapped network:node pair."
+     INDEX          {
+                 iamgMapSysInstance,
+                 iamgMapActualNetNumber,
+                 iamgMapActualNode
+               }
+     ::= {iamgMapTable 1}
+
+IAMGMapEntry ::= SEQUENCE {
+                    iamgMapSysInstance
+                         INTEGER,
+                    iamgMapActualNetNumber
+                         NetNumber,
+                    iamgMapActualNode
+                         NodeAddress,
+                    iamgMapMappedNetNumber
+                         NetNumber,
+                    iamgMapMappedNode
+                         NodeAddress,
+                    iamgMapRemainHoldTime
+                         INTEGER,
+                    }
+
+iamgMapSysInstance OBJECT-TYPE
+     SYNTAX    INTEGER
+     ACCESS    read-write
+     STATUS    mandatory
+     DESCRIPTION    "The unique identifier of the instance
+                of the IPX Address Mapping Gateway and 
+                IPX (via ipxSysInstance).
+                This value may be written to only when
+                creating a new entry in the table."
+     ::= {iamgMapEntry 1}
+
+iamgMapActualNetNumber OBJECT-TYPE
+     SYNTAX    NetNumber
+     ACCESS    read-write
+     STATUS    mandatory
+     DESCRIPTION    "The actual network."
+     ::= {iamgMapEntry 2}
+
+iamgMapActualNode OBJECT-TYPE
+     SYNTAX    NodeAddress
+     ACCESS    read-write
+     STATUS    mandatory
+     DESCRIPTION    "The actual node address."
+     ::= {iamgMapEntry 3}
+
+iamgMapMappedNetNumber OBJECT-TYPE
+     SYNTAX    NetNumber
+     ACCESS    read-write
+     STATUS    mandatory
+     DESCRIPTION    "The network to which the actual network
+                is mapped."
+     ::= {iamgMapEntry 4}
+
+iamgMapMappedNode OBJECT-TYPE
+     SYNTAX    NodeAddress
+     ACCESS    read-write
+     STATUS    mandatory
+     DESCRIPTION    "The node value derived from iamgMapActualNode
+                and iamgMapActualNetNumber."
+     ::= {iamgMapEntry 5}
+
+iamgMapRemainHoldTime OBJECT-TYPE
+     SYNTAX    INTEGER
+     ACCESS    read-write
+     STATUS    mandatory
+     DESCRIPTION    "The amount of time, in minutes, that this 
+                mapping will remain active unless another
+                packet is received from the source node."
+     ::= {iamgMapEntry 6}
+
+
+-- Mapping Table, by mapped network:node
+--   This table contains the active mappings, indexed by the
+--   mapped network:node pair.
+
+iamgMappedTable OBJECT-TYPE
+     SYNTAX    SEQUENCE OF IAMGMappedEntry
+     ACCESS    not-accessible
+     STATUS    mandatory
+     DESCRIPTION    "The mapping table, indexed by mapped 
+                network:node pair."
+     ::= {iamgMappings 2}
+
+iamgMappedEntry OBJECT-TYPE
+     SYNTAX    IAMGMappedEntry
+     ACCESS    not-accessible
+     STATUS    mandatory
+     DESCRIPTION    "Each entry gives the mapping between 
+                the actual network:node pair and the 
+                mapped network:node pair."
+     INDEX          {
+                 iamgMappedSysInstance,
+                 iamgMappedNetNumber,
+                 iamgMappedNode
+               }
+     ::= {iamgMappedTable 1}
+
+IAMGMappedEntry ::= SEQUENCE {
+                    iamgMappedSysInstance
+                         INTEGER,
+                    iamgMappedNetNumber
+                         NetNumber,
+                    iamgMappedNode
+                         NodeAddress,
+                    iamgMappedActualNetNumber
+                         NetNumber,
+                    iamgMappedActualNode
+                         NodeAddress,
+                    }
+
+iamgMappedSysInstance OBJECT-TYPE
+     SYNTAX    INTEGER
+     ACCESS    read-write
+     STATUS    mandatory
+     DESCRIPTION    "The unique identifier of the instance
+                of the IPX Address Mapping Gateway and 
+                IPX (via ipxSysInstance).
+                This value may be written to only when
+                creating a new entry in the table."
+     ::= {iamgMappedEntry 1}
+
+iamgMappedNetNumber OBJECT-TYPE
+     SYNTAX    NetNumber
+     ACCESS    read-write
+     STATUS    mandatory
+     DESCRIPTION    "The network to which the actual network
+                is mapped."
+     ::= {iamgMappedEntry 2}
+
+iamgMappedNode OBJECT-TYPE
+     SYNTAX    NodeAddress
+     ACCESS    read-write
+     STATUS    mandatory
+     DESCRIPTION    "The node value derived from iamgMappedActualNode
+                and iamgMappedActualNetNumber."
+     ::= {iamgMappedEntry 3}
+
+iamgMappedActualNetNumber OBJECT-TYPE
+     SYNTAX    NetNumber
+     ACCESS    read-write
+     STATUS    mandatory
+     DESCRIPTION    "The actual network."
+     ::= {iamgMappedEntry 4}
+
+iamgMappedActualNode OBJECT-TYPE
+     SYNTAX    NodeAddress
+     ACCESS    read-write
+     STATUS    mandatory
+     DESCRIPTION    "The actual node address."
+     ::= {iamgMappedEntry 5}
+
+
+-- Nonmappable Group
+--   This group describes networks excluded from mapping.
+--
+-- Nonmappable networks table
+--   This table lists the networks that are not to be
+--   mapped. It may reflect both statically configured
+--   values and values derived at run-time.
+
+iamgNonMappableTable OBJECT-TYPE
+     SYNTAX    SEQUENCE OF IAMGNonMappableEntry
+     ACCESS    not-accessible
+     STATUS    mandatory
+     DESCRIPTION    "The non-mappable networks table."
+     ::= {iamgNonMappable 1}
+
+iamgNonMappableEntry OBJECT-TYPE
+     SYNTAX    IAMGNonMappableEntry
+     ACCESS    not-accessible
+     STATUS    mandatory
+     DESCRIPTION    "Each entry is a network (or range 
+                of networks) excluded from mapping."
+     INDEX          {
+                 iamgNonMapSysInstance,
+                 iamgNonMapNetNumber,
+                 iamgNonMapNetMask
+               }
+     ::= {iamgNonMappableTable 1}
+
+IAMGNonMappableEntry ::= SEQUENCE {
+                    iamgNonMapSysInstance
+                         INTEGER,
+                    iamgNonMapNetNumber
+                         NetNumber,
+                    iamgNonMapNetMask
+                         NetNumber,
+                    IamgNonMapEntryType
+                         INTEGER,
+                    }
+
+iamgNonMapSysInstance OBJECT-TYPE
+     SYNTAX    INTEGER
+     ACCESS    read-write
+     STATUS    mandatory
+     DESCRIPTION    "The unique identifier of the instance
+                of the IPX Address Mapping Gateway and IPX
+                (via ipxSysInstance).
+                This value may be written to only when
+                creating a new entry in the table."
+     ::= {iamgNonMappableEntry 1}
+
+iamgNonMapNetNumber OBJECT-TYPE
+     SYNTAX    NetNumber
+     ACCESS    read-write
+     STATUS    mandatory
+     DESCRIPTION    "A network to be excluded from mapping."
+     ::= {iamgNonMappableEntry 2}
+
+iamgNonMapNetMask OBJECT-TYPE
+     SYNTAX    NetNumber
+     ACCESS    read-write
+     STATUS    mandatory
+     DESCRIPTION    "A network mask used in combination with
+                iamgNonMapNetNumber to express a range
+                of non-mappable networks."
+     ::= {iamgNonMappableEntry 3}
+
+iamgNonMapEntryType OBJECT-TYPE
+     SYNTAX    INTEGER (
+                         static(1),
+                         sap(2),
+                         other(3)
+                      )
+     ACCESS    read-write
+     STATUS    mandatory
+     DESCRIPTION    "Was this entry statically configured,
+                learned at run-time from SAP, or is from
+                some other source?"
+     ::= {iamgNonMappableEntry 4}
+
+
+
+-- Gateways Group
+--   This group lists peer IPX Address Mapping Gateways
+--
+-- Gateway table
+--   This table lists the other IPX Address Mapping Gateways
+--   known to this gateway that map to the same network number.
+
+iamgGatewayTable OBJECT-TYPE
+     SYNTAX    SEQUENCE OF IAMGGatewayEntry
+     ACCESS    not-accessible
+     STATUS    mandatory
+     DESCRIPTION    "The peer gateway table."
+     ::= {iamgGateways 1}
+
+iamgGatewayEntry OBJECT-TYPE
+     SYNTAX    IAMGGatewayEntry
+     ACCESS    not-accessible
+     STATUS    mandatory
+     DESCRIPTION    "Each entry is a remote gateway known to
+                     map to the same network number."
+     INDEX     {
+                 iamgGatewaySysInstance,
+                 iamgGatewayName
+               }
+     ::= {iamgGatewayTable 1}
+
+IAMGGatewayEntry ::= SEQUENCE {
+                    iamgGatewaySysInstance
+                         INTEGER,
+                    iamgGatewayName
+                         OCTET STRING,
+                    iamgGatewayMapAddress
+                         NetNumber,
+                    iamgGatewayNetNumber
+                         NetNumber,
+                    iamgGatewayNode
+                         NodeAddress,
+                    iamgGatewaySocket
+                         OCTECT STRING,
+                    iamgGatewayFragments
+                         INTEGER,
+                    }
+
+iamgGatewaySysInstance OBJECT-TYPE
+     SYNTAX    INTEGER
+     ACCESS    read-write
+     STATUS    mandatory
+     DESCRIPTION    "The unique identifier of the instance
+                of the IPX Address Mapping Gateway and IPX
+                (via ipxSysInstance).
+                This value may be written to only when
+                creating a new entry in the table."
+     ::= {iamgGatewayEntry 1}
+
+iamgGatewayName OBJECT-TYPE
+     SYNTAX    OCTET STRING (SIZE(1..48))
+     ACCESS    read-write
+     STATUS    mandatory
+     DESCRIPTION    "The service name advertised by this gateway."
+     ::= {iamgGatewayEntry 2}
+
+iamgGatewayMapAddress OBJECT-TYPE
+     SYNTAX    NetNumber
+     ACCESS    read-write
+     STATUS    mandatory
+     DESCRIPTION    "To network to which this gateway maps."
+     ::= {iamgGatewayEntry 3}
+
+iamgGatewayNetNumber OBJECT-TYPE
+     SYNTAX    NetNumber
+     ACCESS    read-write
+     STATUS    mandatory
+     DESCRIPTION    "The network portion of the IPX address 
+                of this gateway ."
+     ::= {iamgGatewayEntry 4}
+
+iamgGatewayNode OBJECT-TYPE
+     SYNTAX    NodeAddress
+     ACCESS    read-write
+     STATUS    mandatory
+     DESCRIPTION    "The node portion of the IPX address of
+                this gateway."
+     ::= {iamgGatewayEntry 5}
+
+iamgGatewaySocket OBJECT-TYPE
+     SYNTAX    OCTET STRING (SIZE(2))
+     ACCESS    read-write
+     STATUS    mandatory
+     DESCRIPTION    "The socket portion of the IPX address
+                of this gateway."
+     ::= {iamgGatewayEntry 6}
+
+iamgGatewayFragments OBJECT-TYPE
+     SYNTAX    INTEGER (
+                         no(1),
+                         yes(2)
+                      )
+     ACCESS    read-write
+     STATUS    mandatory
+     DESCRIPTION    "Indicates whether this gateway supports
+                RFC 1791 IPX fragmentation."
+     ::= {iamgGatewayEntry 7}
+
+END

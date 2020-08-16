@@ -1,0 +1,191 @@
+NOVELL TECHNICAL INFORMATION DOCUMENT
+
+TITLE:  312Y2Kp2.EXE; NetWare 3.12 Year 2000 Fixes
+TID #:  2933589
+README FOR:  312y2kp2.exe
+
+SUPERSEDES:
+NT411B4.EXE
+
+NOVELL PRODUCTS and VERSIONS:
+NetWare 3.12
+NetWare 3.2 Enhancement Pack
+
+ABSTRACT:
+
+NetWare 3.12 Year 2000 fixes.
+
+NetWare 3.2 includes updates mentioned or contained in this file.
+
+Additional information is available on our Web site at
+http://www.novell.com/products/netware3
+
+10/30/98  The readme text file has been updated. The date of the self
+extracting archive has changed because the file was rebuilt to include the
+readme edits.
+
+
+
+-----------------------------------------------------------------
+DISCLAIMER
+THE ORIGIN OF THIS INFORMATION MAY BE INTERNAL OR EXTERNAL TO 
+NOVELL.  NOVELL MAKES ALL REASONABLE EFFORTS TO VERIFY THIS 
+INFORMATION.  HOWEVER, THE INFORMATION PROVIDED IN THIS DOCUMENT 
+IS FOR YOUR INFORMATION ONLY.  NOVELL MAKES NO EXPLICIT OR IMPLIED 
+CLAIMS TO THE VALIDITY OF THIS INFORMATION.
+-----------------------------------------------------------------
+
+
+INSTALLATION INSTRUCTIONS:
+
+This update addresses year 2000 issues.
+
+
+PROBLEMS RESOLVED:
+
+LISTDIR.EXE
+The date is not displayed correctly when using the /D and /T options.
+
+LOADER.EXE
+The file server could abend at the year 2000 roll over to 1/1/2000. The BIOS
+clock would also be reset to the year 1980. (This patch is also contained in
+the 312PTD.EXE file.)
+
+MENU.OVL
+The date is not displayed correctly after year 2000.
+
+PAUDIT.EXE and NET_REC.DAT
+The year was not properly displayed for years greater than 1999. 
+
+PSERVER.EXE
+The banner page prints the year as 19200 instead of 2000.
+
+PSERVER.NLM
+The banner page prints the year as 19200 instead of 2000.
+
+RCONSOLE.EXE
+When selecting the directory scan option, the year as indicated by the file
+creation date displays as 100 instead of 00, 134 instead of 34, etc.
+
+SBACKUP.NLM
+When the system time is set to the year 2000 or higher, the year was not
+displayed correctly in the session files. It was adding 28 years to the last
+two digits of the year eg., 2007 as 2035. (This file requires the file
+LIB312.EXE to be installed on the server.)
+
+SESSION.EXE
+The login time was displayed incorrectly for the year 2028 and beyond.
+
+
+RECOMMENDED UPDATES
+
+Documentation of NetWare 3.12 updates is provided in Technical Information
+Documents (TIDs) accessible through any of the following sources:
+
+      http://support.novell.com
+      Novell's Support Connection CD
+      Your Novell reseller
+
+
+ISSUE: 
+
+Testing has revealed there is no immediate danger to any data files.
+
+
+
+Requirements:
+
+1) Hardware must be year 2000 ready (check with your hardware vendor).
+
+2) Install the CLIB updates.
+
+3) All the latest patches/fixes must already installed on the server. There are
+approximately 64 individual files that need to be installed. These download
+files are available from the Support Connection CD and on the Internet at
+http://support.novell.com/products/nw312/patches.htm
+
+
+
+For an automated installation of these files, install the NetWare 3.2
+Enhancment Pack. (This may be purchased from your local reseller.)
+
+
+
+Make a back-up copy or rename the original files before replacing them.
+
+
+
+The directory structure is arranged so that files in each directory will be
+
+copied to their respective directory on a server.
+
+
+
+For Example:
+
+SYS\PUBLIC\RCONSOLE.EXE should be copied to a server on the SYS: volume in the
+PUBLIC directory.
+
+
+
+
+
+LOADER.EXE Instructions:
+
+
+
+If the patch kit 312PTC.EXE has already been installed, disregard installing
+LOADER.EXE.
+
+
+
+1. Copy the LOADER.EXE and LSWAP.EXE files to the appropriate NetWare boot
+directory of the server (for example, C:\SERVER.312).
+
+
+
+2. Execute the following command at the DOS prompt while in the server boot
+directory:
+
+
+
+    Usage:  LSWAP [LoaderFilePath [ServerFilePath]]
+
+                Default LoaderFilePath = C:\SERVER.312\LOADER.EXE
+
+                Default ServerFilePath = C:\SERVER.312\SERVER.EXE
+
+
+
+
+
+NOTE: These updates work with all localized versions of NetWare 3.12.
+
+Self-Extracting File Name: 312y2kp2.exe
+
+Files Included            Size          Date            Time
+..\
+    312Y2KP2.TXT   (This file)  
+..\BOOT\
+      LOADER.EXE         67440     8-21-1997      4:05:08 am
+       LSWAP.EXE         55597     5-28-1996      7:51:52 am
+..\SYS\
+..\SYS\PUBLIC\
+     LISTDIR.EXE         26291    11-19-1997      5:31:18 am
+        MENU.OVL        157519     12-3-1997      6:01:16 am
+      PAUDIT.EXE         36064     12-1-1997      7:18:28 am
+     PSERVER.EXE        109732    11-19-1997      6:30:20 am
+    RCONSOLE.EXE         96139     11-3-1997      1:50:58 am
+     SESSION.EXE        150847    10-28-1997      4:39:34 am
+..\SYS\SYSTEM\
+     NET_REC.DAT           482     12-1-1997      7:18:24 am
+     PSERVER.NLM         52563    11-19-1997      6:48:16 am
+     SBACKUP.NLM        184756    11-24-1997      4:10:44 am
+
+
+
+-----------------------------------------------------------------
+Any trademarks referenced in this document are the property of their respective
+owners.  Consult your product manuals for complete trademark information.
+-----------------------------------------------------------------
+

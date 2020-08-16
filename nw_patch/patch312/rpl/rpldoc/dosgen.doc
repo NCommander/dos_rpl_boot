@@ -1,0 +1,87 @@
+
+
+
+This DOSGEN.DOC file is for DOSGEN.EXE and both are included within
+the NOVELL RPL KIT
+
+
+DOSGEN.EXE is version 1.21 and provides the following
+enhancements:
+
+*  Allows subdirectories to be part of the disk image (net$dos.sys).
+
+*  Can now reverse a disk image back onto a floppy diskette provided
+   the diskette is the same density and format as the original disk
+   image diskette.
+
+
+Syntax for dosgen.exe is as follows:
+
+DOSGEN [options] [<Drive>] [<FileName>]
+options: /u - Copy disk image to floppy
+         /? - Display syntax help
+         default - Create disk image from floppy
+
+    
+Example #1:
+
+DOSGEN A: IMAGE.SYS<ENTER>
+
+This will create IMAGE.SYS in the same directory that dosgen.exe is in.
+IMAGE.SYS will be an exact image of the floppy diskette that is in the
+A: drive.
+
+ 
+Example #2:
+
+DOSGEN<ENTER>
+
+This will create NET$DOS.SYS in the same directory that dosgen.exe is
+in.  NET$DOS.SYS will be an exact image of the floppy diskette that is
+in the A: drive.  This is the default.
+
+
+Example #3:
+
+DOSGEN /?<ENTER>
+
+Displays the following help information:
+
+DOSGEN [options] [<Drive>] [<FileName>]
+options: /u - Copy disk image to floppy
+         /? - Display syntax help
+         default - Create disk image from floppy
+
+
+
+Example #4:
+
+DOSGEN /U NET$DOS.SYS B:<ENTER>
+
+This will write NET$DOS.SYS to the floppy diskette in the B: drive.
+The B: diskette must be the same density and format as the diskette
+used to dosgen NET$DOS.SYS.
+
+
+
+
+**************************************************************** 
+                    DISCLAIMER  
+  
+Novell, Inc. makes no representations or warranties with respect
+to any NetWare software, and specifically disclaims any express
+or implied warranties of merchantability, title, or fitness for
+a particular purpose.  
+
+Distribution of any NetWare software is forbidden without the
+express written consent of Novell, Inc.  Further, Novell reserves
+the right to discontinue distribution of any NetWare software.
+
+Novell is not responsible for lost profits or revenue, loss of use
+of the software, loss of data, costs of re-creating lost data, the
+cost of any substitute equipment or program, or claims by any party
+other than you.  Novell strongly recommends a backup be made before
+any software is installed.   Technical support for this software
+may be provided at the discretion of Novell.
+*****************************************************************
+

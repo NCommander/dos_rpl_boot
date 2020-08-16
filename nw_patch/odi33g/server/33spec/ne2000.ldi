@@ -1,0 +1,563 @@
+;
+; LDI file for the NE2000 driver
+;
+; VeRsIoN=2.06 Novell LAN Installation Information File for NE2000.
+; CoPyRiGhT=(c)Copyright 1993 - 1998 by Novell, Inc.  All rights reserved
+
+SYN: 1.00
+
+DR NOVELL_NE2000
+{
+     DES:   $NE2000_1
+     HELP:   $NE2000_2
+     PAR: 1.00
+     FILE:     NE2000.LAN
+     PROD:     'EISA.ISA.871.2', 'EISA.NVL.150.1'
+;@#  Sprod: 'Novell ~ NE2000 or NE2000 Plus',
+;@#         'Novell/Anthem ~ NE2000 or compatible'
+;@# CLIENT: NE2000
+;@# ALIAS: CNE2000.LAN
+
+	LIST Adapter_Bus_Type OPTIONAL
+	{
+		Description:	$NE2000_9
+		Help:		$NE2000_10
+
+		CDescription:	$NE2000_11
+		Choice:		'ISA'
+		CDescription:	$NE2000_12
+		Choice:		''
+
+		Default:	1
+		OutputFormat:	'%s'
+	}
+
+     PR INT REQ
+     {
+          VAL: 2, 3, 4, 5, A, B, C, F
+        TYP:  HEX(1)
+          DEF: 3
+        }
+
+     PR PORT REQ
+     {
+          VAL: 300, 320, 340, 360, 240, 280, 2C0
+          DEF: 300
+          RES: 20
+     }
+
+     PR NODE
+     {
+     }
+
+     FR FrameSelect
+     {
+          CH:  'Ethernet_802.3'
+          CH:  'Ethernet_802.2'
+          CH:  'Ethernet_SNAP'
+          CH:  'Ethernet_II'
+          DEF: 1,2
+        }
+
+     PR RETRIES
+     {
+          VAL: 0-255
+          DEF: 5
+     }
+
+     PR MEM
+     {
+          VAL: D0000,D4000,D8000,DC000,C0000,C4000,C8000,CC000,E00000,E20000,E40000,E60000,E80000,EA0000,EC0000,EE0000,F00000,F20000,F40000,F60000,F80000,FA0000,FC0000,FE0000
+          DEF: UNDEFINED
+          RES: 400
+     }
+
+
+}
+
+DR EAGLE_NE2000
+{
+     DES:   $NE2000_3
+     HELP:   $NE2000_4
+     PAR: 1.00
+     FILE:     NE2000.LAN
+     PROD:     'EISA.ISA.871.2', 'EISA.NVL.150.1'
+;@#  Sprod: 'EAGLE ~ NE2000',
+;@#         'EAGLE ~ NE2000 or compatible'
+;@# CLIENT: NE2000
+;@# ALIAS: CNE2000.LAN
+
+	LIST Adapter_Bus_Type OPTIONAL
+	{
+		Description:	$NE2000_9
+		Help:		$NE2000_10
+
+		CDescription:	$NE2000_11
+		Choice:		'ISA'
+		CDescription:	$NE2000_12
+		Choice:		''
+
+		Default:	1
+		OutputFormat:	'%s'
+	}
+
+     PR INT REQ
+     {
+          VAL: 2, 3, 4, 5, A, B, C, F
+        TYP:  HEX(1)
+          DEF: 3
+        }
+
+     PR PORT REQ
+     {
+          VAL: 300, 320, 340, 360, 240, 280, 2C0
+          DEF: 300
+          RES: 20
+     }
+
+     PR NODE
+     {
+     }
+
+     FR FrameSelect
+     {
+          CH:  'Ethernet_802.3'
+          CH:  'Ethernet_802.2'
+          CH:  'Ethernet_SNAP'
+          CH:  'Ethernet_II'
+          DEF: 1,2
+        }
+
+     PR RETRIES
+     {
+          VAL: 0-255
+          DEF: 5
+     }
+
+     PR MEM
+     {
+          VAL: D0000,D4000,D8000,DC000,C0000,C4000,C8000,CC000,E00000,E20000,E40000,E60000,E80000,EA0000,EC0000,EE0000,F00000,F20000,F40000,F60000,F80000,FA0000,FC0000,FE0000
+          DEF: UNDEFINED
+          RES: 400
+     }
+
+}
+
+DR MICRODYNE_NE2000
+{
+     DES:   $NE2000_5
+     HELP:   $NE2000_6
+     PAR: 1.00
+     FILE:     NE2000.LAN
+     PROD:     'EISA.ISA.871.2', 'EISA.NVL.150.1'
+;@#  Sprod: 'Microdyne ~ NE2000 or NE2000 Plus',
+;@#         'Microdyne ~ NE2000 or compatible'
+;@# CLIENT: NE2000
+;@# ALIAS: CNE2000.LAN
+
+	LIST Adapter_Bus_Type OPTIONAL
+	{
+		Description:	$NE2000_9
+		Help:		$NE2000_10
+
+		CDescription:	$NE2000_11
+		Choice:		'ISA'
+		CDescription:	$NE2000_12
+		Choice:		''
+
+		Default:	1
+		OutputFormat:	'%s'
+	}
+
+     PR INT REQ
+     {
+          VAL: 2, 3, 4, 5, A, B, C, F
+        TYP:  HEX(1)
+          DEF: 3
+        }
+
+     PR PORT REQ
+     {
+          VAL: 300, 320, 340, 360, 240, 280, 2C0
+          DEF: 300
+          RES: 20
+     }
+
+     PR NODE
+     {
+     }
+
+     FR FrameSelect
+     {
+          CH:  'Ethernet_802.3'
+          CH:  'Ethernet_802.2'
+          CH:  'Ethernet_SNAP'
+          CH:  'Ethernet_II'
+          DEF: 1,2
+        }
+
+     PR RETRIES
+     {
+          VAL: 0-255
+          DEF: 5
+     }
+
+     PR MEM
+     {
+          VAL: D0000,D4000,D8000,DC000,C0000,C4000,C8000,CC000,E00000,E20000,E40000,E60000,E80000,EA0000,EC0000,EE0000,F00000,F20000,F40000,F60000,F80000,FA0000,FC0000,FE0000
+          DEF: UNDEFINED
+          RES: 400
+     }
+
+
+}
+
+DR NATIONAL_NE2000
+
+{
+     DES:   $NE2000_7
+     HELP:   $NE2000_8
+     PAR: 1.00
+     FILE:     NE2000.LAN
+     PROD:     'EISA.ISA.871.2', 'EISA.NVL.150.1'
+;@#  Sprod: 'National ~ NE2000 or NE2000 Plus',
+;@#         'National ~ NE2000 or compatible'
+;@# CLIENT: NE2000
+;@# ALIAS: CNE2000.LAN
+
+	LIST Adapter_Bus_Type OPTIONAL
+	{
+		Description:	$NE2000_9
+		Help:		$NE2000_10
+
+		CDescription:	$NE2000_11
+		Choice:		'ISA'
+		CDescription:	$NE2000_12
+		Choice:		''
+
+		Default:	1
+		OutputFormat:	'%s'
+	}
+
+     PR INT REQ
+     {
+          VAL: 2, 3, 4, 5, A, B, C, F
+        TYP:  HEX(1)
+          DEF: 3
+        }
+
+     PR PORT REQ
+     {
+          VAL: 300, 320, 340, 360, 240, 280, 2C0
+          DEF: 300
+          RES: 20
+     }
+
+     PR NODE
+     {
+     }
+
+     FR FrameSelect
+     {
+          CH:  'Ethernet_802.3'
+          CH:  'Ethernet_802.2'
+          CH:  'Ethernet_SNAP'
+          CH:  'Ethernet_II'
+          DEF: 1,2
+        }
+
+     PR RETRIES
+     {
+          VAL: 0-255
+          DEF: 5
+     }
+
+     PR MEM
+     {
+          VAL: D0000,D4000,D8000,DC000,C0000,C4000,C8000,CC000,E00000,E20000,E40000,E60000,E80000,EA0000,EC0000,EE0000,F00000,F20000,F40000,F60000,F80000,FA0000,FC0000,FE0000
+          DEF: UNDEFINED
+          RES: 400
+     }
+
+}
+
+
+
+DLANG:    4
+;English
+     $NE2000_1 = "Novell Ethernet NE2000"
+     $NE2000_2 = "This driver (NE2000.LAN) supports NE2000 or NE2000T network
+boards installed in 16-bit expansion slots in ISA servers. You can install up
+to four boards, as long as their settings do not conflict."
+     $NE2000_3 = "EAGLE NE2000"
+     $NE2000_4 = "This driver (NE2000.LAN) supports EAGLE NE2000, NE2000PLUS,
+NE2000PLUS T, NE2000PLUS 3 network boards installed in 16-bit expansion slots
+in ISA servers. You can install up to four boards, as long as their settings
+do not conflict."
+     $NE2000_5 = "MICRODYNE NE2000"
+     $NE2000_6 = "This driver (NE2000.LAN) supports MICRODYNE NE2000,
+NE2000PLUS, NE2000PLUS T, NE2000PLUS 3 network boards installed in 16-bit
+expansion slots in ISA servers. You can install up to four boards, as long as
+their settings do not conflict."
+     $NE2000_7 = "National Semiconductor NE2000 InfoMover"
+     $NE2000_8 = "This driver (NE2000.LAN) supports National Semiconductor
+NE2000 or NE2000T network boards installed in 16-bit expansion slots in ISA
+servers. You can install up to four boards, as long as their settings do not
+conflict."
+
+     $NE2000_9 = "Is the card an ISA Card?"
+     $NE2000_10 = "A value of 'Yes' is necessary to support legacy ISA cards.
+Plug and Play ISA is not considered legacy ISA."
+
+     $NE2000_11 = "Yes"
+     $NE2000_12 = "No"
+
+LANG: 6
+;French
+     $NE2000_1 = "Ethernet NE2000 de Novell"
+     $NE2000_2 = "Ce pilote (NE2000.LAN) supporte les
+  cartes rÇseau NE2000 ou NE2000T
+  installÇes dans des connecteurs
+ d'extension 16 octets sur des serveurs
+ ISA. Vous pouvez installer jusqu'Ö quatre
+\ncartes, tant que leurs dÇfinitions
+ n'entrent pas en conflit."
+     $NE2000_3 = "EAGLE NE2000"
+     $NE2000_4 = "Ce pilote (NE2000.LAN) supporte les
+  cartes rÇseau EAGLE NE2000, NE2000PLUS,
+ NE2000PLUS T, NE2000PLUS 3 installÇes
+  dans des connecteurs d'extension 16
+ octets sur des serveurs ISA. Vous pouvez
+ installer jusqu'Ö quatre cartes, tant que
+ leurs dÇfinitions n'entrent pas en
+ conflit."
+     $NE2000_5 = "MICRODYNE NE2000"
+     $NE2000_6 = "Ce pilote (NE2000.LAN) supporte les  cartes rÇseau MICRODYNE NE2000,
+ NE2000PLUS, NE2000PLUS T, NE2000PLUS 3
+ installÇes des connecteursd'extension 16
+ octets sur des serveurs ISA. Vous pouvez
+ installer jusqu'Ö quatre cartes, tant que
+ leurs dÇfinitions n'entrent pas en
+ conflit."
+     $NE2000_7 = "National Semiconductor NE4100 InfoMover"
+     $NE2000_8 = "Ce pilote (NE2000.LAN) supporte les
+  cartes rÇseau National Semiconductor
+ NE2000 ou NE2000T installÇes dans les
+ connecteurs d'extension 16 octets sur des
+ serveurs ISA. Vous pouvez installer
+ jusqu'Ö quatre cartes, tant que leurs
+ dÇfinitions n'entrent pas en conflit."
+
+     $NE2000_9 = "Cette carte est-elle une carte ISA ?"
+     $NE2000_10 = "Choisissez 'Oui' pour prendre en charge
+ les cartes Legacy ISA. Les cartes Plug
+  and Play ISA ne sont pas considÇrÇes
+  comme Legacy ISA."
+
+     $NE2000_11 = "Oui"
+     $NE2000_12 = "Non"
+
+LANG: 7
+;German
+     $NE2000_1 = "Novell Ethernet NE2000"
+     $NE2000_2 = "Dieser Treiber (NE2000.LAN) unterstÅtzt in 16-bit-
+ErweiterungssteckplÑtze auf ISA-Servern installierte NE2000-
+oder NE2000T-Netzwerkkarten. Sie kînnen bis zu vier Karten
+installieren, solange ihre Einstellungen nicht miteinander
+in Konflikt stehen."
+     $NE2000_3 = "EAGLE NE2000"
+     $NE2000_4 = "Dieser Treiber (NE2000.LAN) unterstÅtzt in 16-bit-
+ErweiterungssteckplÑtze auf ISA-Servern installierte EAGLE NE2000-,
+NE2000PLUS-, NE2000PLUS T-, NE2000PLUS 3-Netzwerkkarten. Sie kînnen
+bis zu vier Karten installieren, solange ihre Einstellungen nicht
+miteinander in Konflikt stehen."
+     $NE2000_5 = "MICRODYNE NE2000"
+     $NE2000_6 = "Dieser Treiber (NE2000.LAN) unterstÅtzt in 16-bit-
+ErweiterungssteckplÑtze auf ISA-Servern installierte MICRODYNE
+NE2000-, NE2000PLUS-, NE2000PLUS T-, NE2000PLUS 3-Netzwerkkarten.
+Sie kînnen bis zu vier Karten installieren, solange ihre Einstellungen
+nicht miteinander in Konflikt stehen."
+     $NE2000_7 = "National Semiconductor NE2000 InfoMover"
+     $NE2000_8 = "Dieser Treiber (NE2000.LAN) unterstÅtzt in 16-bit-
+ErweiterungssteckplÑtze auf ISA-Servern installierte National
+Semiconductor NE2000- oder NE2000T-Netzwerkarten. Sie kînnen
+bis zu vier Karten installieren, solange Ihre Einstellungen
+nicht miteinander in Konflikt stehen."
+
+     $NE2000_9 = "Ist die Karte eine ISA-Karte?"
+     $NE2000_10 = "Die Auswahl 'Ja' ist fÅr die UnterstÅtzung der Legacy-ISA-Karten erforderlich.
+Plug Play-ISA ist keine Legacy-ISA."
+
+     $NE2000_11 = "Ja"
+     $NE2000_12 = "Nein"
+
+LANG: 8
+;Italian
+     $NE2000_1 = "Novell Ethernet NE2000"
+     $NE2000_2 = "Questo driver NE2000.LAN supporta le schede di rete NE2000
+e NE2000T installate in slot di espansione da 16 bit su server
+ISA. E' possibile installare fino a quattro schede, a condizione che
+le loro impostazioni non siano in conflitto."
+     $NE2000_3 = "EAGLE NE2000"
+     $NE2000_4 = "Questo driver NE2000.LAN supporta le schede di rete
+EAGLE NE2000, NE2000PLUS, NE2000PLUS T, NE2000PLUS 3
+installate in slot di espansione da 16 bit in server ISA.
+E' possibile installare fino a quattro schede, a condizione
+che le loro impostazioni non siano in conflitto."
+     $NE2000_5 = "MICRODYNE NE2000"
+     $NE2000_6 = "Questo driver NE2000.LAN supporta le schede di rete MICRODYNE
+NE2000, NE2000PLUS, NE2000PLUS T, NE2000PLUS 3 installate in slot
+di espansione da 16 bit in server ISA. E' possibile installare fino
+a quattro schede, a condizione che le loro impostazioni non
+siano in conflitto."
+     $NE2000_7 = "National Semiconductor NE2000 InfoMover"
+     $NE2000_8 = "Questo driver NE2000.LAN supporta le schede di rete National
+Semiconductor NE2000 e NE2000T installate in slot di espansione
+da 16 bit in server ISA. E' possibile installare fino a quattro schede,
+a condizione che le loro impostazioni non siano in conflitto."
+
+     $NE2000_9 = "E' una scheda ISA?"
+     $NE2000_10 = "Per poter supportare le schede ISA precedenti occorre usare il valore 'Sç'.
+Le schede ISA Plug and Play non appartengono a questa categoria."
+
+     $NE2000_11 = "Sç"
+     $NE2000_12 = "No"
+
+LANG: 12
+;Portuguese
+     $NE2000_1 = "Novell Ethernet NE2000"
+     $NE2000_2 = "Este driver (NE2000.LAN) suporta placas de rede NE2000 ou NE2000T 
+instaladas em slots de expans∆o de 16 bits em servidores ISA. Vocà pode instalar atÇ
+quatro placas, desde que as configuraá‰es n∆o entrem em conflito."
+     $NE2000_3 = "EAGLE NE2000"
+     $NE2000_4 = "Este driver (NE2000.LAN) suporta placas de rede EAGLE NE2000, NE2000PLUS,
+NE2000PLUS T, NE2000PLUS 3 instaladas em slots de expans∆o de 16 bits
+em servidores ISA. Vocà pode instalar atÇ quatro placas, desde que as configuraá‰es originais
+n∆o entrem em conflito."
+     $NE2000_5 = "MICRODYNE NE2000"
+     $NE2000_6 = "Este driver (NE2000.LAN) suporta placas de rede MICRODYNE NE2000,
+NE2000PLUS, NE2000PLUS T, NE2000PLUS 3 instaladas em slots de expans∆o de
+16 bits em servidores ISA. Vocà pode instalar atÇ quatro placas, desde que
+as configuraá‰es n∆o entrem em conflito."
+     $NE2000_7 = "National Semiconductor NE2000 InfoMover"
+     $NE2000_8 = "Este driver (NE2000.LAN) suporta placas de rede National Semiconductor
+NE2000 ou NE2000T instaladas em slots de expans∆o de 16 bits em servidores
+ISA. Vocà pode instalar atÇ quatro placas, desde que as configuraá‰es n∆o
+entrem em conflito."
+
+     $NE2000_9 = "A placa Ç do tipo ISA?"
+     $NE2000_10 = "Um valor 'Sim' Ç necess†rio para suportar as placas Legacy ISA.
+As placas ISA Plug and Play n∆o s∆o consideradas como Legacy ISA."
+
+     $NE2000_11 = "Sim"
+     $NE2000_12 = "N∆o"
+
+LANG: 14
+;Spanish
+     $NE2000_1 = "Novell Ethernet NE2000"
+     $NE2000_2 = "Este controlador (NE2000.LAN) ofrece soporte a las tarjetas
+de red NE2000 o NE2000T instaladas en las ranuras de expansi¢n
+de 16 bits de los servidores ISA. Se pueden instalar hasta cuatro
+tarjetas siempre y cuando sus configuraciones no produzcan conflictos."
+     $NE2000_3 = "EAGLE NE2000"
+     $NE2000_4 = "Este controlador (NE2000.LAN) ofrece soporte a las tarjetas
+de red EAGLE NE2000, NE2000PLUS, NE2000PLUS T, NE2000PLUS 3
+instaladas en las ranuras de expansi¢n de 16 bits de los servidores
+ISA. Se pueden instalar hasta cuatro tarjetas siempre y cuando sus
+configuraciones no produzcan conflictos."
+     $NE2000_5 = "MICRODYNE NE2000"
+     $NE2000_6 = "Este controlador (NE2000.LAN) ofrece soporte a las tarjetas de
+red MICRODYNE NE2000, NE2000PLUS, NE2000PLUS T, NE2000PLUS 3
+instaladas en las ranuras de expansi¢n de 16 bits de los servidores
+ISA. Se pueden instalar hasta cuatro tarjetas siempre y cuando sus
+definiciones no produzcan conflictos."
+     $NE2000_7 = "National Semiconductor NE2000 InfoMover"
+     $NE2000_8 = "Este controlador (NE2000.LAN) ofrece soporte al Semiconductor
+nacional NE2000 o a las tarjetas de red NE2000T instaladas en
+las ranuras de expansi¢n de 16 bits de los servidores ISA. Se
+pueden instalar hasta cuatro tarjetas, siempre y cuando sus
+definiciones no produzcan conflicto alguno."
+
+     $NE2000_9 = "®Es Çsta una tarjeta ISA?"
+     $NE2000_10 = "Para dar soporte a tarjetas ISA legadas indique 'S°'.
+Las tarjetas ISA de 'plug and play' no se consideran como ISA legadas."
+
+     $NE2000_11 = "S°"
+     $NE2000_12 = "No"
+
+LANG: 1
+;Chinese-Simplified
+     $NE2000_1 = "Novell Ethernet NE2000"
+     $NE2000_2 = "This driver (NE2000.LAN) supports NE2000 or NE2000T network
+boards installed in 16-bit expansion slots in ISA servers. You can install up
+to four boards, as long as their settings do not conflict."
+     $NE2000_3 = "EAGLE NE2000"
+     $NE2000_4 = "This driver (NE2000.LAN) supports EAGLE NE2000, NE2000PLUS,
+NE2000PLUS T, NE2000PLUS 3 network boards installed in 16-bit expansion slots
+in ISA servers. You can install up to four boards, as long as their settings
+do not conflict."
+     $NE2000_5 = "MICRODYNE NE2000"
+     $NE2000_6 = "This driver (NE2000.LAN) supports MICRODYNE NE2000,
+NE2000PLUS, NE2000PLUS T, NE2000PLUS 3 network boards installed in 16-bit
+expansion slots in ISA servers. You can install up to four boards, as long as
+their settings do not conflict."
+     $NE2000_7 = "National Semiconductor NE2000 InfoMover"
+     $NE2000_8 = "This driver (NE2000.LAN) supports National Semiconductor
+NE2000 or NE2000T network boards installed in 16-bit expansion slots in ISA
+servers. You can install up to four boards, as long as their settings do not
+conflict."
+
+     $NE2000_9 = "’‚ «“ª∏ˆ ISA ø®¬£ø"
+     $NE2000_10 = "“™÷ß≥÷¥´Õ≥µƒ ISA Õ¯ø®£¨÷µ±ÿ–ÎŒ™°∞ «°±°£
+°∞º¥≤Âº¥”√°±µƒ ISA Õ¯ø®≤ª±ª»œŒ™ «¥´Õ≥Õ¯ø®°£"
+
+     $NE2000_11 = " «"
+     $NE2000_12 = "∑Ò"
+
+LANG: 16
+;Chinese-Traditional
+     $NE2000_1 = "Novell Ethernet NE2000"
+     $NE2000_2 = "≈X∞ µ{¶° (NE2000.LAN) §‰¥©¶w∏À¶b ISA ¶¯™Aæπ 16 ¶Ï§∏¥°º—§W™∫ NE2000 ©Œ NE2000T ∫Ù∏Ù•d°C¶b≥]©w§£¨€§¨Ωƒ¨™∫±°™p§U°A±z•i•H¶w∏À¶‹¶h 4 §˘∫Ù∏Ù•d°C"
+     $NE2000_3 = "EAGLE NE2000"
+     $NE2000_4 = "≈X∞ µ{¶° (NE2000.LAN) §‰¥©¶w∏À¶b ISA ¶¯™Aæπ 16 ¶Ï§∏¬X•Rº—§W™∫ EAGLE NE2000°BNE2000PLUS°B
+NE2000PLUS T ©Œ NE2000PLUS 3 ∫Ù∏Ù•d°C¶b≥]©w§£¨€§¨Ωƒ¨™∫±°™p§U°A±z•i•H¶w∏À¶‹¶h 4 §˘∫Ù∏Ù•d°C"
+     $NE2000_5 = "MICRODYNE NE2000"
+     $NE2000_6 = "≈X∞ µ{¶° (NE2000.LAN) §‰¥©¶w∏À¶b ISA ¶¯™Aæπ 16 ¶Ï§∏¬X•Rº—§W™∫ MICRODYNE  NE2000°BNE2000PLUS°BNE2000PLUS T ©Œ NE2000PLUS 3 ∫Ù∏Ù•d°C¶b≥]©w§£¨€§¨Ωƒ¨™∫±°™p§U°A±z•i•H¶w∏À¶‹¶h 4 §˘∫Ù∏Ù•d°C"
+     $NE2000_7 = "National Semiconductor NE2000 InfoMover"
+     $NE2000_8 = "≈X∞ µ{¶° (NE2000.LAN) §‰¥©¶w∏À¶b ISA ¶¯™Aæπ 16 ¶Ï§∏¬X•Rº—§W™∫ National Semiconductor NE2000 ©Œ NE2000T ∫Ù∏Ù•d°C¶b≥]©w§£¨€§¨Ωƒ¨™∫±°™p§U°A±z•i•H¶w∏À¶‹¶h 4 §˘∫Ù∏Ù•d°C"
+
+     $NE2000_9 = "¶π∫Ù∏Ù•d¨Oß_¨∞ ISA ∫Ù∏Ù•d°H"
+     $NE2000_10 = "•≤∂∑≠n¶≥°u¨O°v™∫≠»•H§‰¥© legacy  ISA ™∫∫Ù∏Ù•d°C¿H¥°ßY•Œ™∫∫Ù∏Ù•d®√´D legacy ISA°C"
+
+     $NE2000_11 = "¨O"
+     $NE2000_12 = "ß_"
+
+LANG: 9
+;Japanese
+     $NE2000_1 = "Novell Ethernet NE2000"
+     $NE2000_2 = "This driver (NE2000.LAN) supports NE2000 or NE2000T network
+boards installed in 16-bit expansion slots in ISA servers. You can install up
+to four boards, as long as their settings do not conflict."
+     $NE2000_3 = "EAGLE NE2000"
+     $NE2000_4 = "This driver (NE2000.LAN) supports EAGLE NE2000, NE2000PLUS,
+NE2000PLUS T, NE2000PLUS 3 network boards installed in 16-bit expansion slots
+in ISA servers. You can install up to four boards, as long as their settings
+do not conflict."
+     $NE2000_5 = "MICRODYNE NE2000"
+     $NE2000_6 = "This driver (NE2000.LAN) supports MICRODYNE NE2000,
+NE2000PLUS, NE2000PLUS T, NE2000PLUS 3 network boards installed in 16-bit
+expansion slots in ISA servers. You can install up to four boards, as long as
+their settings do not conflict."
+     $NE2000_7 = "National Semiconductor NE2000 InfoMover"
+     $NE2000_8 = "This driver (NE2000.LAN) supports National Semiconductor
+NE2000 or NE2000T network boards installed in 16-bit expansion slots in ISA
+servers. You can install up to four boards, as long as their settings do not
+conflict."
+
+     $NE2000_9 = "Is the card an ISA Card?"
+     $NE2000_10 = "A value of 'Yes' is necessary to support legacy ISA cards.
+Plug and Play ISA is not considered legacy ISA."
+
+     $NE2000_11 = "Yes"
+     $NE2000_12 = "No"
+

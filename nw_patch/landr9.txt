@@ -1,0 +1,212 @@
+NOVELL TECHNICAL INFORMATION DOCUMENT
+
+TITLE:  Readme for LANDR9.EXE
+README FOR:  LANDR9.EXE
+
+NOVELL PRODUCTS and VERSIONS:
+NetWare 4.1
+NetWare 3.12
+NetWare SFT III 4.1
+NetWare 3.11
+NetWare SFT III 3.11
+
+ABSTRACT:
+
+    LANDR9 contains Novell LAN Drivers and Support Modules written to the v3.30
+ODI Assembly Specification.  It also contains a set of Novell LAN Drivers and
+Support Modules written to the v3.20 ODI Assembly Specification.
+
+
+ -----------------------------------------------------------------
+ DISCLAIMER
+ THE ORIGIN OF THIS INFORMATION MAY BE INTERNAL OR EXTERNAL TO NOVELL.  NOVELL
+MAKES EVERY EFFORT WITHIN ITS MEANS TO VERIFY THIS INFORMATION.  HOWEVER, THE
+INFORMATION PROVIDED IN THIS DOCUMENT IS FOR YOUR INFORMATION ONLY.  NOVELL
+MAKES NO EXPLICIT OR IMPLIED CLAIMS TO THE VALIDITY OF THIS INFORMATION.
+ -----------------------------------------------------------------
+
+
+ISSUE: 
+
+    LANDR9 contains Novell LAN Drivers and Support Modules written to the v3.30
+ODI Assembly Specification (files in the 33SPEC subdirectory).  It also
+contains a set of Novell LAN Drivers and Support Modules written to the v3.20
+ODI Assembly Specification (files in the 32SPEC subdirectory).  LAN Drivers
+written to the v3.30 ODI Specification will not run with the Support Modules
+written to the 3.20 ODI Specification.  In general, the v3.30 Support Modules
+should work with LAN Drivers written to the 3.20 ODI Specification.  However,
+some LAN Drivers written to the 3.20 ODI Specification may have problems with
+the support modules written to the v3.30 ODI Specification.  In those cases the
+support modules written to the v3.20 Specification will need to be used.
+
+ The LAN Drivers and support modules (NBI, MSM, and TSM) in the 33SPEC
+subdirectory are written to the v3.30 Assembly Specification.  To use them you
+must also use NBI.NLM (NetWare Bus Interface Module)  for NetWare v4.1 and
+NBI31x.NLM for NetWare v3.12.  The v3.3 Assembly Specification supports only
+Ethernet, Token-Ring, and FDDI Topologies.  The v3.3 Assembly Specification 
+will not run on NetWare versions prior to NetWare v3.12 or prior to NetWare
+v4.10.  For earlier versions of NetWare use the LAN Drivers and Support modules
+in the 32SPEC subdirectory.  The 32SPEC subdirectory contains Novell's LAN
+Drivers and support modules written to the 3.20 ODI Assembly Specification.
+
+ Note: Only MSM31X.NLM and NBI31X.NLM (and not MSM.NLM nor NBI.NLM) are needed
+for NetWare v3.12 servers (and vice versa on NetWare v4.1).  Also, NBI.NLM (for
+NetWare v4.1) or NBI31X.NLM (for NetWare v3.12) should be copied to the server
+startup directory (where the file SERVER.EXE exists) on servers that use
+NetWare Peripheral Architecture (NWPA) disk drivers (these have a file
+extension .HAM instead of .DSK) which require NBI.NLM.  Not all NWPA disk
+drivers require NBI.NLM.
+
+ The files in the 32SPEC subdirectory did not have any updates.  The following
+is a list of files that were updated in the 33SPEC subdirectory:
+
+ MSM.NLM was changed to provide improved performance on SMP servers.
+
+ NBI.NLM and NBI31X.NLM were changed to fix a posible hang in an infinite loop
+(SPD #132737).  They were also changed to enable pre-scan on NEC PC-98
+machines, including the creation and maintenance of the NBIHW.CFG file (SPD
+#133158).
+
+ NE2100.LAN and NE1500t.LAN were changed to fix a problem with the driver
+abending the server when two cards were used. If one card loaded and the the
+other failed to load because of bad parameters (i.e. wrong port or interrupt)
+it would abend the server.
+
+ CNE2100.LAN and CNE2100.LDI were changed to add an additional range of PORT
+addresses and Interrupts.
+
+ NTR2000.LAN was changed to correct a timing problem on 486 machines. This was
+causing driver failures when the driver was loaded and unloaded or when the
+card was reset.
+
+ With the 3.2 ODI specification, adapters that did not use a slot number would
+list their slot as 0.  With new buss architecture slot 0 is a valid slot.  With
+the 3.3 ODI specification, adapters that do not use a slot number list their
+slot as -1 (0xFFFF).  Because of this, MONITOR.NLM and the console "config"
+command will display these adapters as using slot 65,535.  This will not cause
+any problems.
+
+Self-Extracting File Name: landr9.exe
+
+Files Included     Size     Date      Time
+
+..\
+      LANDR9.TXT     (This file)
+     INSTALL.TXT            5507        10-16-96      1:56:26 pm
+      LANDR9.IPS           11462        10-21-96      2:31:22 pm
+     PI_ICMD.NLM           18259         6-28-96      8:55:08 am
+     PI_INIT.NLM            1735         6-28-96      8:25:12 am
+    PI_IOCON.NLM             802         6-28-96      9:27:28 am
+    PI_IOMKD.NLM            1250         6-28-96      9:04:58 am
+..\32SPEC\
+      32SPEC.DOC            6734        10-16-96      1:38:54 pm
+    ETHERTSM.NLM            9425         4-18-95     11:04:26 am
+     FDDITSM.NLM            8914         3-14-95      2:39:12 pm
+    FIRMLOAD.COM            1628          1-4-91      8:57:38 am
+     HISTORY.DOC           15771         8-28-96     10:32:58 am
+      NE1000.LAN            4472         3-28-94      8:28:04 am
+     NE1500T.LAN            7500        11-23-94      3:59:52 pm
+         NE2.LAN            5034        11-23-94      3:53:52 pm
+      NE2000.LAN            7382        11-23-94      3:56:28 pm
+      NE2100.LAN            7498        11-23-94      4:00:00 pm
+      NE2_32.LAN            5090         3-28-94      8:48:10 am
+      NE3200.LAN           14237         6-30-94      8:04:40 am
+     NE32HUB.LAN           12266         1-27-93      9:11:10 am
+     NTR2000.LAN           11399        11-23-94      1:49:44 pm
+       PCN2L.LAN            4726         1-29-93      8:45:04 pm
+    PCN2LTSM.NLM            5691         1-30-93     11:32:22 am
+    RXNETTSM.NLM            6321         9-26-94     10:46:54 am
+       STATS.DOC           63446         10-6-93      3:55:10 pm
+    TOKENDMA.DOC            6203         4-11-96     11:20:34 am
+    TOKENDMA.LAN           10861         5-26-93      3:16:54 pm
+    TOKENTSM.NLM            9457         3-14-95      2:39:44 pm
+      TRXNET.LAN            3075          1-7-93      1:23:28 pm
+..\32SPEC\31X\
+      MSM31X.NLM           21308        11-23-94     11:41:38 am
+..\32SPEC\31X\311\
+      LSLENH.NLM           11645        12-21-94     12:17:28 pm
+    PATCHMAN.NLM           15591         1-22-96     11:22:52 am
+..\32SPEC\410\
+         MSM.NLM           20252        11-23-94     11:41:26 am
+..\32SPEC\CONFIG\
+    !NVL0701.CFG            2745          9-2-92      1:25:30 pm
+    !NVL0901.CFG            8293         10-4-90     10:42:34 am
+    !NVL1201.CFG            7378         3-26-92      9:08:46 am
+    !NVL1301.CFG            1169         3-12-92      2:28:50 pm
+    !NVL1401.CFG             986         6-10-92      4:02:08 pm
+    !NVL1501.CFG           11994         1-11-93      3:24:22 pm
+       @7151.ADF            2346         7-26-89      5:08:06 pm
+       @7154.ADF            2657         4-27-92      1:54:54 pm
+..\33SPEC\
+     CNE2100.LAN           17820          9-9-96      3:47:44 pm
+     CNE2100.LDI           11557         9-27-96      4:41:46 pm
+    ETHERTSM.NLM           11926          7-3-96      7:53:56 am
+     FDDITSM.NLM           11625          7-3-96      7:57:54 am
+     NE1500T.LAN            7614          9-9-96      4:19:24 pm
+     NE1500T.LDI            2657         2-14-96     11:15:04 am
+         NE2.LAN            5225          4-1-96      9:31:32 am
+         NE2.LDI            3396         2-14-96     11:25:24 am
+      NE2000.LAN            8007          6-5-96      3:07:42 pm
+      NE2000.LDI           12206          5-3-96      9:54:26 am
+      NE2100.LAN            7612          9-9-96      4:00:00 pm
+      NE2100.LDI            2627         2-14-96     11:15:06 am
+      NE2_32.LAN            5275          4-1-96      9:38:32 am
+      NE2_32.LDI            3518         2-14-96     11:26:32 am
+      NE3200.LAN           15281         6-13-96      2:56:54 pm
+      NE3200.LDI            5724          2-1-96     12:24:22 pm
+     NE3200P.LAN           15792         6-13-96      2:57:10 pm
+     NE3200P.LDI            5750          5-7-96     12:04:30 pm
+     NTR2000.LAN           11548          9-9-96      3:20:20 pm
+     NTR2000.LDI           11182         6-25-96      2:27:08 pm
+    TOKENTSM.NLM           12140          7-3-96      7:56:40 am
+..\33SPEC\312\
+      MSM31X.NLM           52877         8-22-96      6:12:56 pm
+      NBI31X.NLM           31954         8-30-96      1:31:32 pm
+..\33SPEC\41X\
+         MSM.NLM           56649         8-22-96      6:12:38 pm
+         NBI.NLM           17028         8-30-96      1:31:12 pm
+
+
+Installation Instructions:
+
+With NetWare 4.10 LANDR9 can be installed using INSTALL.NLM as described in
+INSTALL.TXT.
+
+ To install the 3.20 Assembly ODI Spec. LAN Drivers and Support Modules, refer
+to 32SPEC.DOC in the 32SPEC subdirectory.
+
+ The 3.30 Assembly ODI Spec. LAN Drivers and Support Modules are for NetWare
+versions 3.12 and 4.1x only.  To manulaly install the 3.30 spec. LAN Drivers
+and Support Modules, rename the old LAN drivers and support modules.  Copy the
+LAN drivers and support modules from the 33SPEC subdirectory into the same area
+where the Lan Driver files reside and are loaded from on the file server.  The
+support modules are auto-loaded when the LAN Driver is loaded. 
+
+ The following NetWare 3.12 patch file must be installed on NetWare v3.12 
+prior to installing LANDR9.EXE:
+
+         312PTx.EXE   Where "x" is 8 or higher (312PT8.EXE or higher).  This
+file can be obtained from the following places:  Novell's ftp server at
+ftp.novell.com/pub/updates/nwos/nw312/, from the web at
+http://support.novell.com/search, and on compuserve.
+
+         (When NBI31X.NLM is loaded on NetWare v3.12 and the message "Warning:
+This version of NetWare does not support protectedmode BIOS accesses.  Without
+a loader patch some PCI drivers may fail." is displayed, the loader in
+312PTx.EXE needs to be applied.)
+
+ The following NetWare 4.10 patch files must be installed on NetWare v4.1 file
+servers prior to installing LANDR9.EXE:
+
+         410PTx.EXE   Where "x" is 6 or higher (410PT6.EXE or higher).  This
+file can be obtained from the following places:  Novell's ftp server at
+ftp.novell.com/pub/updates/nwos/nw410/, from the web at
+http://support.novell.com/search, and on compuserve.
+
+
+ -----------------------------------------------------------------
+ Any trademarks referenced in this document are the property of their
+respective owners.  Consult your product manuals for complete trademark
+information.
+ -----------------------------------------------------------------
+

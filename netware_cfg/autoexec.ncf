@@ -1,0 +1,50 @@
+REM This is the AUTOEXEC.NCF used to create an RPL server, with
+REM annonations. It's meant as an example, and was more or less
+REM used as is for creating https://youtu.be/F8hrQA7vvfE
+
+REM Basic NetWare Server Stuff
+REM You should change the fileserver name and IPX net numbers
+
+file server name ODYSSEY_II
+ipx internal net FEEDFACE
+mount all
+
+REM Network Driver Stuff
+REM 
+REM If you're doing this in a VM, having the PCNet Drivers are a huge help
+REM I've included the package files in this repo in nw_drivers, but this
+REM part will vary based on your setup. Note that the initial load is
+REM for ETHERNET_II frame type.
+REM
+REM IPX frames are really annoying as networks on different frame types
+REM can't see each other, and most IPX stuff for Ethernet defaults to
+REM ETHERNET_II. However, RPL needs to be on 802.2. The solution to
+REM this is loading the driver and binding it multiple times. This
+REM requires a really ugly syntax to do since you need to specify
+REM the port, int, and frame type multiple times. See below
+
+REM MSM31X is a support package for some add-on drivers, it
+REM only has to be loaded once
+
+load c:\server.312\msm31x
+load c:\server.312\pcntnw slot=2 frame=ETHERNET_II
+
+REM Optional, but NW4-IDLE (which works on 3.12) will stop your
+REM CPU from being pegged at 100%
+
+load C:\server.312\nw4-IDLE
+
+REM First BIND line. This setups ETHERNET_II frames
+bind ipx to pcntnw [port=d020 int=9 frame=ETHERNET_II] net=DEADBEEF
+
+REM Now we need to load the driver again, and bind it. We also need to load
+REM RPL
+
+load c:\server.312\pcntnw slot=2 frame=ETHERNET_802.2
+load RPL
+bind ipx to pcntnw [port=d020 int=9 frame=ETHERNET_802.2] net=DEAD2
+bind rpl to pcntnw [port=d020 int=9 frame=ETHERNET_802.2] net=DEAD2
+
+REM finally, enable remote admin. Change password to password
+load remote password
+load rspx

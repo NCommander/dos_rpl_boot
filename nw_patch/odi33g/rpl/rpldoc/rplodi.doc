@@ -1,0 +1,58 @@
+
+
+
+Subject: When & how to use RPLODI.COM
+
+
+*** RPLODI.COM is recommended only for Novell IPX Remote Boot Proms
+    and only when loading LSL.COM, NE2000.COM (OR OTHER MLID),
+    IPXODI.COM, and NETX or VLMS from the boot image file.  Reason:
+    Novell IPX Remote Boot proms are burned-in with dedicated IPX
+    code and expects dedicated IPX drivers to load from NET$DOS.sys.
+    Instead, when ODI drivers load from the NET$DOS.sys the boot
+    prom code cannot communicate to the ODI modules as they begin
+    to load and take control.  Therefore, RPLODI.com provides the
+    needed code to allow the dedicated IPX boot prom code to 
+    effectively communicate with the ODI drivers while they load.
+
+*** RPLODI.COM is not recommended for Novell Enhanced Boot (RPL) Proms
+    or with IBM RPL Proms even when loading ODI drivers at the client.
+
+
+HOW TO DETERMINE THE TYPE OF PROM YOU HAVE:
+
+NOVELL IPX REMOTE BOOT PROM:  At initialization, the Novell IPX Remote 
+Boot Prom sends an IPX protocol "GET NEAREST SERVER" frame onto the wire.
+This "GET NEAREST SERVER" frame is positive identification that this
+prom is a Novell IPX Remote Boot Prom.  You can now use RPLODI.com.
+
+NOVELL ENHANCED REMOTE BOOT PROM:  At initialization, the Novell 
+Enhanced Remote Boot Prom sends an 802.2 protocol "FIND" frame onto
+the wire.  This "FIND" frame is positive identification that this 
+prom is a Novell Enhance Remote Boot Prom that uses the "FIND-FOUND"
+802.2 protocol to attach to a server and download a bootstrap file.
+Do NOT use RPLODI.com with this type of prom.  RBOOT.RPL already
+has the ability to deal with ODI drivers loading from boot images.
+
+IBM RPL PROM:  At initialization the IBM RPL Prom send an 802.2 
+protocol "FIND" frame onto the wire.  This "FIND" frame is positive
+identification that this prom uses the "FIND-FOUND" 802.2 protocol
+to attach to a server and download a bootstrap file.  Do NOT use
+RPLODI.com with this IBM RPL Prom.   RPLODI.com's intelligence has
+already been built into the following files: TOKEN.RPL, ETHER.RPL,
+PCN2L.RPL, F1ETH.RPL, RBOOT.RPL. 
+
+For Novell IPX Remote Boot Proms, rplodi.com is implemented as shown in the
+following AUTOEXEC.BAT -- the load order is very important -- RPLODI.COM
+must load immediately after LSL.COM:
+
+AUTOEXEC.BAT
+     LSL
+     RPLODI
+     NE2000
+     IPXODI
+     NETX
+
+The above autoexec.bat must be dosgened into the NET$DOS.SYS file.
+
+

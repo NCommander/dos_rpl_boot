@@ -1,0 +1,217 @@
+31XCONFG.TXT
+Technical Information Document (TID) # 2926242
+
+
+II. Configuring IPX6.X on NetWare 3.1x
+======================================
+
+IMPORTANT: This is strictly a command based configuration.  The
+configuration utility, INETCFG, does not ship with native NetWare 3.11
+and 3.12; therefore, only the command based configuration is documented below.
+
+Sample configurations of the changes to make to your AUTOEXEC.NCF file are
+also provided following the explanations.
+
+If you are doing load balancing, refer to 3BALANCE.TXT.
+
+Loading Files
+-------------
+This section presents the minimum set of LOAD commands required to enable
+or disable IPX routing on a NetWare server.  Make certain you load all
+required NLMs before binding IPX to any network interface.
+
+The following NLMs represent the minimum set required for NLSP operation: 
+
+IPXRTR.NLM 
+IPX protocol stack that contains the NLSP and RIP/SAP routing software.
+
+IPXSTACK.NLM 
+Patch that provides the NetWare 4 loadable router interface for NetWare 3. 
+
+All other required NLMs will be loaded automatically by these files.
+
+IMPORTANT: A third NLM, IPXRTRNM, provides the Simple Network Management
+Protocol (SNMP) instrumentation for IPX, NLSP, RIP, and SAP Management
+Information Base (MIB) variables.  IPXRTRNM allows you to monitor the
+server from a remote location using the IPX network management console
+(IPXCON) or other SNMP management systems.  Although IPXRTRNM is not
+required for NLSP operation, Novell recommends that you load it as part of
+the server configuration.  Note that IPXRTRNM automatically loads SNMP.NLM
+and CLIB.NLM; make sure the server has enough memory to run these
+additional NLMs.
+
+About IPXRTR
+IPXRTR contains the NLSP and RIP/SAP routing software.  The LOAD IPXRTR 
+command supports the ROUTING parameter, with which you can specify the
+following options: 
+
+ROUTING=NLSP 
+enables NLSP routing (with RIP/SAP compatibility).  If IPXRTR detects RIP
+routers on the network, it automatically runs RIP/SAP in addition to NLSP. 
+Refer to 3BALANCE.TXT for the specific commands to configure load
+balancing. 
+
+ROUTING=RIPSAP 
+enables RIP/SAP routing, the default setting.  In this case, IPXRTR
+operates like a typical RIP/SAP router. 
+
+ROUTING=NONE 
+disables all IPX routing on the server.
+
+IMPORTANT: As a normal part of its operation, a NetWare server forwards IPX
+packets between its network interfaces.  With ROUTING=NONE enabled, the
+server still performs its duties as a server, but broadcasts only its own
+services and internal network number - not those associated with its
+network interfaces.  (A server operating in this way is sometimes called a
+multihomed server.)  Use ROUTING=NONE only if you do not want the server to
+forward packets between its interfaces.  Also, do not use ROUTING=NONE in a
+network running only NLSP.
+
+Loading IPXRTR without specifying one of these options enables RIP/SAP
+routing by default.  
+
+By default, NLSP broadcasts its packets on an IPX network.  NLSP uses
+broadcast as its default transmission mode because some LAN drivers do not
+properly support packet multicast. You can, however, configure NLSP to use
+multicast transmission.  For this purpose, the LOAD IPXRTR command supports
+the MCAST parameter, with which you can specify the following options: 
+
+MCAST=YES 
+enables NLSP packet multicast on the server. 
+
+MCAST=NO
+the default option, enables NLSP packet broadcast on the server.  
+
+Loading IPXRTR without the MCAST parameter specifies broadcast transmission
+by default. 
+
+NOTE: IPXRTR detects the NLSP packet transmission mode of other systems on
+the LAN.  Even if you load IPXRTR with MCAST=YES, IPXRTR automatically
+reverts to broadcast if it discovers another system using broadcast.
+
+LOAD Commands Required on a NetWare 3.12 Server
+----------------------------------------------- 
+To run IPX6.X, on a NetWare 3 server, add the following lines to the
+server's AUTOEXEC.NCF (before the BIND IPX statements): 
+
+LOAD IPXSTACK 
+LOAD IPXRTR 
+LOAD IPXRTRNM (Recommended but not required)
+
+Without the ROUTING parameter, the LOAD IPXRTR command enables only RIP/SAP
+routing.  To enable NLSP routing, replace the above LOAD IPXRTR command as
+follows:
+
+LOAD IPXRTR ROUTING=NLSP 
+
+
+Binding IPX to a Network Interface
+----------------------------------
+The command for binding IPX to a network interface is: 
+          BIND IPX boardname NET=network_number <Enter> 
+
+The variable boardname is the name of the network interface board
+associated with the LAN driver; network_number is the external network
+number of the IPX network to which the interface is connected. 
+
+You can override the routing default you specify in the LOAD IPXRTR command
+by adding one of the following options to the BIND command line: 
+
+RIP=YES | NO | AUTO 
+SAP=YES | NO | AUTO
+NLSP=YES| NO
+
+NOTE: You cannot, however, enable NLSP on an interface after you have
+disabled NLSP routing from the LOAD IPXRTR command. 
+
+These options have the following meaning: 
+- YES enables RIP, SAP, or NLSP routing on the network interface. 
+- NO disables RIP, SAP, or NLSP routing on the network interface. 
+- AUTO accepts and broadcasts RIP or SAP packets only if non - NLSP
+devices, such as NetWare 2 servers, are operating on the network. 
+
+IMPORTANT: Specific BIND command lines are required for interfaces
+connected to networks running UnixWare, OS/2 Named Pipes, and NetWare/IP. 
+For configuration instructions, see the "IPX Upgrade for NetWare Servers
+1.1 NLSP Migration Guide".
+
+SAMPLE CONFIGURATIONS
+---------------------
+
+This section provides sample configurations for IPX Upgrade for NetWare
+Servers.  Each sample shows the commands you add to the server AUTOEXEC.NCF
+file.
+
+RIP/SAP Routing on a NetWare 3.12 Server
+----------------------------------------
+
+This sample configuration eanbles RIP/SAP routing on a NetWare 3.12 server. 
+This is the most basic configuration, which replaces the standard RIP/SAP
+operation with that provided by IPX Upgrade for NetWare Servers, but adds
+server and network monitoring capability:
+
+LOAD IPXSTACK
+LOAD IPXRTR
+LOAD IPXRTRNM
+#Load and bind LAN board
+LOAD NE3200 SLOT=3 FRAME=ETHERNET_II NAME=ORDER_ENTRY_NET
+BIND IPX ORDER_ENTRY_NET NET=C9971223
+
+NLSP Routing on a NetWare 3.12 Server
+-------------------------------------
+
+In addition to enabling NLSP routing on a NetWare 3.12 server, this sample
+configuration loads IPXRTRNM to provide server and network monitoring
+capability:
+
+LOAD IPXSTACK 
+LOAD IPXRTR ROUTING=NLSP 
+LOAD IPXRTRNM 
+#Load and bind LAN board 
+LOAD NE3200 SLOT=3 FRAME=ETHERNET_II NAME=ORDER_ENTRY_NET 
+BIND IPX ORDER_ENTRY_NET NET=C9971223
+
+IPX Routing Disabled on a NetWare 3.12 Server
+---------------------------------------------
+
+This sample configuration disables IPX routing on a NetWare 3.12 server.
+Disabling IPX routing makes more computing resources available for NetWare
+file and print services. This is useful when you already have a dedicated
+IPX router on the network
+
+The AUTOEXEC.NCF file on the file server looks like this:
+
+LOAD IPXSTACK
+#ROUTING=NONE disables all IPX routing
+LOAD IPXRTR ROUTING=NONE
+LOAD IPXRTRNM
+#Load and bind LAN boards
+LOAD NE3200 SLOT=3 FRAME=ETHERNET_II NAME=ORDER_ENTRY_NET
+BIND IPX ORDER_ENTRY_NET NET=C9971223
+LOAD NE2000 SLOT=4 FRAME=ETHERNET_SNAP NAME=MANUFACTURING_NET
+BIND IPX MANUFACTURING_NET NET=C997F13A
+
+
+LSP Size Parameter
+------------------
+
+Note:  NetWare 3.12 and 3.11 servers do not have a 
+SYS:ETC\NLSP.CFG file installed, by default.  The LSP Size can be
+increased/decreased in this file.  With IPXRTR v6.60, when a NLSP.CFG
+file does not exist, the LSP Size default is 1024.   (In versions
+prior to IPXRTR v6.5, the LSP Size default was 512.)
+
+
+ACTIVATING THE CONFIGURATION 
+----------------------------
+To activate the configuration, bring down and then restart the server.
+
+
+
+
+
+-----------------------------------------------------------------
+Any trademarks referenced in this document are the property of their
+respective owners.  Consult your product manuals for complete trademark
+information.
+----------------------------------------------------------------- 

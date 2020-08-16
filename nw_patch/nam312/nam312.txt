@@ -1,0 +1,143 @@
+NOVELL TECHNICAL INFORMATION DOCUMENT
+
+TITLE:  NAM312.exe - MAC.NAM, OS2.NAM for NW 3.1x
+README FOR:  NAM312.EXE
+
+NOVELL PRODUCTS and VERSIONS:
+NetWare for Macintosh 3.011
+NetWare for Macintosh 3.12
+NetWare 3.11
+NetWare 3.12
+
+ABSTRACT:
+
+This file contains updated MAC and OS/2 name spaces for NetWare 3.11 & 3.12.
+
+
+ -----------------------------------------------------------------
+ DISCLAIMER
+ THE ORIGIN OF THIS INFORMATION MAY BE INTERNAL OR EXTERNAL TO NOVELL.  NOVELL
+MAKES EVERY EFFORT WITHIN ITS MEANS TO VERIFY THIS INFORMATION.  HOWEVER, THE
+INFORMATION PROVIDED IN THIS DOCUMENT IS FOR YOUR INFORMATION ONLY.  NOVELL
+MAKES NO EXPLICIT OR IMPLIED CLAIMS TO THE VALIDITY OF THIS INFORMATION.
+ -----------------------------------------------------------------
+
+
+ISSUE: 
+
+   These name space modules resolve an issue which can result in a NetWare 3.1x
+server ABEND LockDirectoryEntry called with entry already locked. They also
+include several other fixes, see the end of the installation instructions for a
+complete listing of changes. 
+    Because of significant changes in how directory entry information is
+created/handled by the NetWare file system with these updated modules. Novell
+Technical Support recommends that the affected volumes be backed up, recreated,
+add the new name spaces, and then restore the data to the recreated volumes. 
+If this procedure is not followed you may see one or more of the following
+errors when the volumes mount:  "Duplicate Name", "There is a problem in the
+name space", "Invalid HPFS name space name....." "Invalid character". The cause
+of these errors are usually related to situations were a volume has mac name
+space along with os2 and/or nfs name space added. On these volumes there is
+likely a directory or file name that is longer than 31 characters in length, 
+see #1 of the mac.nam changes. 
+
+
+Self-Extracting File Name: nam312.exe
+
+Files Included     Size     Date      Time
+
+..\
+      NAM312.TXT     (This file)
+         MAC.NAM           15134         7-29-96      7:35:54 pm
+         OS2.NAM           16855         7-29-96      7:54:20 pm
+       V_MAC.NLM            5153         9-26-95      5:02:30 pm
+
+
+Installation Instructions:
+
+1) Backup all volumes, verify the backup.
+
+ 2) Update the following files in the SYS:SYSTEM directory:
+   MAC.NAM
+   OS2.NAM
+
+ 3) Update the following files in the server's DOS boot directory:
+   MAC.NAM
+   OS2.NAM
+ This can be done either by using the "Transfer Files" option in Rconsole, or
+by downing the server and copying the files.
+
+ 4) At this point it is possible, although not recommended, to avoid
+re-creating the volumes. This can be done by restarting the server to load the
+new name spaces and trying to mount the volumes.  If the volumes will not
+mount, then load and run VREPAIR, with the inclosed v_mac.nlm, on all volumes
+with mac name space.  If the volumes still can not be mounted it is necessary
+to recreate the volumes.
+
+ 5) Delete the affected volumes.
+
+ 6) Down and restart the file server to load the new *.NAM modules.
+
+ 7) Create the volumes and add the appropriate name spaces.
+
+ 8) Restore the data to the volumes.
+
+ _________________________________________________________
+
+ MAC Name space for v3.12 changes:
+
+ 1)  FIXED bug where the mac name space should truncate names longer than 31
+instead of 32.  The mac only supports 31 characters. (5-23-95)
+
+ 2)  FIXED where MacGenerateUniqueName was missed when doing the
+MaximumMacNameLength fix. (8-29-95)
+
+
+ OS/2 Name space for v3.12 changes:
+
+ 1)  FIXED a problem with handling Double byte characters when generating MAC
+unique names. (1-20-94)
+
+ 2)  FIXED When the OS2.NAM module is loaded and the OS2 Namespace is added to
+the SYS volume, an OS/2 Client logged in as Supervisor is able to look into the
+SYS:_NetWare directory.  The supervisor users able to change / delete / copy
+files from this dir. (7-29-94)
+
+ 3)  FIXED double byte. (10-4-94)
+
+ 4)  FIXED the GenerateUniqueName routine to allow spaces. (11-13-95)
+
+ 5)  FIXED the DOSValidationTable to be marked after coping it from the OS,
+with the extra characters OS2 allows. (11-22-95)
+
+ 6)  FIXED When creating the japanese wide chars p-y, and then creating the
+wide numbers 0-9, one will delete the number.  It is impossible to create all
+20 files.  Only one or the other will exist.  There is a one to one
+correlation. Wide P does not exist with wide zero, etc... (12-14-95)
+
+ 7)  FIXED Several places were allowing bad characters in the name field.
+(2-7-96)
+
+ 8)  FIXED a problem in generate unique name, where we started checking for
+trailing spaces 1 postion beyond the end of the name. (4-22-96)
+
+ 9)  FIXED When attempting to rename an 8 character directory name to a 7
+character name in the OS2 name space when it fails. (5-22-96)
+
+ 10)  FIXED the name space to allow a ; or = to be used in a name. (6-18-96)
+
+ 11)  MAKE sure the " character is valid always (7-15-96)
+
+ 12)  FIXED a problem in OS2WildSearachDirectory, where the DOS entry was not
+locked before going to sleep. (7-28-96)
+
+
+
+
+
+ -----------------------------------------------------------------
+ Any trademarks referenced in this document are the property of their
+respective owners.  Consult your product manuals for complete trademark
+information.
+ -----------------------------------------------------------------
+

@@ -1,0 +1,93 @@
+
+
+
+This RPLFIX.DOC file accompanies RPLFIX.COM within the NOVELL RPL KIT.
+
+RPLFIX is used to allow workstations to remote program load (RPL) properly
+with MS DOS 5.x and above.  This utility must be run after the boot image file
+(usually NET$DOS.SYS) has been created using the DOSGEN utility.  RPLFIX will
+directly modify the boot image file; the boot image file's size and last
+modified date will be different after RPLFIX has been run.  RPLFIX only needs
+to be run against the boot image file once.  Attempts to run RPLFIX against an
+already modified boot image file are detected by the utility, and no further
+modifications will be made to the boot image file.
+
+Follow the instructions for DOSGEN (setting up remote reset workstations)
+in the Novell reference manuals.  For NetWare v2.x, this information can be
+found in Chapter 9 of the "Supervisor Guide", or Chapter 2 of the "Using the
+Network" manual.  For NetWare v3.x, this information is found in Appendix D
+of the Installation manual.  After performing all steps as outlined in the
+appropriate manual to create the boot image file, run RPLFIX.COM.
+
+The remote workstation will likely hang during the reset process if you are
+resetting using DOS 5.x or above and the boot image file has not been modified
+by RPLFIX.
+
+RPLFIX can be found on the WSGEN diskette, or in the WSGEN subdirectory if you
+are installing using a network drive.  After you have located RPLFIX.COM, map
+a drive to the LOGIN subdirectory on the file server you wish to remote reset
+from.  The DOSGEN procedure instructed you to create a boot image file in that
+subdirectory (usually named NET$DOS.SYS). If the drive you mapped to SYS:LOGIN
+was drive F, then you would enter the following:
+
+       RPLFIX F:NET$DOS.SYS <ENTER>
+
+RPLFIX only needs to be run if the version of DOS loaded on the floppy disk
+used with DOSGEN is 5.x or greater.  Earlier versions of DOS do not require
+that this utility be run.
+
+NOTE:  If you renamed your boot image file, then you must use the new filename
+      with RPLFIX:
+
+           RPLFIX [d:]<boot image file> <ENTER>
+
+where  [d:] is the drive letter where the image file is located, and <boot
+	image file> is the name of the file created with the DOSGEN utility.
+
+
+
+***********************************************************************
+When to use RPLFIX.COM.
+***********************************************************************
+
+This is to clarify when and how to use rplfix.com.  
+The name "rplfix.com" is misleading -- it is not for IBM RPL proms, nor
+is it for Novell Enhanced Remote Boot (RPL-STYLE) proms.
+
+When using DOS v5.0 or higher with Novell IPX Remote Boot proms, 
+workstations will hang as command.com is loading.  The way to recognize this
+is that the autoexec.bat file will not execute --not even the first line of
+the autoexec.  The config.sys files will all load fine, because they load 
+before command.com loads.   If no autoexec.bat is present, then the 
+workstation will hang just before an A: prompt is presented on the 
+workstation screen.   The A: prompt will never appear and the workstation 
+will hang.
+
+Solution:  Use rplfix.com only with Novell Remote Boot Proms where the 
+boot image (net$dos.sys) has DOS 5.0 or higher.  Do not use rplfix.com 
+with IBM RPL proms.  Rplfix awareness is already built-into the following
+files:  token.rpl, ether.rpl, pcn2l.rpl, f1eth.rpl, rboot.rpl.  
+Do not use etherrpl.nlm or tokenrpl.nlm, etc., that ships 
+with NetWare v3.11.
+
+REASON FOR RPLFIX.COM:  Rplfix.com's purpose in life is to enhance 
+Novell Boot Prom code while it sits in ram below 640k.  This fix keeps 
+DOS 5.0's command.com from loading on top of the boot prom code in ram 
+and killing the remote boot process.  This is because DOS 5.0 command.com
+is much larger than in previous versions and it over-wrote Novell's
+boot prom code when command.com loaded.
+
+If using a Novell Remote Boot Prom, rplfix is needed.  Dosgen the 
+net$dos.sys file and run rplfix against net$dos.sys with the following 
+syntax:
+
+RPLFIX F:NET$DOS.SYS <enter>
+
+
+Note:  Rplfix.com and rplodi.com are both included in the NOVELL
+RPL KIT.  
+
+
+
+
+

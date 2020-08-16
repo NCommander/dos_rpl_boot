@@ -1,0 +1,141 @@
+;This ADF file is compatable only with the programmed I/O version
+; of the NE/2 which is the production version
+
+AdapterID 07154h
+
+AdapterName  "NetWare NE/2 NIC"
+
+NumBytes 1
+
+
+nameditem
+        Prompt  "I/O, EPROM"
+
+
+;Selections with boot ROM enabled
+
+     Choice "1000H-102FH, 0C8000H-0C9FFFH"
+
+          pos[0]=XXX0001Xb
+          io 1000h-102fh
+          mem 0C8000H-0C9FFFH
+          
+     Choice "2020H-204FH, 0CA000H-0CBFFFH"
+
+          pos[0]=XXX0010Xb
+          io 2020H-204FH
+          mem 0CA000H-0CBFFFH
+
+     Choice "8020H-804FH, 0CC000H-0CDFFFH"
+
+          pos[0]=XXX0011Xb
+          io 8020H-804FH 
+          mem 0CC000H-0CDFFFH
+
+     Choice "0A0A0H-0A0CFh, 0CE000H-0CFFFFH"
+
+          pos[0]=XXX0100Xb
+          io 0A0A0h-0A0CFh
+          mem 0CE000H-0CFFFFH
+
+     Choice "0B0B0H-0B0DFh, 0D0000H-0D1FFFH"
+
+          pos[0]=XXX0101Xb
+          io 0B0B0H-0B0DFh
+          mem 0D0000H-0D1FFFH
+
+
+     Choice "0C0C0H-0C0EFh, 0D2000H-0D3FFFH"
+
+          pos[0]=XXX0110Xb
+          io 0C0C0h-0C0EFh
+          mem 0D2000H-0D3FFFH
+
+     Choice "0C3D0H-0C3FFh, 0D4000H-0D5FFFH"
+
+          pos[0]=XXX0111Xb
+          io 0C3D0h-0C3FFh
+          mem 0D4000H-0D5FFFH
+
+
+
+
+;Selections with boot ROM disabled
+
+     Choice "1000H-102FH, DISABLED"
+
+          pos[0]=XXX1001Xb
+          io 1000h-102fh
+          
+     Choice "2020H-204FH, DISABLED"
+
+          pos[0]=XXX1010Xb
+          io 2020H-204FH
+
+     Choice "8020H-804FH, DISABLED"
+
+          pos[0]=XXX1011Xb
+          io 8020H-804FH 
+
+     Choice "0A0A0H-0A0CFh, DISABLED"
+
+          pos[0]=XXX1100Xb
+          io 0A0A0h-0A0CFh
+
+     Choice "0B0B0H-0B0DFh, DISABLED"
+
+          pos[0]=XXX1101Xb
+          io 0B0B0H-0B0DFh
+
+     Choice "0C0C0H-0C0EFh, DISABLED"
+
+          pos[0]=XXX1110Xb
+          io 0C0C0h-0C0EFh
+
+     Choice "0C3D0H-0C3FFh, DISABLED"
+
+          pos[0]=XXX1111Xb
+          io 0C3D0h-0C3FFh
+
+
+Help
+
+"The I/O address range shown are the addresses at which the adapter
+will decode for the adapter's control and data i/o.  
+
+The EPROM address block is decoded for the use of a remote
+boot EPROM.  This optionn may be disabled."
+
+
+
+
+nameditem
+        Prompt  "Interrupt level"
+
+     Choice "IRQ 3"
+
+     pos[0]=X00XXXXXb
+     int 3
+
+     Choice "IRQ 4"
+     pos[0]=X01XXXXXb
+     int 4
+
+     Choice "IRQ 5"
+     pos[0]=X10XXXXXb
+     int 5
+
+     Choice "IRQ 9"
+     pos[0]=X11XXXXXb
+     int 9
+
+
+Help
+
+"The IRQ selection assigns which interrupt
+request line the lan adapter will use to
+signal the microprocessor via the interrupt
+controller."
+
+
+

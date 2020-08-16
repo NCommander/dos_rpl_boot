@@ -1,0 +1,262 @@
+4BAL_SFT.TXT
+Technical Information Document (TID) # 2917684
+
+Load Balancing on a local LAN with 4.1 SFT III servers
+------------------------------------------------------
+These instructions are for a 4.1 SFT III server.  See the file 4BALANCE.TXT
+for instructions on how to enable local load balancing on a 4.1 server
+that is not running SFT III.
+
+         
+          _______                             Client A     _______ 
+         |      | NIC1________IPX Network 123___| ________|       |      
+         | File |                                         |       |      
+         |      |                                         |       |
+         |      | NIC2____IPX Network 123_________________|       | 
+         |Server|                                         |       |
+         |      |                                         |       |
+         | IO1  |                                         |       | 
+         |______|                                         | Switch|
+                                                          |       |                                     
+         _______                                          |       |                                   
+         |      | NIC1________IPX Network 123_____________|       |      
+         | File |                                         |       |      
+         |      |                                         |       |
+         |      | NIC2____IPX Network 123_________________|       | 
+         |Server|                                         |       |
+         |      |                                         |       |
+         | IO2  |                                         |_______| 
+         |______|                               
+                                               
+Scenario: 
+You have 2 or more, network cards bound to the same IPX network number
+(address) to different ports in the same switch.  You can get more
+bandwidth from this LAN with Load Balancing.
+ 
+How do I enable Load Balancing on the local LAN? 
+
+The configuration can be done on a server with or without INETCFG;
+therefore follow the steps in section A if you DO NOT use INETCFG, 
+and follow the steps in section B if you DO use INETCFG.
+This information is also written up in TID2917684. Check the WWW or 
+Compuserve or Novell Support Connection CD for the latest update of 
+these instructions.
+
+
+A. Configuring Local Load Balancing on a 4.1 SFT III without INETCFG
+--------------------------------------------------------------------
+
+1. Enable NLSP on each I/O engine.
+
+To do this, edit the .NCF that you use to load and bind the LAN drivers 
+and add the following statements BEFORE IPX is bound to the LAN drivers:
+
+LOAD IPXRTR ROUTING=NLSP CFGDIR=SYS:ETC\IO1
+LOAD IPXRTRNM
+
+Remember to do this on each I/O engine.
+NOTE:  Do not load IPXRTR.NLM on the MS engine.  It is not supported at 
+this time.
+
+
+Example .NCF file:
+.................................................................
+LOAD CPQ2ETH NAME=CPQ2ETH_11_E82 FRAME=Ethernet_802.2 port=6000 
+LOAD CPQ2ETH NAME=CPQ2ETH_12_E82 FRAME=Ethernet_802.2 port=6020 
+
+LOAD IPXRTR ROUTING=NLSP CFGDIR=SYS:ETC\IO1
+LOAD IPXRTRNM
+
+BIND IPX CPQ2ETH_11_E83 net=10
+BIND IPX CPQ2ETH_12_E83 net=10
+
+SET LOAD BALANCE LOCAL LAN = ON
+
+load conlog file=SYS:ETC\IO1\console.log
+load btrvstub
+load brouter
+load snmp config=SYS:ETC\IO1
+
+unload conlog
+.................................................................
+
+
+2. Run the command SET LOAD BALANCE LOCAL LAN = ON on each I/O engine, after 
+IPXRTR has been loaded (in .NCF files on each I/O engine is fine).
+
+ 
+3. Set "Maximum Number of Path Splits to 8 on each I/O engine:
+To do this add the following statements in SYS:ETC\IO1\NLSP.CFG and
+SYS:ETC\IO2\NLSP.CFG:
+
+       { GLOBAL
+         MaxPaths=8;
+       }
+
+NOTE: If { GLOBAL
+         }
+already exists, insert the following line in between the braces
+as above:  
+
+MaxPaths=8;  
+
+
+
+B. Configuring Local Load Balancing on a 4.1 SFT III with INETCFG
+-----------------------------------------------------------------
+
+1. Enable NLSP on each I/O engine by adding the following two lines
+to the SYS:ETC\IO1\INITSYS.NCF and SYS:ETC\IO2\INITSYS.NCF files.  
+Read the following paragraph for details.
+
+LOAD IPXRTR ROUTING=NLSP CFGDIR=SYS:ETC\IO1 
+LOAD IPXRTRNM
+
+Typically you enable NLSP routing in the Protocols->IPX section of INETCFG;
+however, on an SFT III server IPX needs to be loaded and bound to an 
+interface card BEFORE the INTIALIZE SYSTEM command (which executes the 
+information entered in INETCFG).  A common file to enable NLSP is the 
+SYS:ETC\IO1\INITSYS.NCF and SYS:ETC\IO2\INITSYS.NCF files.  Below is an 
+example file; the 3rd line is how NLSP is enabled with IPXRTR.NLM.
+The 4th line, LOAD IPXRTRNM, adds SNMP instrumentation for
+IPX, NLSP and RIP/SAP MIB variables; it is recommended but not required.
+
+.................................................................
+LOAD CPQ2ETH NAME=CPQ2ETH_11_E82 FRAME=Ethernet_802.2 port=6000 
+LOAD CPQ2ETH NAME=CPQ2ETH_12_E82 FRAME=Ethernet_802.2 port=6020 
+
+LOAD IPXRTR ROUTING=NLSP CFGDIR=SYS:ETC\IO1 
+LOAD IPXRTRNM
+
+BIND IPX CPQ2ETH_11_E83 net=15
+BIND IPX CPQ2ETH_12_E83 net=16 
+
+SET LOAD BALANCE LOCAL LAN = ON
+
+load conlog file=SYS:ETC\IO1\console.log
+load btrvstub
+load brouter
+load snmp config=SYS:ETC\IO1
+initialize system
+unload conlog
+.................................................................
+
+NOTE:  Although this file INITSYS.NCF has a warning statement to not edit
+the file; it is OK to edit the INITSYS.NCF.   HOWEVER, it is not okay to
+edit the NETINFO.CFG files; the WARNING in the NETINFO.CFG MUST be
+adhered to.
+
+NOTE2:  Do not enable Advanced IPX (or load IPXRTR.NLM) on the MS engine.  
+It is not supported at this time.
+
+NOTE3:  This example INITSYS.NCF file example above includes the loading 
+of both LAN drivers. You need to load at least ONE LAN driver before the 
+INITIALIZE SYSTEM command. You can load the other LAN driver in INETCFG, 
+and it will be loaded when the INITIALIZE SYSTEM command is run.
+
+
+2. Run the command SET LOAD BALANCE LOCAL LAN = ON on each I/O engine, 
+after IPXRTR has been loaded (in the SYS:ETC\IOx\INITSYS.NCF files is fine).
+
+ 
+3. Set "Maximum Number of Path Splits to 8, in the INETCFG->Protocols->IPX->
+Expert Configuration Options of INETCFG on each I/O engine.
+If this field is not editable, make sure the Routing Protocol is set to 
+'NLSP with RIP/SAP compatiblity' on the INETCFG->Protocols->IPX screen.
+
+ 
+B. How do I check that it's working? 
+1. Load DEVMON.NLM and compare the packets TRANSMITTED from each of the cards 
+bound to the same IPX network number.  The number of packets should be more 
+or less equal, although one will be slightly higher, as the server sends 
+all non-broadcast NLSP packets onto an IPX network through just one card.  
+Remember, the server has no control over how packets are received - you 
+may have only one client attached and it will be sending all data to one 
+card in the server.
+(DEVMON.NLM allows you to displays LAN and MSL statistics on 4.1 SFT III; 
+DEVMON.EXE is available in the NSD section of NetWire and FTP.NOVELL.COM.)
+  
+2. With Load Balancing turned on, the server should only be sending one RIP
+to the Specific Route Requests it receives.  You can check this in a
+LANalyzer trace or with TRACK ON. 
+ 
+ 
+C. What is the server doing differently that enables Load Balancing?
+ 
+1. IPX NCP packets and Specific Route Response packets, destined for the
+local LAN, will be sent from the NICs in a round robin fashion.  The NLSP
+MaxPathSplits parameter tells IPXRTR how many duplicate, equal cost paths,
+to store in its forwarding table.  When IPXRTR has a packet to send to
+network 123, it looks in the forwarding table and uses the equal cost paths
+to that network in a round robin.  (ie. This time the packet goes out NIC
+1, next time NIC 2, NIC 3 and back to NIC 1, etc.)
+ 
+2.  The server will only send one response for Specific Route RIP Requests.
+
+When NetWare clients try to reach an IPX service, for the first time, they
+broadcast a Specific Route Request for the IPX network number, where that
+service resides (this is sometimes called a Get Local Target RIP Request). 
+Because it is broadcast, this packet is received on all NICs bound to that
+LAN.  Instead of responding through each NIC, IPXRTR will send only one RIP
+response and that response will be part of the round robin for packets to
+that LAN.
+       
+NetWare clients cache the MAC address provided in the RIP response, and
+use it to reach that particular IPX network, until they lose the
+connection.  In the context of Load Balancing, clients receive RIP
+responses from random cards in the server (they are part of the round robin
+of packets coming from the server), and this should help balance the
+incoming load to the server.  Note that you may not see a well balanced
+incoming load to a server with just a few clients - they all could be
+sending to the same card in the server, and one could be sending a lot more
+data than others.  Over time and with more clients, the incoming load
+should become more balanced over the NICs.
+ 
+D. Does this work for both RIP/SAP and NLSP? 
+No, only NLSP, but that shouldn't cause any problems on your network
+because NLSP is RIP/SAP compatible.
+ 
+E. Why do you need to load IPXRTR and enable NLSP routing for Load
+Balancing on the local LAN, when there are no routers in the picture?
+  
+The server will build and use a Forwarding Table with duplicate equal cost
+routes - that results in the outgoing packets being balanced between the
+NICs.  This is what NLSP allows.  Even when a packet is only going to the
+local segment, IPXRTR needs to look in the Forwarding Table to find the
+Next Hop to that segment.  Also, IPXRTR needs to see incoming Specific
+Route Requests so that it knows to send only one response.  
+Basically, IPXRTR should be handling all IPX packets coming and going from
+the server, there is no logic for this in the old IPX routing software.
+ 
+F. Will this Load Balancing effect the other segments the server is
+attached to?
+ 
+No, since those other segments have different IPX network numbers, they
+will have different entries in the Forwarding Table and not be effected
+by what's happening on your load balanced segment.  If, however, you have
+doubled up the cards on several segments, the SET LOAD BALANCE LOCAL
+LAN=ON will enable Load Balancing on all segments; there's no way to
+balance on just one of those IPX networks.  It's either all or none.
+ 
+ 
+G. Is it safe to do Load Balancing in a bridged token ring segment? 
+ 
+Sometimes, but be careful!  In the scenario below it is safe to bind the
+two NICs to the same IPX number.  HOWEVER, if you turn on Load Balancing,
+sometimes the server will be sending packets to Client 2 out of NIC 1,
+through the bridge.  This probably isn't what you want.  What you probably
+want, is all traffic between Server and Client 2 to go through NIC2. 
+Without Load Balancing, the server will respond to Specific RIP Requests
+out of both NICs, and the Client2 will use the one it receives first - very
+likely one out of NIC2.
+
+DO NOT LOAD BALANCE IN THIS SCENARIO: 
+            |                                        | 
+   LAN abc  |_________NIC 1--Server--NIC 2___________|   LAN abc 
+            |                                        | 
+            |                                        | 
+Client 1--- |                                        |-----Client 2 
+            |                                        | 
+            |_____________Bridge_____________________| 
+            |                                        | 
+            |                                        | 

@@ -1,0 +1,170 @@
+Installing and Setting the IBM Token-Ring 16/4 Busmaster Server Adapter/A
+
+The IBM Token-Ring 16/4 Busmaster Server Adapter/A is functionally different
+from the IBM Token-Ring 16/4 Adapter/A in two ways:
+
+þ    Busmaster capability
+
+Busmastering allows the IBM Token-Ring Network 16/4 Busmaster Server Adapter/A
+to transfer between the network and the server's memory without the aid of the
+server's CPU.  The server's CPU can then process other network tasks more
+quickly than it otherwise could.
+
+þ    Downloadable microcode
+
+Downloading microcode allows you to upgrade the IBM Token-Ring Network 16/4
+Busmaster Server Adapter/A's firmware without replacing any chips on the
+adapter.  FIRMLOAD.COM (supplied by Novell) allows you to download the
+firmware (supplied by IBM) to the adapter.
+
+Before you install this adapter in a 3.1x server, you should have designed
+your network and assembled the necessary hardware.  If you have any questions
+about Token-Ring hardware or network layout, see the Novell IBM Token-Ring
+Network Supplement manual for further information.
+
+For information concerning installation and configuration of the 16/4
+Busmaster card, please refer to the IBM Token-Ring Network 16/4 Busmaster
+Server Adapter/A Installation and Testing Instructions that accompany the
+adapter.  Additional information concerning the following setable parameters
+can be found in the "change configuration" selection in the Reference program:
+
+þ    Data rate
+
+The default data rate for the adapter is 4 Mbps. The other valid data rate is
+16 Mbps.
+
+Important:  You must set all IBM Token-Ring 16/4 adapters on a ring to use the
+same data rate (either 16 Mbps or 4 Mbps).  Failure to do so will cause
+network errors.
+
+þ    Interrupt level
+
+The default is Interrupt 2.
+
+Other valid levels include interrupts 3, 4, 5, 7, 10, 11, and 12.
+
+þ    I/O address
+
+The default I/O address is 86A0-86AF.
+
+Each valid address consists of a 16-byte block of RAM within the Micro Channel
+machine.  There are seven additional valid I/O addresses:  96A0, A6A0, B6A0,
+C6A0, D6A0, E6A0, and F6A0.
+
+Ensure each adapter installed in the machine has a unique I/O address.
+
+þ    Arbitration level
+
+The default arbitration level is E.
+
+Other valid arbitration levels are 0, 1, 2, 3, 5, 6, 7, 8, 9, A, B, C, and D.
+
+Each busmaster adapter requires a unique arbitration level for negotiating
+with other busmaster adapters within the same machine for control of the
+microchannel bus.
+
+þ    Fairness
+
+The default is to operate with fairness ON.
+
+The other valid option is to operate with fairness OFF.
+
+Fairness determines how a Micro Channel busmaster adapter negotiates with
+other busmaster adapters within the same machine for control of the
+microchannel bus.
+
+For more information about arbitration and fairness, read the IBM publication,
+PS/2 Hardware Technical Reference.
+
+þ    Bus release
+
+The default is "Maximum."
+
+The other valid setting is "Immediately."
+
+The bus release setting determines how long a Micro Channel busmaster adapter
+has to relinquish the bus when another adapter preempts it during a DMA
+operation.
+
+A setting of "Immediately" causes the adapter to relinquish control of the
+Micro Channel bus upon receiving the preempt signal.
+
+A setting of "Maximum" allows the adapter time to finish critical DMA
+operations, resulting in better overall performance.
+
+þ    Early Token Release (ETR)
+
+When the data rate is 16 Mbps, the default is to operate with ETR.
+
+The other valid option is NO ETR.
+
+Operation with ETR is not valid for Token-Rings with a data rate of 4 Mbps.
+
+ETR can increase network performance by causing the adapter to release the
+token immediately upon deencapsulating the data packet, rather than after it
+has successfully transferred the deencapsulated data to the next higher
+network protocol.
+
+DOWNLOADING the Microcode
+
+IMPORTANT
+The Microcode must be downloaded to the Busmaster Server Adapter/A each time
+the machine is powered up.  This can be accomplished manually (from the
+command line) or can be automated in a batch file.
+
+The IBM Token-Ring 16/4 Busmaster Server Adapter/A requires microcode that is
+not resident on the adapter.  The microcode is contained in two files included
+on the adapter's option diskette (supplied by IBM):
+
+þ    MONT400.BIN
+
+þ    WRTRAM.BIN
+
+To download MONT400.BIN and WRTRAM.BIN to the adapter, you must use
+FIRMLOAD.COM, a utility supplied by Novell.
+
+When you have located these three files (including FIRMLOAD.COM), complete the
+following steps:
+
+1.   Copy the MONT400.BIN, WRTRAM.BIN, and FIRMLOAD.COM files to the same
+diskette (or to the same directory).
+
+2.   Change to drive or directory that contains MONT400.BIN, WRTRAM.BIN, and
+FIRMLOAD.COM.
+
+3.   Type the following:
+
+          FIRMLOAD  <Enter>
+
+     A message similar to the following appears:
+
+     MESSAGE
+
+  Novell Token-Ring DownLoad Utility for IBM DMA Bus Master
+  v1.00 (901129)(C) Copyright 1990 Novell Inc.  All Rights
+  Reserved.
+
+  IBM Token-Ring DMA Bus Master FOUND in Slot 2;
+  Data Rate = 04 Mbps
+  DMA Level = 0E;  Interrupt Level=02
+  Node Address = 1000 5A4F 00AE;    Port = 86A0
+
+  IBM Token-Ring DMA Bus Master DownLoad SUCCESSFUL
+
+            IMPORTANT
+  Applies to NetWare 3.11 only
+
+The loader portion of SERVER.EXE will need to be modified to properly load the
+new TOKENDMA.LAN driver.  To make this change in SERVER.EXE, you need to use
+XLOAD.EXE and LDR001.PTF.  Novell recommends patching SERVER.EXE on NetWare
+3.11 servers except NetWare  SFT III 3.11.  NetWare 3.12 does not require the
+new loader because it is built into SERVER.EXE.
+
+For more information about XLOAD and LDR001, read XLOAD.DOC and LDR001.DOC. 
+XLOAD should always be applied when using interrupts 2 and 9 on Micro Channel
+bus machines.
+-----------------------------------------------------------------
+Any trademarks referenced in this document are the property of their
+respective owners.  Consult your product manuals for complete trademark
+information.
+-----------------------------------------------------------------

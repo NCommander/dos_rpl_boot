@@ -1,0 +1,333 @@
+Patch History:
+
+landr6.exe contained the following files:
+
+Files Included     Size     Date      Time
+
+..\
+      LANDR6.TXT     (This file)
+    ETHERTSM.NLM            9425         4-18-95     11:04:26 am
+     FDDITSM.NLM            8914         3-14-95      2:39:12 pm
+    FIRMLOAD.COM            1628          1-4-91      8:57:38 am
+     HISTORY.DOC           13113         6-13-96      2:23:04 pm
+      NE1000.LAN            4472         3-28-94      8:28:04 am
+     NE1500T.LAN            7500        11-23-94      3:59:52 pm
+         NE2.LAN            5034        11-23-94      3:53:52 pm
+      NE2000.LAN            7382        11-23-94      3:56:28 pm
+      NE2100.LAN            7498        11-23-94      4:00:00 pm
+      NE2_32.LAN            5090         3-28-94      8:48:10 am
+      NE3200.LAN           14237         6-30-94      8:04:40 am
+     NE32HUB.LAN           12266         1-27-93      9:11:10 am
+     NTR2000.LAN           11399        11-23-94      1:49:44 pm
+       PCN2L.LAN            4726         1-29-93      8:45:04 pm
+    PCN2LTSM.NLM            5691         1-30-93     11:32:22 am
+    RXNETTSM.NLM            6321         9-26-94     10:46:54 am
+       STATS.DOC           63446         10-6-93      3:55:10 pm
+    TOKENDMA.DOC            6203         4-11-96     11:20:34 am
+    TOKENDMA.LAN           10861         5-26-93      3:16:54 pm
+    TOKENTSM.NLM            9457         3-14-95      2:39:44 pm
+      TRXNET.LAN            3075          1-7-93      1:23:28 pm
+..\31X\
+      MSM31X.NLM           21308        11-23-94     11:41:38 am
+..\31X\311\
+      LSLENH.NLM           11645        12-21-94     12:17:28 pm
+    PATCHMAN.NLM           15591         1-22-96     11:22:52 am
+..\410\
+         MSM.NLM           20252        11-23-94     11:41:26 am
+..\CONFIG\
+    !NVL0701.CFG            2745          9-2-92      1:25:30 pm
+    !NVL0901.CFG            8293         10-4-90     10:42:34 am
+    !NVL1201.CFG            7378         3-26-92      9:08:46 am
+    !NVL1301.CFG            1169         3-12-92      2:28:50 pm
+    !NVL1401.CFG             986         6-10-92      4:02:08 pm
+    !NVL1501.CFG           11994         1-11-93      3:24:22 pm
+       @7151.ADF            2346         7-26-89      5:08:06 pm
+       @7154.ADF            2657         4-27-92      1:54:54 pm
+
+The following changes and updates have been made to LANDR6.EXE since
+LANDR5.EXE:
+
+The only change from LANDR5.EXE to LANDR6.EXE is that LSLENH.NLM and
+PATCHMAN.NLM for NetWare 3.11 was added.  This was done because LSLENH.NLM is
+no longer available in the NetWare 3.11 file server patch kit.
+
+
+
+landr5.exe contained the following files:
+
+Files Included     Size     Date      Time
+
+..\
+      LANDR5.TXT     (This file)
+    ETHERTSM.NLM            9425         4-18-95     11:04:26 am
+     FDDITSM.NLM            8914         3-14-95      2:39:12 pm
+    FIRMLOAD.COM            1628          1-4-91      8:57:38 am
+     HISTORY.DOC           10101         4-11-96     11:11:16 am
+      NE1000.LAN            4472         3-28-94      8:28:04 am
+     NE1500T.LAN            7500        11-23-94      3:59:52 pm
+         NE2.LAN            5034        11-23-94      3:53:52 pm
+      NE2000.LAN            7382        11-23-94      3:56:28 pm
+      NE2100.LAN            7498        11-23-94      4:00:00 pm
+      NE2_32.LAN            5090         3-28-94      8:48:10 am
+      NE3200.LAN           14237         6-30-94      8:04:40 am
+     NE32HUB.LAN           12266         1-27-93      9:11:10 am
+     NTR2000.LAN           11399        11-23-94      1:49:44 pm
+       PCN2L.LAN            4726         1-29-93      8:45:04 pm
+    PCN2LTSM.NLM            5691         1-30-93     11:32:22 am
+    RXNETTSM.NLM            6321         9-26-94     10:46:54 am
+       STATS.DOC           63446         10-6-93      3:55:10 pm
+    TOKENDMA.DOC            6203         4-11-96     11:20:34 am
+    TOKENDMA.LAN           10861         5-26-93      3:16:54 pm
+    TOKENTSM.NLM            9457         3-14-95      2:39:44 pm
+      TRXNET.LAN            3075          1-7-93      1:23:28 pm
+..\31X\
+      MSM31X.NLM           21308        11-23-94     11:41:38 am
+..\410\
+         MSM.NLM           20252        11-23-94     11:41:26 am
+..\CONFIG\
+    !NVL0701.CFG            2745          9-2-92      1:25:30 pm
+    !NVL0901.CFG            8293         10-4-90     10:42:34 am
+    !NVL1201.CFG            7378         3-26-92      9:08:46 am
+    !NVL1301.CFG            1169         3-12-92      2:28:50 pm
+    !NVL1401.CFG             986         6-10-92      4:02:08 pm
+    !NVL1501.CFG           11994         1-11-93      3:24:22 pm
+       @7151.ADF            2346         7-26-89      5:08:06 pm
+       @7154.ADF            2657         4-27-92      1:54:54 pm
+
+
+The following changes and updates have been made to LANDR5.EXE since
+LANDR4.EXE:
+
+ File server patches that are contained in other file server patch files were
+removed.  The installation instructions list what patches are needed for what
+versions of NetWare and where the patches can be found.
+
+ ETHERTSM.NLM, FDDITSM.NLM, and TOKENTSM.NLM were updated. These files fixed a
+problem where the RCONSOLE utility was not displaying server names.
+
+ TOKEN.LAN was removed.  IBM now owns and distributes this file.  NTR2000.LAN
+is Novell's equivalent driver.  Any adapter that will run using TOKEN.LAN will
+also run using NTR2000.LAN.
+
+ Some files in LANDR4.EXE were older than the corresponding files that shipped
+with NetWare v4.10.  These files were updated to the current release.
+
+
+
+LANDR4.EXE contained the following files:
+
+     MSM.NLM      20252   11-23-94   11:41a
+     NE2.LAN       5034   11-23-94    3:53p
+   @7151.ADF       2346   07-26-89    5:08p
+   @7154.ADF       2657   04-27-92    1:54p
+   PCN2L.LAN       4726   01-29-93    8:45p
+   STATS.DOC      63446   10-06-93    3:55p
+   TOKEN.LAN      10125   06-07-93    1:29p
+   XLOAD.DOC       3472   07-06-92   11:00a
+   XLOAD.EXE      13872   08-06-91    4:47p
+  IOSHIM.NLM       1649   06-09-93    9:50a
+  LDR001.DOC       3200   07-06-92   11:00a
+  LDR001.PTF      52920   11-06-91    4:55p
+  LSLENH.NLM      11641   11-16-92    8:29a
+  MSM31X.NLM      21308   11-23-94   11:41a
+  NE2_32.LAN       5066   05-12-93    4:03p
+  NE1000.LAN       4468   01-20-93    3:18p
+  NE2000.LAN       7382   11-23-94    3:56p
+  NE2100.LAN       7224   09-24-93    4:25p
+  NE3200.LAN      13811   10-08-93   10:51a
+  TRXNET.LAN       3075   01-07-93    1:23p
+ FDDITSM.NLM       9050   11-23-94   11:38a
+ LSLENH3.NLM      10500   06-02-93   11:34a
+ MONITOR.NLM     117775   10-26-92    9:21a
+ NE32HUB.LAN      12266   01-27-93    9:11a
+ NE1500T.LAN       7500   11-23-94    3:59p
+ NTR2000.LAN      11399   11-23-94    1:49p
+ PM311IO.NLM       8384   04-13-93   11:28a
+!NVL0701.CFG       2745   09-02-92    1:25p
+!NVL0901.CFG       8293   10-04-90   10:42a
+!NVL1201.CFG       7378   03-26-92    9:08a
+!NVL1301.CFG       1169   03-12-92    2:28p
+!NVL1401.CFG        986   06-10-92    4:02p
+!NVL1501.CFG      11994   01-11-93    3:24p
+ETHERTSM.NLM       9362   11-29-94    3:34p
+FIRMLOAD.COM       1628   01-04-91    8:57a
+PATCHMAN.NLM       9296   03-24-94   10:28a
+PCN2LTSM.NLM       5691   01-30-93   11:32a
+RXNETTSM.NLM       6202   01-06-93   10:04a
+TOKENDMA.LAN      10861   05-26-93    3:16p
+TOKENTSM.NLM       9493   11-23-94   11:55a
+
+LANDR4.EXE drivers included the following enhancements:
+
+1.   ETHERTSM.NLM, TOKENTSM.NLM, and FDDITSM.NLM have been fixed to not
+receive data from unregistered multi-cast addresses.
+
+2.   ETHERTSM.NLM, TOKENTSM.NLM, and FDDITSM.NLM have been fixed to prevent
+and invalid TCBFragStrucPtr from abending the server.  This would occur when
+using 4.1 drivers with Lanalyzer Agent or using the drivers with any pre-scan
+stack with "ECB aware" adapters (xxxxxxxxx)
+
+3.   Previous NTR2000.LAN driver would disable its interrupt line when the TR
+cable was disconnected.  The interrupt line is now enabled after the cable has
+been disconnected then reconnected.
+
+4.   Previous NTR2000.LAN driver would continuously reset the adapter when in
+beaconing mode, causing the adapter to remain in the beaconing condition.  The
+driver has been modified to not reset the adapter, thus not perpetuating the
+beaconing condition.
+
+5.   The NE2000 driver would allow conditions where an invalid Adapter
+DataSpace pointer could ABEND the server.  This has been fixed.
+
+6.   The NE15_21, NE2000, and NE2 drivers have minor bugs fixed to allow use
+of derivative drivers on Unix platforms.
+
+
+LANDR3.EXE contained the following files:
+
+     STATS.DOC                63446   10-06-93    3:55p
+     ETHERTSM.NLM       8841   09-28-93    2:41p
+     TOKENTSM.NLM      9040   09-30-93    3:30p
+     FDDITSM.NLM          7847   07-07-93    5:07p
+     MSM.NLM                  15628   10-04-93    1.03p
+     MSM31X.NLM           16483   10-04-93    1:04p
+     NE2000.LAN               7356   10-08-93   10:47a
+     NE2100.LAN               7224   09-24-93    4:25p
+     NE1500T.LAN            7226   09-24-93    4:25p
+     TOKEN.LAN              10125   06-07-93    1:29p
+     TOKENDMA.LAN     10861   05-26-93    3:16p
+     RXNETTSM.NLM      6202   01-06-93   10:04a
+     PCN2LTSM.NLM       5691   01-30-93   11:32a
+     NE1000.LAN               4468   01-20-93    3:18p
+     PM311IO.NLM           8384   04-13-93   11:28a
+     LSLENH3.NLM          10500   06-02-93   11:34a
+     IOSHIM.NLM             1649   06-09-93    9:50a
+     NTR2000.LAN            10272   09-13-93    2:23p
+     TRXNET.LAN            3075   01-07-93    1:23p
+     PCN2L.LAN                4726   01-29-93    8:45p
+     LSLENH.NLM            11641   11-16-92    8:29a
+     PATCHMAN.NLM     9632   02-04-93   10:38a
+     MONITOR.NLM         117775   10-26-92    9:21a
+     !NVL1201.CFG           7378   03-26-92    9:08a
+     NE2.LAN                     4954   10-08-93   10:44a
+     NE2_32.LAN               5066   05-12-93    4:03p
+     NE3200.LAN               13811   10-08-93   10:51a
+     NE32HUB.LAN          12266   01-27-93    9:11a
+     @7151.ADF                2346   07-26-89    5:08p
+     !NVL0701.CFG           2745   09-02-92    1:25p
+     !NVL1301.CFG           1169   03-12-92    2:28p
+     !NVL1401.CFG           986   06-10-92    4:02p
+     !NVL1501.CFG           11994   01-11-93    3:24p
+     !NVL0901.CFG           8293   10-04-90   10:42a
+     FIRMLOAD.COM      1628   01-04-91    8:57a
+     @7154.ADF                2657   04-27-92    1:54p
+     XLOAD.EXE              13872   08-06-91    4:47p
+     XLOAD.DOC              3472   07-06-92   11:00a
+     LDR001.PTF               52920   11-06-91    4:55p
+     LDR001.DOC              3200   07-06-92   11:00a
+
+
+LANDR2.EXE drivers included the following enhancements:
+
+The default frame type for Ethernet drivers became Ethernet_802.2 rather than
+ethernet_802.3.  The ETHERTSM.NLM detected if the driver was being loaded on
+NetWare 3.11 and defaulted to Ethernet_802.3.  If the operating system wasn't
+NetWare 3.11,  the default frame type became Ethernet_802.2.
+
+Drivers were updated to the latest Novell 4.0 specification.
+
+NE2000.LAN was enhanced to use shared RAM for the NE2000+.
+
+NE2100.LAN has been enhanced to take advantage of the new PCNET ISA chip set
+from AMD.  This allowed the new clones that have this chipset to run faster.
+
+NE3200.LAN  had some performance enhancements.  This newer driver in
+combination with the newer .CFG file was more stable.  When using NE3200.LAN,
+Novell support recommended selecting EDGE TRIGGERED interrupts when running
+the EISA configuration and using the latest !NVL0701.CFG (DMA timing modified)
+file supplied in LANDRx.EXE.
+
+TOKEN.LAN was enhanced to use the FAST or QUICK path available on the IBM
+NASSAU II FRU #74F9415.  This increased performance over early TOKEN.LAN
+drivers using these boards in the file server.  If the driver didn't load with
+the IBM Token Ring adapter installed, it was because the card was one of the
+newer adapters from IBM that require the IBM-supplied driver (for example,
+TOKENBM.LAN).
+
+TOKENDMA.LAN - This driver was more reliable than previous drivers.  Because
+the adapter was busmastering and not 32-bit, the driver had to double buffer
+when writing above 16 MB of RAM.  The issue did not apply to servers with 16
+MB or less of RAM.
+
+TOKEN.LAN History
+
+  TOKEN.LAN v3.15 was used with Novell's Communications Server NLM on a
+NetWare 3.11 server.  It corrected lost connection problems when a workstation
+was attached to a host through the COM-Server.  It also corrected a problem
+that v3.13 (the version of the driver that currently ships with NetWare 3.11)
+had with ABEND: GENERAL PROTECTION PROCESSOR EXCEPTION (GPPE). This GPPE
+was
+caused by beaconing out on the ring.
+
+TOKEN.LAN fixed a problem not parsing the NODE override correctly.
+
+TOKEN.LAN v3.18 (920129)
+
+     TOKEN.LAN v3.18 provided the following corrective services:
+
+Priority bits usage was modified from priority-1 to priority-0.
+
+Transmit LSL-ECBs are returned back to the operating system if the ring is
+beaconing.  This allowed the TOKEN.LAN send queue to remain manageable until
+beaconing conditions on the ring were corrected.  The following error message
+was resolved with this new TOKEN.LAN file:
+
+MESSAGE
+
+     LAN receive buffer limit reached.  All buffers are in
+     use.  Possible causes are disk-channel bottleneck or
+     buffers lost.
+
+TOKEN.LAN v3.18 included an engineering change to work better with IBM
+Token-Ring 1988 firmware.  If running a PROTOCOL in addition to IPX, TOKEN.LAN
+assumed the 1988 IBM FIRMWARE transmitted frames in a particular order. 
+TOKEN.LAN was  changed so that it made no assumptions about the transmit
+order.
+
+TRXNET.LAN - This driver was tested only with the Novell RX-NET RX-NET/2
+boards.  It may or may not have worked with other cards or brands.  From a
+support standpoint third-party vendors should have provided their own drivers
+for their cards.
+
+PCN2L.LAN - History from PCN23X.EXE NetWare 3.11.  This file contained a
+revision of the NetWare 3.1x PCN2L.LAN file.  The PCN2L.LAN file fixed a
+Remote Program Load problem.  The problem occurred when booting a workstation,
+which received no response from the server, and the counter, located in the
+upper-right-hand corner of the workstation's screen, continued to increment.
+
+
+
+The server drivers originally provided in NE386.ZIP fixed the following:
+
+These versions were rewritten to use the Media Support Module (MSM). The MSM
+was the new tool (module) available to LAN driver developers from Novell to
+develop better LAN drivers.
+
+In some environments these new drivers could help solve communication
+problems.
+
+The file server could lock under a heavy load if it was a 486 machine and was
+using an NE2000 or an NE/2 network board. A race condition existed where the
+last remote DMA write cycle of the National Semiconductor DP8390 (on the
+network board) prematurely terminated by writing to the Command Register with
+bit "RD2" set before the remote DMA write cycle had completed.  These later
+versions of the drivers addressed the issue.
+
+On certain networks with high traffic the adapter would stop receiving.
+
+-----------------------------------------------------------------
+Any trademarks referenced in this document are the property of their
+respective owners.  Consult your product manuals for complete trademark
+information.
+-----------------------------------------------------------------
+

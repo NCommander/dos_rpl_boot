@@ -1,0 +1,84 @@
+#####################################
+#                                   #
+#     NetWare IPX Router Upgrade    #
+#                                   #
+#####################################
+
+@PRODUCT=IPXRTR, V6.60, IPX Upgrade For NetWare Servers, , MPRDINST IPXRTR
+@ReqSpace=2740000
+@SupportedOS=3.11^3.12^4.10^4.11^5.00
+
+#####################################
+#                                   #
+# NetWare IPX Router Upgrade Disk 1 #
+#                                   #                                                           
+#####################################
+
+@DISK=IPXSERV1, IPX Upgrade For NetWare Servers Disk 1
+
+system,         MPRDINST.NLM,               N, Y, N, N, N, N
+system\nls\4,   MPRDINST.MSG,               N, Y, N, N, N, Y, 3.12^4.10^4.11^5.00
+system,         ipx\tui.nlm,                N, Y, N, N, N, N
+system\nls\4,   ipx\nls4\tui.msg,           N, Y, N, N, N, Y, 3.12^4.10^4.11^5.00
+system,         ipx\icm_spx.nlm,            N, Y, N, N, N, N
+
+system,         ipx\ipxrtr.nlm,             N, Y, N, N, N, N
+system\nls\4,   ipx\nls4\ipxrtr.msg,        N, Y, N, N, N, Y, 3.12^4.10^4.11^5.00
+system,         ipx\ipxrtrnm.nlm,           N, Y, N, N, N, N
+system\nls\4,   ipx\nls4\ipxrtrnm.msg,      N, Y, N, N, N, Y, 3.12^4.10^4.11^5.00
+system,         ipx\ipxping.nlm,            N, Y, N, N, N, N
+system\nls\4,   ipx\nls4\ipxping.hlp,       N, Y, N, N, N, Y, 3.12^4.10^4.11^5.00
+system\nls\4,   ipx\nls4\ipxping.msg,       N, Y, N, N, N, Y, 3.12^4.10^4.11^5.00
+system,         ipx\ipxstack.nlm,           N, Y, N, N, N, N, 3.11^3.12
+system\nls\4,   ipx\nls4\ipxstack.msg,      N, Y, N, N, N, Y, 3.12
+system,         ipx\nlspauto.nlm,           N, Y, N, N, Y, N
+
+
+#####################################
+#                                   #
+# NetWare IPX Router Upgrade Disk 2 #
+#                                   #                                                           
+#####################################
+
+@DISK=IPXSERV2, IPX Upgrade For NetWare Servers Disk 2
+
+system,         ipx\ipxcon.nlm,             N, Y, N, N, N, N
+system\nls\4,   ipx\nls4\ipxcon.hlp,        N, Y, N, N, N, Y, 3.12^4.10^4.11^5.00
+system\nls\4,   ipx\nls4\ipxcon.msg,        N, Y, N, N, N, Y, 3.12^4.10^4.11^5.00
+
+#####################################
+#                                   #
+# NetWare IPX Router Upgrade Disk 3 #
+#                                   #                                                           
+#####################################
+
+@DISK=IPXSERV3, IPX Upgrade For NetWare Servers Disk 3
+
+system,         ipx\ipxcfg.nlm,             N, Y, N, N, N, N
+system\nls\4,   ipx\nls4\ipxcfg.hlp,        N, Y, N, N, N, Y, 3.12^4.10^4.11^5.00
+system\nls\4,   ipx\nls4\ipxcfg.msg,        N, Y, N, N, N, Y, 3.12^4.10^4.11^5.00
+system,         ipx\staticon.nlm,           N, Y, N, N, N, N
+system\nls\4,   ipx\nls4\staticon.hlp,      N, Y, N, N, N, Y, 3.12^4.10^4.11^5.00
+system\nls\4,   ipx\nls4\staticon.msg,      N, Y, N, N, N, Y, 3.12^4.10^4.11^5.00
+system,         ipx\ipxflt.nlm,             N, Y, N, N, N, N
+system\nls\4,   ipx\nls4\ipxflt.msg,        N, Y, N, N, N, Y, 3.12^4.10^4.11^5.00
+
+@REMOVE=SYS:\SYSTEM\ipxnlp.nlm
+@REMOVE=SYS:\SYSTEM\nls\4\ipxnlp.msg
+@REMOVE=SYS:\SYSTEM\nlspauto.nlm
+
+###############################################################################
+#------------------------------------------------------------------------------
+#
+#       (C) Copyright 1997 Novell, Inc.  All Rights Reserved.
+#
+# THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND
+# TREATIES.  NO PART OF THIS WORK MAY BE USED, PRACTICED, PERFORMED,
+# COPIED, DISTRIBUTED, REVISED, MODIFIED, TRANSLATED, ABRIDGED,
+# CONDENSED, EXPANDED, COLLECTED, COMPILED, LINKED, RECAST,
+# TRANSFORMED OR ADAPTED WITHOUT THE PRIOR WRITTEN CONSENT OF
+# NOVELL.  ANY USE OR EXPLOITATION OF THIS WORK WITHOUT AUTHORIZATION
+# COULD SUBJECT THE PERPETRATOR TO CRIMINAL AND CIVIL LIABILITY.
+#
+#------------------------------------------------------------------------------
+###############################################################################

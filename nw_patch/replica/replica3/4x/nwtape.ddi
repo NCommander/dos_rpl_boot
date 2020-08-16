@@ -1,0 +1,147 @@
+;;ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+;;บ File:     NWTAPE.DDI                                                   บ
+;;บ                                                                        บ
+;;บ Purpose:  Description and installation file for NWTAPE.CDM.            บ
+;;บ                                                                        บ
+;;บ Author:   Bob Lewis                                                    บ
+;;บ                                                                        บ
+;;บ Notice:   (C) Copyright 1989, 1996, 1997, 1998 Novell, Inc.            บ
+;;บ           All rights reserved.                                         บ
+;;บ                                                                        บ
+;;บ           This program is an unpublished, copyrighted work that is     บ
+;;บ           proprietary to Novell, Inc., and contains confidential       บ
+;;บ           information that is not to be reproduced or disclosed to any บ
+;;บ           other person or entity without prior written consent from    บ
+;;บ           Novell, Inc., in each and every instance.                    บ
+;;บ                                                                        บ
+;;บ           WARNING: Unauthorized reproduction of this program, as well  บ
+;;บ           as unauthorized preparation of derivative works based upon   บ
+;;บ           the program, or distribution of copies by sale, rental,      บ
+;;บ           lease, or lending, are violations of federal copyright laws  บ
+;;บ           and state trade secret laws, punishable by civil and         บ
+;;บ           criminal penalties.                                          บ
+;;ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+;DrIvEr DeScRiPtIoN
+Version: 1.00
+SyntaxVersion: 1.00
+Driver NWTAPE
+{
+    File:               NWTAPE.CDM
+
+    Par:                8.00
+
+    Description:        $NWTAPE_Description
+    Help:               $NWTAPE_Help
+
+    Prod:               'SCSI.01.*.*.*',
+                        'IDE.01.*.*'
+    ;@# SProd:          'Generic~SCSI Tape Drives',
+    ;@#                 'Generic~ATAPI Tape Drives'
+
+    ;@# Alias:          'TAPEDAI.DSK',
+    ;@#                 'SCSI2TP.CDM'
+}
+
+DLang:	 4 ; English (American)
+  $NWTAPE_Description =
+         "NWPA Compliant SCSI-2 and ATAPI Tape Device Driver."
+  $NWTAPE_Help =
+         "This driver supports a specific set of SCSI-2 and ATAPI tape
+         devices. It is dependent on the presence of a SCSI or ATAPI HAM
+         (Host Adapter Module). Under SFT III, NWTAPE.CDM must be loaded in
+         the MS Engine."
+
+Lang:	 1 ; Chinese (Simplified)
+  $NWTAPE_Description =
+         "NWPA Compliant SCSI-2 and ATAPI Tape Device Driver."
+  $NWTAPE_Help =
+         "This driver supports a specific set of SCSI-2 and ATAPI tape
+         devices. It is dependent on the presence of a SCSI or ATAPI HAM
+         (Host Adapter Module). Under SFT III, NWTAPE.CDM must be loaded in
+         the MS Engine."
+
+Lang:	 6 ; French (France)
+  $NWTAPE_Description =
+         "NWPA Compliant SCSI-2 and ATAPI Tape Device Driver."
+  $NWTAPE_Help =
+         "This driver supports a specific set of SCSI-2 and ATAPI tape
+         devices. It is dependent on the presence of a SCSI or ATAPI HAM
+         (Host Adapter Module). Under SFT III, NWTAPE.CDM must be loaded in
+         the MS Engine."
+
+Lang:	 7 ; German
+  $NWTAPE_Description =
+         "NWPA Compliant SCSI-2 and ATAPI Tape Device Driver."
+  $NWTAPE_Help =
+         "This driver supports a specific set of SCSI-2 and ATAPI tape
+         devices. It is dependent on the presence of a SCSI or ATAPI HAM
+         (Host Adapter Module). Under SFT III, NWTAPE.CDM must be loaded in
+         the MS Engine."
+
+Lang:	 8 ; Italian
+  $NWTAPE_Description =
+         "NWPA Compliant SCSI-2 and ATAPI Tape Device Driver."
+  $NWTAPE_Help =
+         "This driver supports a specific set of SCSI-2 and ATAPI tape
+         devices. It is dependent on the presence of a SCSI or ATAPI HAM
+         (Host Adapter Module). Under SFT III, NWTAPE.CDM must be loaded in
+         the MS Engine."
+
+Lang:	 9 ; Japanese
+  $NWTAPE_Description =
+         "NWPA Compliant SCSI-2 and ATAPI Tape Device Driver."
+  $NWTAPE_Help =
+         "This driver supports a specific set of SCSI-2 and ATAPI tape
+         devices. It is dependent on the presence of a SCSI or ATAPI HAM
+         (Host Adapter Module). Under SFT III, NWTAPE.CDM must be loaded in
+         the MS Engine."
+
+Lang:	10 ; Korean
+  $NWTAPE_Description =
+         "NWPA Compliant SCSI-2 and ATAPI Tape Device Driver."
+  $NWTAPE_Help =
+         "This driver supports a specific set of SCSI-2 and ATAPI tape
+         devices. It is dependent on the presence of a SCSI or ATAPI HAM
+         (Host Adapter Module). Under SFT III, NWTAPE.CDM must be loaded in
+         the MS Engine."
+
+Lang:	12 ; Portuguese (Brazil)
+  $NWTAPE_Description =
+         "NWPA Compliant SCSI-2 and ATAPI Tape Device Driver."
+  $NWTAPE_Help =
+         "This driver supports a specific set of SCSI-2 and ATAPI tape
+         devices. It is dependent on the presence of a SCSI or ATAPI HAM
+         (Host Adapter Module). Under SFT III, NWTAPE.CDM must be loaded in
+         the MS Engine."
+
+Lang:	13 ; Russian
+  $NWTAPE_Description =
+         "NWPA Compliant SCSI-2 and ATAPI Tape Device Driver."
+  $NWTAPE_Help =
+         "This driver supports a specific set of SCSI-2 and ATAPI tape
+         devices. It is dependent on the presence of a SCSI or ATAPI HAM
+         (Host Adapter Module). Under SFT III, NWTAPE.CDM must be loaded in
+         the MS Engine."
+
+Lang:	14 ; Spanish (Latin America)
+  $NWTAPE_Description =
+         "NWPA Compliant SCSI-2 and ATAPI Tape Device Driver."
+  $NWTAPE_Help =
+         "This driver supports a specific set of SCSI-2 and ATAPI tape
+         devices. It is dependent on the presence of a SCSI or ATAPI HAM
+         (Host Adapter Module). Under SFT III, NWTAPE.CDM must be loaded in
+         the MS Engine."
+
+Lang:	16 ; Chinese (traditional)
+  $NWTAPE_Description =
+         "NWPA Compliant SCSI-2 and ATAPI Tape Device Driver."
+  $NWTAPE_Help =
+         "This driver supports a specific set of SCSI-2 and ATAPI tape
+         devices. It is dependent on the presence of a SCSI or ATAPI HAM
+         (Host Adapter Module). Under SFT III, NWTAPE.CDM must be loaded in
+         the MS Engine."
+
+;DrIvEr DeScRiPtIoN EnD
+;;ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+;;บ End of NWTAPE.DDI                                                      บ
+;;ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ

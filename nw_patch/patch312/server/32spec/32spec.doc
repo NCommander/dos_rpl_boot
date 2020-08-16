@@ -1,0 +1,134 @@
+ABSTRACT:
+
+The 32SPEC directory contains the latest Novell LAN drivers and support 
+modules for the v3.20 ODI Assembly Specification.  This is the latest 
+ODI Assembly Specification that NetWare v3.11 and SFT III v3.11 will support.
+
+
+ -----------------------------------------------------------------
+ DISCLAIMER
+ THE ORIGIN OF THIS INFORMATION MAY BE INTERNAL OR EXTERNAL TO NOVELL.  NOVELL
+MAKES EVERY EFFORT WITHIN ITS MEANS TO VERIFY THIS INFORMATION.  HOWEVER, THE
+INFORMATION PROVIDED IN THIS DOCUMENT IS FOR YOUR INFORMATION ONLY.  NOVELL
+MAKES NO EXPLICIT OR IMPLIED CLAIMS TO THE VALIDITY OF THIS INFORMATION.
+ -----------------------------------------------------------------
+
+
+ISSUE: 
+
+The latest LAN Driver ODI Assembly Specification is 3.30.  However, NetWare
+v3.11 and NetWare SFT III v3.11 do not support the new specification. 
+The 32SPEC directory contains Novell drivers and support modules for the 
+LAN Driver ODI Assembly Specification v3.20.  The ODI Assembly Secification 
+v3.20 is supported on NetWare v3.11 and NetWare SFT III v3.11.  Also, most
+LAN drivers written to the LAN Driver ODI Assembly Specification v3.20 
+should work with the LAN Driver ODI Assembly Specification v3.30 support
+modules.  However, you may experience problems with some LAN drivers 
+written to the 3.20 specification running with support modules written to
+the 3.30 specification.  In this case, the support modules in the 32SPEC
+directory structure may be used on NetWare 3.12 and NetWare 4.10.
+
+
+Files Included     Size     Date      Time
+
+..\
+      32SPEC.DOC     (This file)
+    ETHERTSM.NLM            9425         4-18-95     11:04:26 am
+     FDDITSM.NLM            8914         3-14-95      2:39:12 pm
+    FIRMLOAD.COM            1628          1-4-91      8:57:38 am
+     HISTORY.DOC           15771         8-28-96     10:32:58 am
+      NE1000.LAN            4472         3-28-94      8:28:04 am
+     NE1500T.LAN            7500        11-23-94      3:59:52 pm
+         NE2.LAN            5034        11-23-94      3:53:52 pm
+      NE2000.LAN            7382        11-23-94      3:56:28 pm
+      NE2100.LAN            7498        11-23-94      4:00:00 pm
+      NE2_32.LAN            5090         3-28-94      8:48:10 am
+      NE3200.LAN           14237         6-30-94      8:04:40 am
+     NE32HUB.LAN           12266         1-27-93      9:11:10 am
+     NTR2000.LAN           11399        11-23-94      1:49:44 pm
+       PCN2L.LAN            4726         1-29-93      8:45:04 pm
+    PCN2LTSM.NLM            5691         1-30-93     11:32:22 am
+    RXNETTSM.NLM            6321         9-26-94     10:46:54 am
+       STATS.DOC           63446         10-6-93      3:55:10 pm
+    TOKENDMA.DOC            6203         4-11-96     11:20:34 am
+    TOKENDMA.LAN           10861         5-26-93      3:16:54 pm
+    TOKENTSM.NLM            9457         3-14-95      2:39:44 pm
+      TRXNET.LAN            3075          1-7-93      1:23:28 pm
+..\31X\
+      MSM31X.NLM           21308        11-23-94     11:41:38 am
+..\31X\311\
+      LSLENH.NLM           11645        12-21-94     12:17:28 pm
+    PATCHMAN.NLM           15591         1-22-96     11:22:52 am
+..\410\
+         MSM.NLM           20252        11-23-94     11:41:26 am
+..\CONFIG\
+    !NVL0701.CFG            2745          9-2-92      1:25:30 pm
+    !NVL0901.CFG            8293         10-4-90     10:42:34 am
+    !NVL1201.CFG            7378         3-26-92      9:08:46 am
+    !NVL1301.CFG            1169         3-12-92      2:28:50 pm
+    !NVL1401.CFG             986         6-10-92      4:02:08 pm
+    !NVL1501.CFG           11994         1-11-93      3:24:22 pm
+       @7151.ADF            2346         7-26-89      5:08:06 pm
+       @7154.ADF            2657         4-27-92      1:54:54 pm
+
+
+Installation Instructions:
+
+The files contained in the 32SPEC directory structure are primarily intended 
+for NetWare v3.11, and NetWare SFT III v3.11.  This is because the v3.20 ODI 
+Assembly Specification is the latest ODI Assembly Specification that NetWare 
+v3.11 and SFT III v3.11 will support.  The files in the 32SPEC directory 
+structure can also be use on NetWare v3.12, and NetWare v4.10 (including 
+SFT III v4.10).  There is a new v3.30 ODI Assembly Specification that can be 
+used on NetWare v3.12 and NetWare v4.10.  However, if you are using a LAN 
+driver that will not work with the v3.30 ODI Assembly Specification but 
+still need to use that LAN driver on NetWare v3.12 or 4.10, you can use the
+support modules in the 32SPEC directory structure.  
+
+Rename any LAN drivers and support modules that will be replaced by the 
+files in the 32SPEC directory structure.  Copy the new LAN drivers and 
+support modules in the same area where the LAN driver files reside on the 
+file server.
+
+ NOTE: For 3.1x versions of NetWare use MSM31X.NLM and not MSM.NLM.  For 4.10
+versions of NetWare use MSM.NLM and not MSM31X.NLM.
+
+ Configuration files (*.ADF and *.CFG) that are necessary to configure some of
+the hardware LAN adapters are contained in the CONFIG subdirectory.
+
+ The following files are necessary for NetWare v3.11 when using the files in
+the 32SPEC directory structure:
+
+      MONITOR.NLM v1.75 or higher.
+      (Currently v1.76 is contained in MON176.EXE.  If MONITOR.NLM that shipped
+with NetWare v3.11 is used the file server will ABEND when viewing LAN driver
+statistics.)
+     
+      LSLENH.NLM contained in the 32SPEC\31X\311 directory along with the 
+patch manager PATHCHMAN.NLM.
+      (This patch adds LSL enhancements to NetWare v3.11 and must be loaded
+prior to loading MSM31X.NLM.  MSM31X.NLM will not load on NetWare v3.11 unless
+LSLENH.NLM is loaded first.)
+
+      When using TOKENDMA.LAN on NetWare v3.11 the files contained  in
+XLD386.EXE are necessary.  See TOKENDMA.DOC for more details.
+
+ The following files are necessary for NetWare SFT III v3.11 when using the
+files in the 32SPEC directory structure:
+
+      LSLENH3.NLM contained in SFTPT1.EXE.
+      (This patch adds LSL enhancements to NetWare SFT III v3.11 and must be
+loaded prior to loading the files in MSM31X.NLM.  MSM31X.NLM will not load on
+NetWare SFT III v3.11 unless LSLENH3.NLM is loaded first.)
+
+      When using NE2000.LAN on NetWare SFT III v3.11 IOSHIM.NLM (Also contained
+in SFTPT1.EXE) must be loaded prior to loading LSLENH3.NLM.
+
+
+ -----------------------------------------------------------------
+ Any trademarks referenced in this document are the property of their
+respective owners.  Consult your product manuals for complete trademark
+information.
+ -----------------------------------------------------------------
+
+

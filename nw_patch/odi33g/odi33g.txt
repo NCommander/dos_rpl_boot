@@ -1,0 +1,558 @@
+NOVELL TECHNICAL INFORMATION DOCUMENT
+
+TITLE:  ODI v 3.3 update files (G)
+TID #:  2952834
+README FOR:  odi33g.exe
+
+SUPERSEDES:
+ODI33F.EXE
+
+NOVELL PRODUCTS and VERSIONS:
+NetWare 3.12
+NetWare 4.1
+NetWare 4.11
+NetWare 3.2
+NetWare 4.2
+
+ABSTRACT:
+
+This file contains the latest LAN ODI Specification Version  3.31 support
+modules (NBI, MSM, TSMs, etc.) for Novell NetWare file servers.
+ONLY Specification Version 3.2 is supported for NetWare 4.10.
+LAN drivers written by Novell are also included.
+(There are no third party LAN drivers included.)
+This new ODI spec adds support for Hot Plug PCI, and for 
+removing a single instance of a driver.
+NetWare for SAA users need to review the section titled 
+"Instructions for NetWare for SAA customers" in the Issue section.
+ 
+DO NOT USE ODI33G with:
+NetWare Connect 2.0 (or lower),
+MPR 3.0 (or lower), or 
+If NIAS v4.0 or MPR v3.1 is installed ODIWANx.EXE is also required.
+If support pack was installed on the server and there was no entry for MPR in
+the products.dat file you will need to reinstall MPR and then reinstall the
+support pack to get the MPR updates.
+
+
+-----------------------------------------------------------------
+DISCLAIMER
+THE ORIGIN OF THIS INFORMATION MAY BE INTERNAL OR EXTERNAL TO 
+NOVELL.  NOVELL MAKES ALL REASONABLE EFFORTS TO VERIFY THIS 
+INFORMATION.  HOWEVER, THE INFORMATION PROVIDED IN THIS DOCUMENT 
+IS FOR YOUR INFORMATION ONLY.  NOVELL MAKES NO EXPLICIT OR IMPLIED 
+CLAIMS TO THE VALIDITY OF THIS INFORMATION.
+-----------------------------------------------------------------
+
+
+INSTALLATION INSTRUCTIONS:
+
+****************************************************************
+  Note: This ODI update is for English only.
+****************************************************************
+
+Before installing, make sure the following items have been completed.
+
+410PTx.EXE (Where "x" is 6 or higher) must be installed on NetWare v4.10 file
+servers prior to installing ODI33G.EXE. Without this patch the following
+message may be displayed when NBI.NLM loads.
+
+"Warning: This version of NetWare does not support protected mode BIOS
+accesses. Without a loader patch some PCI drivers may fail."
+
+312PTx.EXE (Where "x" is 8 or higher) must be installed on NetWare v3.12 file
+servers prior to installing ODI33G.EXE.  Without this patch the following
+message may be displayed when NBI.NLM loads.
+
+"Warning: This version of NetWare does not support protected mode BIOS
+accesses. Without a loader patch some PCI drivers may fail."
+
+Note: If NIAS V4.0 or MPR V3.1 is installed, ODIWANx.EXE must also be install
+after ODI33G to update the WAN drivers for these products. The shipping
+versions of these products contain WAN drivers that will not load with the ODI
+3.31 Specification Version support files.
+
+Note: Do not install the ODI Specification Version 3.31 support files update
+kit on file servers that have NetWare Connect 2.0 (or lower), MPR 3.0 (or
+lower), or NetWare for SAA. The WAN drivers in these products will not load
+with the ODI Specification Version 3.31 support files. The install checks for
+these specific products, and the install will not allow the ODI Specification
+Version 3.31 support files update kit to be installed if they exist.
+
+Note: 32-bit LAN drivers written to the "C" spec v1.10 will not work with the
+current ODI Specification Version 3.31 support modules. There has been only one
+third party driver (CMDGODI.LAN 06/07/96 124292) certified to the "C" spec
+v1.10. If this driver is being used, do not update to the current ODI
+Specification Version 3.31 support modules until an updated driver from Madge
+written to the "C" Specification Version v1.11 is available to be used.  All of
+Novell's "C" Specification Version v1.10 LAN drivers have been updated to the
+"C" Specification Version v1.11, and are included.
+
+Note: CNE2100.LAN and CNE1500T.LAN will be replaced with CNEAMD.LAN. If you
+were using CNE2100.LAN or CNE1500T.LAN, the configuration file that loaded this
+driver will need to be changed to match the new name CNEAMD.LAN. On file
+servers this will be AUTOEXEC.NCF or INETCFG.NLM.
+
+Make a backup of LAN drivers and support modules (NBI, MSM, and TSMs). This is
+important in case third party LAN drivers have problems with the new ODI
+support modules. The 4.1x install puts the existing NBI, MSM, and TSMs in
+sys:system\oldlan. However, it was not possible to do this with the install
+script for 3.1x.
+
+=======================================================
+ODIKIT Installation Instructions on 4.1X/4.20 versions of NetWare using
+INSTALL.NLM.
+=======================================================
+
+Novell has provided an installation script to be used with INSTALL.NLM
+"Product Options".
+
+  This script file can be run in several ways:
+  1- From a local A: drive at the file server <Enter> or <F3>.
+  2- From a local drive at the client using Rconsole <F4>.
+  3- From a local volume at the file server <F3>, by specifying the path
+  including volume name..ie SYS:\.
+  4- From a different file server on the network <F3> by specifying full path
+  including server name..ie Server_Name\SYS:\.
+
+  NOTE: The fastest installation in order of performance is: option 3, option
+  4, option 2, option 1.
+ ________________________________________________________________
+     
+ Installation Instructions on 4.1X/4.20 versions of NetWare:
+
+    1) Extract ODI33G to a Network drive or a local hard drive according to
+the install option desired. All of the files in ODI33G will not fit onto a
+diskette. If you need to use a diskette to install; copy *.nlm and *.ips from
+the root of ODI33G, the "Server" directory structure and files from ODI33G,
+and the "RPL" directory structure and files from ODI33G onto a diskette.
+
+    2) Load Install at the file server.
+
+    3) Select "Product options".
+
+    4) Select "Install a product not listed".
+
+    5) Choose the install option (<F3>, <F4>, or <Enter>).
+
+    6) Enter the path to the location where ODI33G was extracted. If <Enter>
+    was used in the previous step, the root of A: at the file server is used.
+
+    7) At this point two file groups will be displayed.  Mark the file group
+    that is to be installed. Only one file group may be selected. The v3.2     
+Specification Version file group may not be installed on NetWare v4.11 or    
+v4.20.
+
+    8) Press <F10> to continue.
+
+Note:  The files copied to the dos partition on each IOEngine on SFT III File
+Servers will have the date of the machine when they were copied.
+
+========================================================
+ ODIKIT Installation Instructions on 3.1X/3.2 versions of NetWare
+ using INSTALL.NLM.
+========================================================
+
+ Note: This install procedure will install the ODI Specification Version 3.31
+support modules and LAN drivers on 3.12/3.2 file servers and the ODI
+Specification Version 3.20 support modules and LAN drivers on 3.11 file
+servers.  If you want the ODI Specification Version 3.20 support modules and
+LAN drivers on a 3.12/3.2 file server you will need to copy them manually.  See
+32SPEC.DOC in the server\32spec directory.
+________________________________________________________________
+
+Novell has provided PINSTALL.NLM to be used with INSTALL.NLM  "Product
+Options" to install .
+
+PINSTALL.NLM can be run in either of the following ways:
+  1- From a local A: Drive at the file server.
+  2- From a local volume at the file server, by specifying the path including
+volume name..ie SYS:\SERVER.
+ ________________________________________________________________
+     
+ Installation Instructions on 3.1X/3.2 versions of NetWare:
+
+    1) Extract ODI33G to a Network drive on the file server.  If you are     
+using diskettes to install ODI33G, you will need to format two diskettes. Label
+one diskette "SERVER" and the other "RPL" using the dos label      command. 
+Copy all of the files (including subdirectories and files) in the Server
+directory of ODI33G to the diskette labeled "SERVER".  Copy all of the files
+(including subdirectories and files) in the RPL directory of ODI33G to the
+diskette labeled "RPL".
+
+    2) Load Install at the file server.
+
+    3) Select "Product Options".
+
+    4) Press <Ins>.
+
+    5) Enter the path to the location of the "SERVER" directory where ODI33G
+    was extracted..ie SYS:\SERVER. 
+
+    6) Select "Install Product".
+
+    7) Press <Enter> and select "Yes" to start the installation.
+
+ 
+
+
+ISSUE: 
+
+This ODI update is for English only.
+
+Do not install the ODI Specification Version 3.31 support files update kit on
+file servers that have NetWare Connect 2.0 (or lower), MPR 3.0 (or lower), or
+NetWare for SAA.
+The WAN drivers in these products will not load with the ODI Specification
+Version 3.31 support files. The install checks for these specific products, and
+the install will not allow the ODI Specification Version 3.31 support files
+update kit to be installed if they exist.
+If NIAS V4.0 or MPR V3.1 is installed, ODIWANx.EXE must also be installed after
+ODI33G to update the WAN drivers for these products. The shipping versions of
+these products contain WAN drivers that will not load with the ODI
+Specification Version 3.31 support files.
+
+ODI33G contains updated ODI Specification Version 3.31/1.11 LAN drivers written
+by Novell, and updated ODI Specification Version 3.31 support modules (NBI,
+MSM, TSMs, etc.) for Novell file servers. 
+This file does not contain any third party LAN drivers. This ODI spec adds
+support for Hot Plug PCI, and for removing a single instance of a LAN driver.
+
+For details on the ODI spec and possible issues with third party HSM
+(Hardware Specific Module) LAN drivers, see the "HSM Specification Description
+and Issues Section" below.
+
+For syntax on removing a single instance of a LAN driver, see the "ODI
+Selective Unload User Interface Instructions" below.
+
+Details on changes to specific files are given in the "ODI Files Updates and
+Changes Section" below.
+
+Instructions for NetWare for SAA customers:
+
+These notes apply only to users of NetWare for SAA 3.0 and earlier installed
+on NetWare 4.11 or NW 4.2.  NetWare for SAA 4.0 includes these APARs.
+
+1) Any installed drivers must be ODI Specification Version 3.31 compatible. 
+This is only an issue for NW4.11 where the driver update option was not
+selected when installing SP6.
+
+2) All NWSAA customers with LLC8022.NLM version earlier than 6.04 must
+copy the LLC8022.NLM from the appropriate IBM APAR to the SYS:\SYSTEM
+directory.  IBM APAR JR12795 is for NWSAA 3.0, JR12979 for NWSAA 2.2,
+or JR12978 for NWSAA 2.0.
+
+3) Customers who are using NWSAA with SDLC, X.25 or Frame Relay
+should install the NIAS41 component included with NW4.2 or, in the case of
+NW4.11, SP6 and NIAS41. Then do the following:
+
+a) copy the SDLCTSM.NLM contained in the appropriate IBM APAR to SYS:\SYSTEM
+directory.
+Failure to copy the SDLCTSM.NLM BEFORE the server is restarted may cause the
+server to ABEND after the ODI Specification Version 3.31 support has been
+installed.
+
+b)  Do NOT copy the CSL.NLM dated 12-14-1994 from the IBM APAR
+
+c)  Those customers who are installing NWSAA v3.0 for the first time should
+install the NIAS41.EXE only after first installing the NWSAA v3.0
+software. Otherwise installing NWSAA v3.0 will downlevel the X.25 support
+modules.
+
+d)  If you are using Frame Relay
+then you also need to update the Frame Relay support modules. Download BOTH the
+NIAS41.EXE file and the NWSAAHPR.EXE file from support.novell.com to obtain the
+updated Frame Relay support modules that work with the ODI v3.31 drivers
+installed by Support Pack 6 (NW4.2 users just need the NWSAAHPR.EXE
+file.)
+
+****************************************************************
+  HSM Specification Description and Issues Section.
+****************************************************************
+
+There are two server HSM (Hardware Specific Module) specifications that LAN
+drivers can be written to. They are (1) the 32-bit Assembly HSM Specification
+Version , currently at v3.31, and (2) the 32-bit "C" HSM spec, currently at
+v1.11. If LAN drivers have been certified by Novell Labs, the Novell Labs test
+bulletin will list the HSM Specification Version that the driver was written
+to.
+
+The current ODI Specification Version 3.31 support modules (NBI, MSM, TSMs,
+etc.) in ODI33G that allow 32-bit LAN drivers to load on Novell file servers
+will support 32-bit LAN drivers written to the Assembly spec v3.31, Assembly
+spec v3.30, and "C" spec v1.11. Most 32-bit LAN drivers that are written to the
+Assembly 3.20 spec should run on the current ODI Specification Version
+3.31/1.11 support modules. 
+However, some Assembly 3.20 spec drivers may have problems. The ODI support
+modules that were written to support the Assembly 3.20 spec LAN drivers have
+been included for customers who currently have Assembly 3.20 spec LAN drivers
+that will not work with the current ODI Specification Version 3.31 support
+modules.
+
+The HSM "C" spec v1.10 was the first HSM "C" spec supported. The HSM "C" spec
+v1.10 was first available at the same time the Assembly HSM v3.30 spec was
+available. 32-bit LAN drivers written to the "C" spec v1.10 will not work with
+the current ODI Specification Version 3.31 support modules. There has been only
+one third party driver (CMDGODI.LAN 06/07/96 124292) certified to the "C" spec
+v1.10.  If this driver is being used, do not update to the current ODI
+Specification Version 3.31 support modules until an updated driver from Madge
+written to the "C" spec v1.11 is available to be used.  All of Novell's "C"
+spec v1.10 LAN drivers have been updated to the "C" spec v1.11, and are
+included.
+
+The ODI Specification Version 3.20 support modules and Assembly spec v3.20 LAN
+drivers have not been tested on and are not supported on NetWare file servers
+starting with v4.11. They can be tried, but the results are unknown.
+
+The latest ODI Specification Version support modules and LAN drivers that can
+be run on NetWare v3.12 and v3.2 are the ODI 3.31 support modules and Assembly
+spec v3.31 and "C" spec v1.11 LAN Drivers. However, LAN drivers written to the
+Assembly spec earlier than v3.31 must use the ODI Specification Version 3.20
+support modules and Assembly spec v3.20 LAN drivers written by Novell. They are
+included for NetWare v3.12
+and v3.2.
+
+****************************************************************
+  ODI Selective Unload User Interface Instructions.
+****************************************************************
+
+New Command Line Verbs and /or Entry Points
+
+The following five commands have been added to the server's command set, for
+use with the server's existing command capability. These commands are available
+only after installing the 3.31 ODI Specification Version support modules.
+
+ 1) REMOVE NETWORK INTERFACE <logical board #> | <logical board name>
+
+This function will remove an instance of a logical board. This function is
+only supported on HSMs written to the C spec v1.11 and Assembly spec v3.31.
+
+The boards' logical # corresponds to the order in which it shows up when
+config is typed at the server console prompt or when load  <driver name> is
+performed at the server prompt.
+
+ 2) REMOVE NETWORK ADAPTER <filename>,<BoardInstance number>
+
+When using this function do not use the filename extensions, just use the
+first part of the filename, i.e. CNEAMD. This function will remove all logical
+boards associated with the specified adapter.
+
+The combination of Filename and BoardInstance number uniquely identifies the
+adapter (and all of its associated logical boards) to be removed. The
+Monitor.nlm utility currently displays the BoardInstance number.
+
+ 3) SHUTDOWN NETWORK INTERFACE <logical board #> | <logical board name>
+
+This function will do a partial shutdown of the specified logical board. This
+function is only  supported on HSMs written to the C spec v1.11 and assembly
+spec v3.31.
+
+For an explanation about the logical board # see REMOVE NETWORK INTERFACE.
+
+ 4) RESET NETWORK ADAPTER <filename>,<BoardInstance number>
+
+When using this function do not use the filename extensions, just use the
+first part of the filename, i.e. CNEAMD. This command is simply a way to get to
+the already existing DriverRest capability from the command line.
+
+ 5) RESET NETWORK INTERFACE <logical board #> | <logical board name>
+
+For an explanation about the logical board # see REMOVE NETWORK INTERFACE.
+This function calls HSM DriverReset to reset a single logical board. This
+function is only supported on HSMs written to the C spec v1.11 and Assembly
+spec v3.31.
+
+  This may or may not be meaningful for a particular adapter/driver, if it is
+not meaningful it would be a no-op.  Further, if it is meaningful, the exact
+function may vary form driver to driver. WAN drivers are the most likely to
+benefit from this command line function.
+
+ ****************************************************************
+  ODI Files Updates and Changes Section.
+ ****************************************************************
+ 
+**NOVELL SERVER FILES** 
+
+  MSM.NLM and MSM31X.NLM have been updated to improve performance and
+reliability.
+Support has been added for LAN drivers that perform high speed write combine
+operations on newer hardware. Some issues during install have been corrected.
+Improved debug capabilities added.  
+
+The LAN Driver TSM modules have been updated to improve performance and
+reliability. The following defects were corrected: some problems in the
+handling of priority send packets, a rare problem in NetWare 4.x, where an
+invalid memory pointer will ABend the server and a problem that caused
+ManageWise to display a message stating that an invalid/unknown Source Node
+Address was seen on a sent frame.
+  
+ROUTE.NLM
+     A new command line parameter, RRTIME, is available for configuring how
+long route entries remain active before the memory space is reused, so the
+route table doesn't grow indefinitely. Another new command line parameter,
+LOADBAL, causes existing route entries to get updated immediately when its path
+changes, rather than waiting for a timeout to occur. Corrected problems
+occuring on multiprocessor systems.
+
+
+**LAN DRIVER FILES**
+
+NOVELL 32 BIT ASSEMBLY LAN DRIVER FILES
+
+  NE3200.LAN and NE3200P.LAN
+Files have been updated to improve performance and reliability. Corrected a
+promiscuous mode problem on receive frames. 
+
+  NTR2000.LAN
+File has been updated to improve performance and reliability.
+
+NOVELL 32 BIT "C" HSM LAN DRIVER FILES
+
+  CNE3200.LAN
+Corrected a problem with unloading the driver, where resources were sometimes
+not all returned to the OS.
+
+  CNTR2000.LAN
+Corrected an ABend problem that may occur when the driver attempts to display
+a status message.
+  
+****************************************************************
+ RPL Information.
+****************************************************************
+
+The RPL files that are needed for 16-bit Clients have also been 
+included. For information on configuring RPL see the RPL documents in the 
+RPL\RPLDOC directory.
+
+Self-Extracting File Name: odi33g.exe
+
+Files Included            Size          Date            Time
+..\
+      ODI33G.TXT   (This file)  
+      ODIKIT.IPS         14562     7-27-1999     11:33:14 am
+     PI_ICMD.NLM         20085     2-19-1997      6:00:48 am
+    PI_IOCON.NLM          1868     7-29-1996      4:32:30 am
+    PI_IOMKD.NLM          1250     6-28-1996      3:04:58 am
+..\RPL\
+      3CBOOT.NLM          8604     11-2-1992      2:22:58 am
+       A8022.LAN           152     5-12-1993      9:24:12 am
+       A8022.OBJ          3620     4-14-1993      5:19:04 am
+       B8022.OBJ          3620     4-14-1993      5:19:12 am
+     BOOTNCP.COM          5136     10-8-1991      9:48:20 am
+       C8022.OBJ          3620     4-14-1993      5:19:20 am
+       D8022.OBJ          3620     4-14-1993      5:19:28 am
+     DCONFIG.EXE         22701      7-1-1992      7:31:48 am
+      DOSGEN.EXE         11008      8-5-1993      6:26:22 am
+       ETHER.RPL         16264     10-3-1994      2:48:20 am
+       F1ETH.RPL         12133     10-3-1994      3:27:54 am
+    NEARSERV.EXE          9214    11-22-1993      4:44:48 am
+       PCN2L.RPL         10991     10-3-1994      3:31:26 am
+       RBOOT.RPL          8430      2-3-1998      9:20:36 am
+    RPCONFIG.COM          2744     7-14-1992      3:05:00 am
+         RPL.COM          8318     4-29-1993      5:33:30 am
+         RPL.NLM          6391      2-3-1998      9:35:34 am
+         RPL.TXT          3235      4-7-1997      3:48:02 am
+         RPL.VP1          1897     10-5-1993      2:55:46 am
+      RPLFIX.COM          1838     6-30-1993      4:56:12 pm
+      RPLODI.COM          1652     3-21-1991      7:24:30 am
+       TOKEN.RPL         19028      2-3-1998      9:25:32 am
+..\RPL\RPLDOC\
+      DOSGEN.DOC          2501      2-2-1996      7:35:40 am
+    NEARSERV.DOC           332     2-13-1996      8:30:56 am
+      RPLCOM.DOC         32353    10-14-1993     11:38:06 am
+      RPLFIX.DOC          4214    10-15-1993      4:16:00 am
+      RPLNLM.DOC         23229     2-28-1996      2:08:06 am
+      RPLODI.DOC          2464    10-15-1993      4:00:46 am
+      RPLVP1.DOC         11310      2-2-1996      7:45:10 am
+..\SERVER\
+    MPRDINST.NLM          6535      1-3-1996      4:00:36 am
+    PINSTALL.HLP          5585    11-15-1995      4:54:18 am
+    PINSTALL.NLM        161904      1-3-1996     10:15:08 am
+     PSCRIPT.DAT          3035    12-17-1997      5:32:42 am
+      RSPAWN.NLM         23087      1-3-1996     10:15:32 am
+..\SERVER\32SPEC\
+      32SPEC.DOC          6734    10-16-1996      7:38:54 am
+    ETHERTSM.NLM          9425     4-18-1995      5:04:26 am
+     FDDITSM.NLM          8914     3-14-1995      7:39:12 am
+    FIRMLOAD.COM          1628      1-4-1991      1:57:38 am
+     HISTORY.DOC         15771     8-28-1996      4:32:58 am
+      NE1000.LAN          4472     3-28-1994      1:28:04 am
+     NE1500T.LAN          7500    11-23-1994      8:59:52 am
+         NE2.LAN          5034    11-23-1994      8:53:52 am
+      NE2000.LAN          7382    11-23-1994      8:56:28 am
+      NE2100.LAN          7498    11-23-1994      9:00:00 am
+      NE2_32.LAN          5090     3-28-1994      1:48:10 am
+      NE3200.LAN         14237     6-30-1994      2:04:40 am
+     NE32HUB.LAN         12266     1-27-1993      2:11:10 am
+     NTR2000.LAN         11399    11-23-1994      6:49:44 am
+       PCN2L.LAN          4726     1-29-1993      1:45:04 pm
+    PCN2LTSM.NLM          5691     1-30-1993      4:32:22 am
+       ROUTE.NLM          5077      6-4-1996      2:14:44 am
+    RXNETTSM.NLM          6321     9-26-1994      4:46:54 am
+       STATS.DOC         63446     10-6-1993      9:55:10 am
+    TOKENDMA.DOC          6203     4-11-1996      5:20:34 am
+    TOKENDMA.LAN         10861     5-26-1993      9:16:54 am
+    TOKENTSM.NLM          9457     3-14-1995      7:39:44 am
+      TRXNET.LAN          3075      1-7-1993      6:23:28 am
+..\SERVER\32SPEC\31X\
+      MSM31X.NLM         21308    11-23-1994      4:41:38 am
+..\SERVER\32SPEC\31X\311\
+      LSLENH.NLM         11645    12-21-1994      5:17:28 am
+    PATCHMAN.NLM         15591     1-22-1996      4:22:52 am
+..\SERVER\32SPEC\410\
+         MSM.NLM         20252    11-23-1994      4:41:26 am
+..\SERVER\32SPEC\CONFIG\
+    !NVL0701.CFG          2745      9-2-1992      7:25:30 am
+    !NVL0901.CFG          8293     10-4-1990      4:42:34 am
+    !NVL1201.CFG          7378     3-26-1992      2:08:46 am
+    !NVL1301.CFG          1169     3-12-1992      7:28:50 am
+    !NVL1401.CFG           986     6-10-1992     10:02:08 am
+    !NVL1501.CFG         11994     1-11-1993      8:24:22 am
+       @7151.ADF          2346     7-26-1989     11:08:06 am
+       @7154.ADF          2657     4-27-1992      7:54:54 am
+..\SERVER\33SPEC\
+        CNE2.LAN         10809      1-7-1998     10:31:14 am
+        CNE2.LDI          5177    11-23-1998      4:02:36 am
+     CNE2000.LAN         14326     8-25-1998     10:46:28 am
+     CNE2000.LDI         30317    11-23-1998      4:02:54 am
+     CNE2_32.LAN         10235      1-7-1998     10:57:14 am
+     CNE2_32.LDI          5333    11-23-1998      4:02:42 am
+     CNE3200.LAN         20290     2-11-1999     10:21:08 am
+     CNE3200.LDI          7719    11-23-1998      4:03:00 am
+      CNEAMD.LAN         20548     1-23-1998      5:50:26 am
+      CNEAMD.LDI         18591    11-23-1998      4:03:10 am
+    CNTR2000.LAN         18705     1-14-1998      5:28:04 am
+    CNTR2000.LDI         18734    11-23-1998      4:03:18 am
+    ETHERTSM.NLM         12507      3-1-1999      3:37:16 am
+     FDDITSM.NLM         12787      3-5-1999      8:15:30 am
+         NE2.LAN          5314    12-19-1997      6:07:28 am
+         NE2.LDI          5056    11-23-1998      4:03:30 am
+      NE2000.LAN          8101      3-2-1999      4:27:34 am
+      NE2000.LDI         18883    11-23-1998      4:03:40 am
+      NE3200.LAN         16041     5-11-1998      5:09:22 am
+      NE3200.LDI          7614    11-23-1998      4:03:46 am
+     NE3200P.LAN         16550     5-11-1998      5:09:30 am
+     NE3200P.LDI          7631    11-23-1998      4:03:52 am
+     NTR2000.LAN         11646    12-19-1997      6:01:14 am
+     NTR2000.LDI         18520    11-23-1998      4:04:00 am
+       ROUTE.NLM          5985     2-10-1999      9:10:40 am
+    TOKENTSM.NLM         12689      3-5-1999      8:28:32 am
+..\SERVER\33SPEC\312\
+      MSM31X.NLM         86601     5-12-1999      5:14:04 am
+      NBI31X.NLM         45581    10-20-1998     10:08:20 am
+..\SERVER\33SPEC\41X\
+         MSM.NLM         94723     5-12-1999      5:13:08 am
+         NBI.NLM         31531     9-17-1998      5:25:04 am
+         NEB.NLM         19952     4-30-1997     10:39:56 am
+      ODINEB.NLM         12824     5-15-1998     10:32:22 am
+..\SERVER\NLS4\
+    MPRDINST.MSG           863      1-3-1996      4:00:36 am
+      RSPAWN.MSG          1658      1-3-1996     10:15:32 am
+
+
+
+-----------------------------------------------------------------
+Any trademarks referenced in this document are the property of their respective
+owners.  Consult your product manuals for complete trademark information.
+-----------------------------------------------------------------
+

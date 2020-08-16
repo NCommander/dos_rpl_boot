@@ -1,0 +1,1029 @@
+LAN Driver Statistics        Introduction
+
+                  By comparing information about the LAN drivers installed on 
+                  the NetWare server, you can tell which cabling system is  
+                  handling the most traffic.  
+
+                  If errors occur frequently on a high-traffic system, you  
+                  may want to switch some of the workstations on the busy  
+                  system to a new cabling system or to a less busy cabling  
+                  system.  
+
+                  For information on viewing LAN driver statistics, see " 
+                  Viewing LAN Driver Statistics" in Chapter 6 of Supervising  
+                  the Network. 
+                  The generic statistics common to most of the current  
+                  drivers are listed in the following tables: 
+
+Table B-1, "LAN Driver statistics common to all topologies,"  
+Table B-2, "Generic statistics for Ethernet drivers," 
+Table B-3, "Generic statistics for RX-Net(tm) drivers," 
+Table B-4, "Generic statistics for Token-ring drivers," 
+Table B-5, "Generic statistics for baseband pcn2l drivers," 
+
+CUSTOM STATISTICS vary, depending on the LAN driver installed. For statistical
+information about third-party drivers, check the documentation that comes with
+the driver.  In most cases the programmer put this information in to give added
+statistical information that is in most cases only useful to the programmer.  
+
+NOTE: If Card is not listed in the custom statistics section contact
+manufacturer/Driver writer of LAN Card in server for custom statistics
+documentation.
+
+Table B-6, "Custom statistics for Ethernet drivers," 
+Table B-7, "Custom statistics for RX-Net(tm) drivers," 
+Table B-8, "Custom statistics for Token-ring drivers," 
+Table B-9, "Custom statistics for IBM baseband pcn2l drivers," 
+
+----------------------------------------------------------
+Table B-1, "LAN Driver statistics common to all topologies,"  
+
+Statistics for LAN Drivers 
+
+LAN Driver statistics 
+
+Statistic Explanation 
+
+          Driver Name                      The driver name and parameters  
+                                           that correspond to the  hardware  
+                                           settings on the network board. 
+
+          Version                          The current version of the driver.
+
+          Node Address                     The station or node address of the 
+                                           network board in the  NetWare  
+                                           server. 
+
+          Protocols                        The communication protocols bound  
+                                           to the driver with BIND.
+
+          Network Address                  The network number assigned to the 
+                                           cabling system the LAN  driver is  
+                                           operating on. Appears only if the  
+                                           IPX protocol has  been bound to  
+                                           the board. 
+
+     Generic Statistics
+          Total Packets Sent               The number of packets sent from 
+                                           the NetWare server through  this 
+                                           LAN driver. (By comparing this 
+                                           figure with the figures for  other
+                                           LAN drivers, you can see which 
+                                           driver is handling the  most 
+                                           traffic.)  (Maintained by TSM).
+
+          Total Packets Received           The number of packets received by  
+                                           the NetWare server since  it was  
+                                           last booted (includes file service 
+                                           requests, packets  routed to  
+                                           another network, and packets sent  
+                                           to other IPX  sockets in the  
+                                           NetWare server). (Maintained by TSM).
+ 
+          No ECB Available Count           A counter that increments when a  
+                                           device sends a packet to  your  
+                                           NetWare server, but no packet  
+                                           receive buffer is available.  The  
+                                           NetWare server allocates more  
+                                           packet receive buffers  after each 
+                                           incident until it reaches its  
+                                           maximum limit  (configured with a  
+                                           SET parameter). If you are using  
+                                           an EISA or  microchannel bus  
+                                           master board (such as the NE3200), 
+                                           you  will probably need to  
+                                           increase both the minimum and   
+                                           maximum number of packet receive  
+                                           buffers. See the SET parameters.
+                                           (Maintained by TSM).
+
+          Send Packet Too Big Count        A counter that increments when the
+                                           NetWare server tries to  transmit 
+                                           a packet that is too large for the
+                                           hardware to handle. (Maintained by 
+                                           TSM). 
+
+          Reserved                         This field is reserved for use by
+                                           the msm, but should be initialized
+                                           to zero.
+
+          Receive Packet Overflow Count    The HSM (lan driver) may user this
+                                           counter to indicate the number of
+                                           times the adapter's receive buffers
+                                           overflowed causing subsequent
+                                           incoming packets to be discarded.
+                                           (?? A counter that increments when
+                                           the NetWare server receives  a
+                                           packet that is too big to store in
+                                           a cache buffer. This happens
+                                           rarely, unless you are running a 
+                                           software program that does  not 
+                                           negotiate packet size. Contact the
+                                           vender for an updated  version of 
+                                           the software. ??). (Maintained by
+                                           the HSM).
+                    
+          Receive Packet Too Big Count     The TSM increments this counter
+                                           whenever a packet is received that
+                                           is too large for the provided
+                                           receive buffer(s). (Maintained by
+                                           TSM).
+
+          Receive Packet Too Small Count   Some TSMs increment this counter if
+                                           a packet is received that is too
+                                           small for media definitions. 
+                                           Currently only the RX-Net TSM
+                                           Maintains this counter. 
+
+          Send Packet Miscellaneous        A counter that increments when  
+          Errors                           errors occur with send packets.
+                                           (Maintained by HSM).
+ 
+          Receive Packet Miscellaneous     A counter that increments when  
+          Errors                           occur with receive   
+                                           packets. (Maintained by HSM).
+
+          Send Packet Retry Count          A counter that increments when the
+                                           NetWare server tries to  send a 
+                                           packet but fails because of a 
+                                           hardware error. Based on  the 
+                                           number of retries in the retry 
+                                           counter, the NetWare server  will 
+                                           try to send the packet until it is
+                                           sent or the retry setting is  
+                                           reached. If you receive a large 
+                                           number of these errors, use  LOAD 
+                                           LAN driver to increase the maximum
+                                           retry count, or  check the cabling
+                                           and workstation hardware.
+                                           (Maintained by HSM).
+
+          Checksum Errors                  The HSM may use this counter to
+                                           increment when the checksum byte at
+                                           the  end of the  packet does not
+                                           match the sum of the bytes 
+                                           contained in the packet. This
+                                           indicates a data error. (Maintained
+                                           by HSM).
+ 
+          Hardware Receive Mismatch count  A counter that increments when the
+                                           packet length received  by the 
+                                           hardware and the length specified 
+                                           by the packet do  not match.
+                                           Currently only the Ethernet TSM
+                                           maintains this counter. (Maintained
+                                           by the TSM).
+
+          Total Send OK Byte Count Low     The number of bytes including low
+                                           level headers successfully
+                                           transmitted.  (Maintained by the
+                                           MSM).
+
+          Total Send OK Byte Count High    Upper 32-bits of the Total Send OK
+                                           Byte Count Low.  Basically this
+                                           will increment to 1 when the above
+                                           counter reaches 4 gigabytes
+                                           (Maintained by the MSM).
+
+          Total Receive OK Byte Count Low  The number of bytes including low
+                                           level headers successfully
+                                           received.  (maintained by the MSM).
+
+          Total Receive OK Byte Count High Upper 32-bits of the Total Receive
+                                           OK Byte Count Low.  Basically this
+                                           will increment to 1 when the above
+                                           counter reaches 4 gigabytes.
+                                           (maintained by the MSM).
+   
+          Total Group Address Send Count   The number of packets transmitted 
+                                           with a group or multicast  
+                                           destination address. (maintained by
+                                           MSM).
+
+          Total Group Address Receive      The number of packets received  
+          Count                            with a group or multicast  
+                                           destination address. (maintained by
+                                           MSM). 
+
+          Adapter Reset Count              The number of times the adapter 
+                                           was reset because of  internal 
+                                           failures or other calls to the
+                                           Driver Reset routine.  (maintained
+                                           by the HSM).
+
+          Adapter Operating Time Stamp     The time stamp indicating when the 
+                                           adapter last changed  operational  
+                                           state (such as load, shutdown, or  
+                                           reset). (Maintained by the MSM). 
+
+          Adapter Queue Depth              The number of transmit packets 
+                                           (transmit ECBs) that are queued for
+                                           the  adapter.  This is an
+                                           indication of throughput overload
+                                           on  transmits. (maintained by the
+                                           TSM).
+
+---------------------------------------------------------------
+
+Table B-2, "Generic statistics for Ethernet drivers," 
+
+Generic statistics for Ethernet drivers (Using ETHERTSM.NLM).
+Statistic Explanation  
+          Send OK Single Collision Count   The number of frames involved in a
+                                           single collision but are
+                                           subsequently transmitted 
+                                           successfully. When the Ethernet
+                                           controller detects a collision, it
+                                           backs off and then will retry the
+                                           transmission.
+
+          Send OK Multiple Collision Count The number of frames involved in
+                                           more than one collision but  
+                                           transmitted successfully. This
+                                           happens when the Ethernet
+                                           controller had to back off more
+                                           than once due to collisions.  See
+                                           also TxAbortExcessCollisions.
+      
+          Send OK But Deferred             The number of frames whose  
+                                           transmission was delayed  because  
+                                           of a busy medium. This happens  
+                                           when another  station is  
+                                           transmitting on the wire when the  
+                                           adapter receives  the command to  
+                                           transmit a packet.
+     
+          Send Abort From Late Collision   The number of transmits that had a
+                                           collision occur after 512 bits of
+                                           the packet had been transmitted. 
+                                           This can be caused by faulty 
+                                           adapters, faulty network 
+                                           equipment, cable lengths not to
+                                           specifications, or faulty
+                                           termination. 
+
+          Send Abort From Excess           The number of transmits that were  
+          Collisions                       aborted because of too  many 
+                                           collisions. This usually indicates
+                                           that a board in the network is bad
+                                           or jabbering.  This condition could
+                                           also possibly occur in very heavy
+                                           traffic  conditions.
+
+          Send Abort From Carrier Sense    The number of transmits aborted 
+                                           because of loss of carrier  sense 
+                                           while transmitting without any
+                                           collisions occurring. This usually
+                                           indicates a bad board in the
+                                           network (shorting the cable),
+                                           faulty cable, un-terminated cable
+                                           or faulty repeater.
+
+          Send Abort From Excessive        The number of transmits aborted  
+          Deferral                         because of excessive  deferrals. 
+                                           This is usually caused by a faulty
+                                           adapter or repeater in the network
+                                           that is jabbering on the wire. 
+                                           This condition could also possibly
+                                           occur in very heavy traffic
+                                           conditions.
+
+          Receive Abort From Bad Frame     The number of received frames that 
+          Alignment                        were misaligned. This occurs when
+                                           the number of octets in the frame
+                                           is not correct or it does not pass
+                                           the FCS check.  These  bad packets
+                                           are usually caused by a faulty
+                                           adapter or repeater in the system.
+                                           They can also be caused by a
+                                           collision. 
+
+-------------------------------------------------------
+Table B-3, "Generic statistics for RX-Net(tm) drivers," 
+
+Generic statistics for RX-Net(tm) drivers (Using RXNETTSM.NLM).
+Statistic Explanation 
+
+          No Response to Free Buffer       A counter that increments each  
+          Enquiry                          time there is no response  from  
+                                           the receiving node to Free Buffer  
+                                           Enquiry.
+ 
+          Network Reconfiguration Count    A counter that increments each  
+                                           time a Network  Reconfiguration  
+                                           occurs.
+ 
+          Invalid Split Flag in Packet     A counter that increments each  
+          Fragment                         time the Split Flag in the  packet 
+                                           fragment is not the value  
+                                           expected. Packet fragments   
+                                           received out of order can cause  
+                                           this value to increase. 
+
+           Orphan Packet Fragment Count    A counter that increments each  
+                                           time a packet fragment is   
+                                           received that is not a part of a  
+                                           previously received packet and   
+                                           therefore cannot be appended.
+ 
+           Receive Packet Timeout          A counter that increments each  
+                                           time a received packet times  out  
+                                           while waiting for the rest of the  
+                                           packet fragments to arrive.
+ 
+           Free Buffer Enquiry NAK Timeout A counter that increments each  
+                                           time a transmit packet times  out  
+                                           while waiting for an  
+                                           acknowledgment to a Free Buffer   
+                                           Enquiry from the receiving node. 
+
+           Total Send Packet Fragments OK  A counter that increments each 
+                                           time a packet fragment is sent  
+                                           successfully. This number will be
+                                           high because packets are made up of
+                                           multiple fragments. For example a
+                                           4K packet is actually eight 512
+                                           byte packet fragments.
+ 
+           Total Receive Packet Fragments  A counter that increments each 
+           OK                              time a packet fragment is  
+                                           received successfully. This number
+                                           will be high because packets are
+                                           made up of multiple fragments. For
+                                           example a 4K packet is actually
+                                           eight 512 byte packet fragments.
+  
+---------------------------------------------
+Table B-4, "Generic statistics for Token-ring drivers," 
+
+Generic statistics for TOKEN-RING drivers (Using TOKENTSM.NLM).
+Statistic Explanation 
+
+           AC Error Counter             This counter increments when a ring
+                                        station receives a "Standby Monitor
+                                        Present" MAC frame with the A/C bits
+                                        in the Frame Status field equal to
+                                        zero without first receiving an
+                                        "Active Monitor Present" MAC frame.
+
+           Abort Delimiter              This counter increments when a ring
+                                        station transmits an abort delimiter.
+                                        An abort delimiter is transmitted when
+                                        a ring station receives a frame in
+                                        which the token bit of the access
+                                        control field is set to show "Token"
+                                        and not "Frame."  A ring station can
+                                        also transmit an abort delimiter in an
+                                        internal hardware error has occurred.
+
+           Burst Error Counter          This counter increments when a ring
+                                        station detects the absence of "five
+                                        half-bit times" (a burst-five error). 
+                                        Other stations will detect a burst-
+                                        four error followed by idles.
+ 
+           Frame Copied Error Counter   This counter increments when a ring
+                                        station recognizes (receives or
+                                        repeats) a frame addressed to its
+                                        specific address and detects that the
+                                        FS field A bits are set to 1
+                                        indicating a possible line hit or a
+                                        duplicate address.
+
+           Frequency Error Counter      This counter is incremented when the
+                                        frequency of the incoming signal
+                                        differs from the expected frequency by
+                                        more than that specified in Section 7
+                                        (IEEE Std 802.5-1989).
+
+           Internal Error Counter       This counts the times a ring station
+                                        has a recoverable internal error,
+                                        which means a ring station is probably
+                                        marginal.
+
+           Last Ring Status             This code changes each time the ring
+                                        status changes.  Status codes, are
+                                        reported by the physical hardware. 
+                                        See the IBM Token-Ring Network
+                                        Architecture Reference for the Status
+                                        Code, Function and Meaning.
+
+           Line Error Counter           This counter increments when a frame
+                                        or token is repeated by the ring
+                                        station.  A frame is repeated when a
+                                        "Frame Check Sequence" error occurs or
+                                        a code violation exists between the
+                                        starting and ending delimiters of the
+                                        frame.
+
+           Lost Frame Counter           This counts instances when a ring
+                                        station transmits a frame that does
+                                        not return to the station.  The active
+                                        monitor sends a new token.
+
+           Token Error Counter          This counter is incremented when a
+                                        station acting as the active monitor
+                                        recognizes an error condition that
+                                        needs a token transmitted. This occurs
+                                        when the TVX timer expires.
+
+           Up Stream Node High Dword:   The first 8 digits of the Up Stream
+                                        node address of next node up stream on
+                                        the ring.
+
+           Up Stream Node Low Dword:    The next 4 digits of the Up Stream
+                                        node address of next node up stream on
+                                        the ring.
+
+           Last Ring ID                 This contains the value of the local
+                                        ring.
+
+           Last Beacon Type             This contains the value of the last
+                                        beacon type.
+
+---------------------------------------------
+Table B-5, "Generic statistics for baseband pcn2l drivers," 
+
+Generic statistics for PCN2L IBM BASEBAND drivers (Using PCN2LTSM.NLM).
+Statistic Explanation 
+
+          Send OK Single Collision Count   The number of frames involved in a
+                                           single collision but subsequently
+                                           transmitted successfully. 
+
+          Send OK Multiple Collision Count The number of frames involved in 
+                                           more than one collision but  
+                                           subsequently transmitted
+                                           successfully. 
+
+          Send OK But Deferred             The number of frames whose  
+                                           transmission was delayed  because  
+                                           of a busy medium. This happens  
+                                           when another  station is  
+                                           transmitting on the wire when the  
+                                           adapter receives  the command to  
+                                           transmit a packet.
+
+          Send Abort From Excess           The number of transmits that were  
+          Collisions                       aborted because of too  many  
+                                           collisions. This is usually caused 
+                                           by a faulty adapter in  the  
+                                           system. It can also occur under  
+                                           very heavy traffic  conditions.
+ 
+          Send Abort From Carrier Sense    The number of transmits aborted  
+                                           because of loss of carrier  sense  
+                                           while transmitting any collisions. 
+                                           This is usually caused  by a  
+                                           faulty adapter in the system,  
+                                           faulty cabling, an  unterminated  
+                                           cable, or a faulty repeater. 
+
+          Receive Abort From Bad Frame     The number of received frames that 
+          Alignment                        were misaligned. These  bad  
+                                           packets are usually caused by a  
+                                           faulty adapter or repeater  in the 
+                                           system. They can also be caused by 
+                                           a collision. 
+
+-----------------------------------------------------
+Table B-6, "Custom statistics for Ethernet drivers," 
+
+NE2000.LAN, NE2.LAN, and NE2_32.LAN, NE1000.LAN
+ 
+          UnderrunErrorCount               This counter increments when the
+                                           RAM buffer on the network board is
+                                           full; the board cannot accept any
+                                           more packets until the RAM buffer
+                                           is cleared.
+
+          TransmitTimeoutCount             This counter increments when a
+                                           network board interrupts the file
+                                           server with the message that the
+                                           "send bit" is lost.  This is a
+                                           hardware problem caused by faulty
+                                           cabling, a bad network board, or a
+                                           missing terminator.
+
+          RxPagingErrorCount               This is a count of the errors that
+                                           occur when internal buffers on the
+                                           card are corrupted.
+
+          ReceiveFIFOOverrunErrorCount     This counter increments when an
+                                           incoming packet causes an overflow
+                                           because FIFO was not serviced.
+
+          ReceiverMissedPacketCount        This counter increments when a
+                                           packet is sent to a network board
+                                           that cannot accept the packet
+                                           because all its receive buffers are
+                                           full.
+
+          GotNothingCount                  This counter increments when the
+                                           file server receives an interrupt
+                                           from a network board that is not
+                                           transmitting or receiving anything. 
+                                           This is not serious.
+
+          UnsupportedFramePacketCount      This counter increments when a
+                                           packet is received by the lan
+                                           driver with a frame type that
+                                           hasn't been loaded for the given
+                                           card.
+
+          UnsupportedMulticastCount        This counter increments for each
+                                           multicast packet received by the
+                                           card that is not registered with
+                                           the driver.
+
+          BackToBackSendCount              This counter increments each time
+                                           the driver can buffer a send packet
+                                           onto the network board while the
+                                           board is sending a previous buffer. 
+                                           Use this counter to track
+                                           congestion on the network board. 
+                                           See also "EnqueuedSendsCount".
+
+          EnqueuedSendsCount               This counter increments when the
+                                           driver is unable to transmit a
+                                           packet and must put the packet in a
+                                           que until the transmitter is
+                                           available.  Use the counter to
+                                           track congestion on the network
+                                           board.  See also "BackToBack
+                                           SendCount".
+
+          In32BitModeCount (NE1000 only)   This counter increments if a
+                                           network board is ever found in 32-
+                                           bit mode. (Currently, workstations
+                                           run in 8-bit mode.) Occasionally,
+                                           older ne1000 boards have bad ships
+                                           that make the boards go into 32-bit
+                                           mode.  If you ever see this counter
+                                           incremented, you probably have one
+                                           of those older boards on the
+                                           network.
+
+NE2100.LAN, NE1500T.LAN
+
+          HeartBeatError                   This counter increments when there
+                                           is a collision after transmission. 
+                                           This function is also known as
+                                           heartbeat or SQE (Signal Quality
+                                           Error) test.  This counter would
+                                           indicate a hardware problem.
+
+          MemoryTimeout                    This counter increments when there
+                                           is contention on the bus.  This
+                                           counter incrementing is indicative
+                                           of a bus contention problem.  If
+                                           this counter is incrementing then
+                                           more than likely you have either
+                                           have multiple NE2100 or NE1500T
+                                           cards in the server or another Bus
+                                           Mastering Device in the server (ie.
+                                           disk channel). 
+
+          TxBabblingError                  This counter increments when there
+                                           is excessive length in the transmit
+                                           buffer.  It will increment after
+                                           1519 data bytes have been
+                                           transmitted from the buffer.  It
+                                           indicates that the transmitter has
+                                           been on the channel longer than the
+                                           time required to send the maximum
+                                           length packet.  This counter would
+                                           indicate a hardware NIC card
+                                           problem in the server.
+
+          TxUnderflowError                 This counter increments when
+                                           something else on the bus takes
+                                           control of the bus while the LAN
+                                           driver is putting the data on the
+                                           wire.  The packet would then have
+                                           to be retransmitted.
+
+          TXBufferError                    This counter increments when there
+                                           is a problem with the transmit
+                                           buffer.  This counter will also
+                                           commonly increment when
+                                           TxUnderflowError increments.  This
+                                           counter could be indicative of
+                                           hardware problem in the server.
+
+          RxECBsOver16MegCount             This counter will increment when a
+          TxECBsOver16MegCount             transmit or receive occurs and the
+                                           driver has had to use the reserved
+                                           buffers below 16 meg double buffer
+                                           the ECB because the card can't
+                                           access above 16 Meg of memory
+                                           (physical limitation).  The NE1500T
+                                           and NE2100 cards are not able to
+                                           access memory above 16 MB.
+                                           Therefore, if the operating system
+                                           issues an Event Control Block (ECB)
+                                           with an address above 16MB of
+                                           memory, the board uses some of the
+                                           reserved buffers below 16MB to
+                                           queue the request.  These are not
+                                           errors.  They are only keeping
+                                           track of how many ECBs were
+                                           redirected to the buffers below
+                                           16MB.   In many cases, this counter
+                                           can be as high as the total packets
+                                           sent and received.  Because of this
+                                           double buffering that occurs it
+                                           does cause a performance hit.  Any
+                                           board that is busmastering or uses
+                                           DMA that is not a 32 bit adapter
+                                           will potentially experience a
+                                           performance hit if you have more
+                                           than 16 MB of ram.
+
+
+
+          PacketUsed2ECBs                  This counter will increment if the
+                                           Server Maximum Physical Receive
+                                           Packet Size is set to 1514 (default
+                                           for 3.11 servers, it can be changed
+                                           in the STARTUP.NCF), and we need an
+                                           extra 4 bytes to receive a near
+                                           full size packet to include the CRC
+                                           on the end of the packet we will
+                                           use 2 ECBs.  This is a slight
+                                           performance hit to use 2 ECBs
+                                           instead of one but will function
+                                           properly. NOTE: Netware 3.12 and
+                                           4.X default the Maximum Physical
+                                           Receive Packet Size to 4202.
+
+
+NE3200.LAN
+          
+          Transmit Retry Failure:       This counter increments when the
+                                        driver is unable to transmit a packet
+                                        a reset number of times.  This may
+                                        indicate a hardware problem.
+
+          Tx Clear To Sends Errors:     Attempt to catch an 82586 errata. 
+                                        There are some conditions when the
+                                        clear to send signal from the 82586
+                                        chip is incorrect.  This indicates the
+                                        number of times the corrective code on
+                                        the adapter was executed to work
+                                        around this condition in the 82586.
+
+          Tx DMA Underrun Errors:       Attempt to catch an 82586 errata. 
+                                        This can occur when contention between
+                                        the BMIC, 80186 and 82586 occurs on
+                                        the adapter.  The 82586 thinks it did
+                                        not get all of the packet for
+                                        transmission. The transmit operation
+                                        must be retried in this case.  This
+                                        indicates the number of times the
+                                        corrective code on the adapter was
+                                        executed to work around this
+                                        condition.
+
+          Rx DMA Overrun Errors:        Attempt to catch an 82586 errata.  If
+                                        two packets are received back to back
+                                        at near the minimum ethernet
+                                        inter-frame spacing of 9.6
+                                        microseconds then the chip may report
+                                        an overrun.  If so, the frames are
+                                        lost by the chip and the source will
+                                        have to re-transmit.
+
+          Rx Packet Slide Errors:       Attempt to catch an 82586 anomaly.  In
+                                        some strange conditions, the 82586 may
+                                        get off by two bytes in the receive
+                                        packet descriptors. This number
+                                        indicates the number of times this
+                                        condition occurred. The sending
+                                        station must retransmit the packet in
+                                        this case.
+
+          Rx Dummy RCB Used Errors:     Attempt to catch an 82586 errata.  In
+                                        some cases, the 82586 may attempt to
+                                        receive data into a non-existent
+                                        receive buffer off the end of its
+                                        receive buffer list.  To catch for
+                                        this condition and avoid internal data
+                                        corruption, a dummy receive buffer is
+                                        added to the end of the list.  This
+                                        variable counts the number of times
+                                        the 82586 attempted to write into the
+                                        dummy buffer.
+
+
+          Internal Adapter Reset:       This is count of the number of resets
+                                        in that occurred on the adapter (by
+                                        the 80186) due to failures on the
+                                        adapter.  This counter increments when
+                                        the software corrects itself for minor
+                                        problems or if the card gets into an
+                                        unknown state. This counter commonly
+                                        increments.  Under normal conditions,
+                                        more of these errors should occur
+                                        during idle time than when the driver
+                                        is busy.  For this counter to warn you
+                                        of potential hardware problems, you
+                                        must receive thousands of these errors
+                                        when the network is busy.
+
+
+          Mondo Fragment Length Errors: An NLM on the Server has passed the
+                                        NE3200 driver an ECB whose logical
+                                        memory address we couldn't change to a
+                                        physical memory address. You should
+                                        check other NLMs on the system and
+                                        upgrade them.  If you are still
+                                        experiencing problems identify which
+                                        NLM is causing the problem and contact
+                                        the third party manufacturer of the
+                                        NLM.
+
+          Polling Timeout:              The adapters request was put on the
+                                        que but because the server was busy it
+                                        was not able to be serviced within 800
+                                        nanoseconds (default).  If this occurs
+                                        the adapter will then fire an
+                                        interrupt to get serviced.
+
+          Reset Because Hardware Died Errors:     If the adapter gets in an
+                                        unknown state or stops transmitting on
+                                        the host side the driver will
+                                        increment this counter will
+                                        reset/restart the adapter.  
+
+          Number Of Interrupts Fired:   This counter increments each time the
+                                        adapter had to fire an interrupt to
+                                        service a request because the polled
+                                        request wasn't serviced.
+
+
+NE32HUB.LAN
+
+          FIFOUnderRunCount             This counter increments usually during
+                                        high utilization or high BUS usage and
+                                        we are unable to send the packet. 
+                                        This should occur rarely.
+
+          ByteCountMismatchCount        This counter increments when the
+                                        transmit packet size is not = to sum
+                                        of fragments passed to the SONIC chip
+                                        on board.  This should occur rarely.
+
+          HardTransmitErrorCount        This counter increments when a CRC,
+                                        Excessive Deferral, ByteCount
+                                        MismatchCount, or FIFOUnderRunCount
+                                        occurs on a transmit.  This is more of
+                                        a general transmit error counter.
+
+          TransmitCollisionsCount       This counter increments when the card
+                                        can't transmit on the wire.  If the
+                                        card takes 5 times to get the packet
+                                        transmitted this counter will be
+                                        incremented by 4.
+
+          OutOfWindowCollisionCount     This counter increments when an
+                                        illegal collision occurs.  The
+                                        collision should normally be during
+                                        the preamble.  If the collision
+                                        incorrectly occurs after the preamble
+                                        this counter will increment.  This
+                                        should be rare.
+
+          CRCErrorCount                 This counter increments when a packet
+                                        is received by the card with a bad
+                                        CRC. 
+
+          FIFOOverrunCount              This counter increments when a packet
+                                        is received and there are errors in
+                                        the packet. The driver looks at the
+                                        FIFO overrun counter to determine if
+                                        there are errors.  The packet is not
+                                        received if there are errors.
+
+          RDAExhaustCount               This counter increments when the
+                                        driver can't take the data out of the
+                                        buffer fast enough to process it and
+                                        the Receive Descriptor Area is
+                                        overflowed.  This shouldn't happen
+                                        very often but is more likely under
+                                        high utilization.
+
+          RRAExhaustCount               This counter increments when the
+                                        driver can't take the data out of the
+                                        buffer fast enough to process it and
+                                        the Receive Resource Area is
+                                        overflowed.  This shouldn't happen
+                                        very often but is more likely under
+                                        high utilization.
+
+          RBAExceedCount                This counter increments when the
+                                        driver can't take the data out of the
+                                        buffer fast enough to process it and
+                                        the Receive Buffer Area is overflowed.
+                                        This shouldn't happen very often but
+                                        is more likely under high utilization.
+
+          FlagFoundCount                This counter increments when the RIC
+                                        chip on the card reports an error such
+                                        as (Jabber, Out of window Collision
+                                        etc.)
+
+          PacketsCompressedCount        This counter increments when the
+                                        driver is in promiscuous mode and is
+                                        looking at every packet.  To get the
+                                        management information efficiently the
+                                        driver only copies the first 50 bytes
+                                        of the packet into the buffer and then
+                                        adds on the 7 bytes of management
+                                        information on the end of the packet.
+                                        This occurs only on the packets that
+                                        are not destined for the server when
+                                        the driver is loaded with PCOMP=ENABLE
+                                        (default).  
+
+          RICAddressWasInvalidCount     This counter increments when the RIC
+                                        address was corrupt on a receive
+                                        management packet.  The driver expects
+                                        this number to be correct.  That is
+                                        why the driver checks the RIC address.
+
+          TxTimeOutCount                This counter increments when a
+                                        transmit doesn't occur in 2 seconds. 
+
+          Port0ErrorCount               This counter increments when the port
+                                        address is set to 0. The port address
+                                        should always be between 1 and 12. 
+                                        This will not occur frequently.
+
+          PortBigErrorCount             This counter increments when the port
+                                        address is above 13. The port address
+                                        should always be between 1 and 12.
+                                        This will not occur frequently.
+
+          ValidCRCCount                 This counter increments when the
+                                        Management Information overlaying the
+                                        CRC is correct.  It should be
+                                        incorrect.  This should happen rarely.
+
+------------------------------------------------------
+Table B-7, "Custom statistics for RX-Net(tm) drivers," 
+
+Custom statistics for Arcnet server driver:
+TRXNET.LAN Statistic Explanation 
+NONE
+
+
+------------------------------------------------------
+Table B-8, "Custom statistics for Token-ring drivers," 
+
+Custom statistics for token-ring cards:
+
+TOKEN.LAN, NTR2000.LAN
+          Bad Correlator Count          This counter increments when a network
+                                        board responds with a request for data
+                                        from the file server that the file
+                                        server does not have.  The ECB or some
+                                        other code may be corrupted. 
+                                        Eventually, this type of error will
+                                        down the server.  If this counter is
+                                        non-zero, you should try to find the
+                                        software that is corrupting the data.
+
+          
+          Unknown ARB requests          This counts bad ARBs (Adapter Request
+                                        Blocks).  Normally the network board
+                                        (adapter) uses one of four known
+                                        commands to communicate with the
+                                        driver.  If a network board sends a
+                                        command that is NOT one of the four,
+                                        the driver does not recognize the
+                                        request.  This is not a catastrophic
+                                        error.   Sometimes old adapters send
+                                        bad ARB requests because of software
+                                        problems resident on the board. 
+                                        NetWare responds to the network board
+                                        so that the board will not hang.
+
+TOKENDMA.LAN
+
+          MicroChannel Error Count:     Adapter ran into a problem
+                                        transmitting on the Bus. The Adapter
+                                        Interrupt occurred from the firmware
+                                        on the card.
+
+          ECBs Over 16Meg:              The number of packets received that
+                                        had to use an ECB over 16 meg.  This
+                                        number should only increment when
+                                        using more than 16 meg of ram in the
+                                        F/S.
+
+          DMA Bus Errors Count:         This counter is incremented when a DMA
+                                        transfer completes with a bus error.
+                                        If this increments it could be
+                                        indicative of a hardware problem.
+
+          DMA Parity Errors Count:      This counter is incremented when a DMA
+                                        transfer completes with a parity
+                                        error. If this increments it could be
+                                        indicative of a hardware problem.
+
+          Command Reject Count:         This counter is incremented when the
+                                        Driver sends a command to the card and
+                                        the command is either invalid or the
+                                        card is still busy processing the
+                                        previous command.  This number should
+                                        be 0 or low.
+
+          Tx Timeout Count:             This counter is incremented and the
+                                        adapter is reset if 2 seconds elapses
+                                        and the driver hasn't heard back from
+                                        the firmware that the transmit was or
+                                        wasn't successful.  This counter shows
+                                        the driver successfully recovering
+                                        from the lost hardware transmit.  It
+                                        is OK to see this number increment.
+
+          Transmit Late Count:          This counter will increment when the
+                                        driver thought that the card was
+                                        transmitting more than it really was
+                                        because of what was reported by the
+                                        firmware.  The data that wasn't
+                                        transmitted will then be sent in the
+                                        next packet.  This is a latency type
+                                        of issue.  You will likely see more of
+                                        these errors on a busier network.  
+
+          Transmit Defragment Count:    The IBM Token-Ring DMA LAN boards are
+                                        not able to access memory above 16 MB.
+                                        Therefore, if the operating system
+                                        issues an Event Control Block (ECB)
+                                        with an address above 16MB of memory, 
+                                        the board uses some of the reserved
+                                        buffers below 16MB to queue the
+                                        request.  These are not errors.  They
+                                        are only keeping track of how many
+                                        ECBs were redirected to the buffers
+                                        below 16MB.   In many cases, this
+                                        counter can be as high as the total
+                                        packets sent and received.  Because of
+                                        this double buffering that occurs it
+                                        does cause a performance hit.  Any
+                                        board that is busmastering or uses DMA
+                                        that is not a 32 bit adapter will
+                                        potentially experience a performance
+                                        hit if you have more than 16 MB of
+                                        ram.
+------------------------------------------
+Table B-9, "Custom statistics for IBM baseband pcn2l drivers," 
+
+Custom statistics for PCN2L IBM baseband server driver:
+PCN2L.LAN
+          HotCarrierInterruptCount      This counter increments when the board
+                                        detects a carrier longer than expected
+                                        without a transmit.  This Generally
+                                        indicates that some board on the
+                                        network has failed or is starting to
+                                        go bad.
+
+          No82588InterruptCount         This counter increments each time it
+                                        receives an interrupt from the card
+                                        but not the 82588 chip.  This should
+                                        never happen.
+
+          WeirdInterruptCount           This counter increments when the file
+                                        server has received an interrupt from
+                                        the card, but the card claims not to
+                                        have sent one.  This should never
+                                        happen.
+
+          BadTransmitCompleteInterruptCount       This counter increments for
+                                        each complete transmission with no
+                                        transmit active.
+
+          HardTransmitErrorCount        This counter increments when a
+                                        transmit fails and the driver retries
+                                        the transmit.
+
+          GotNothingCount               This counter increments when the
+                                        driver receives an interrupt from the
+                                        card indicating that it has completed
+                                        a receive but there is no data in the
+                                        card's receive buffer.  This is not
+                                        serious.
+
+          ReceiveUnderrunErrorCount     This counter increments when the
+                                        driver finds less data in the card's
+                                        buffer than the card said was there.
+
+          ReceivedShortPacketCount      This counter increments when a packet
+                                        of less than 17 bytes is received.
+
+          BadReceiveConditionCodeCount  This counter increments when the
+                                        buffer is flushed because the card
+                                        hasn't received the incoming packets
+                                        properly.

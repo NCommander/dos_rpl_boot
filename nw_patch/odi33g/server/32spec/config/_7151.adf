@@ -1,0 +1,130 @@
+;ADF file for the NE/2-32 lan adapter
+;written by Carleton E. Watkins 17-MAR-89
+
+
+AdapterID 07151h
+
+AdapterName  "NE/2-32"
+
+NumBytes 1
+
+
+nameditem
+        Prompt  "I/O, RAM (in HEX)"
+
+
+     Choice "3000-302F, 000C0000-000C7FFF"
+
+          pos[0]=XXXX001Xb
+          io 3000H-302FH
+          mem 000C0000H-000C7FFFH
+          
+     Choice "4000-402F, 000D0000-000D7FFF"
+
+          pos[0]=XXXX010Xb
+          io 4000H-402FH
+          mem 000D0000H-000D7FFFH
+
+     Choice "5000-502F, FFF90000-FFF97FFF"
+
+          pos[0]=XXXX011Xb
+          io 5000H-502FH
+          mem 0FFF90000H-0FFF97FFFH
+
+     Choice "6000-602F, FFFA0000-FFFA7FFF"
+
+          pos[0]=XXXX100Xb
+          io 6000H-602FH
+          mem 0FFFA0000H-0FFFA7FFFH
+
+     Choice "7000-702F, FFFB0000-FFFB7FFF"
+
+          pos[0]=XXXX101Xb
+          io 7000H-702FH
+          mem 0FFFB0000H-0FFFB7FFFH
+
+
+     Choice "9000-902F, FFFC0000-FFFC7FFF"
+
+          pos[0]=XXXX110Xb
+          io 9000H-902FH
+          mem 0FFFC0000H-0FFFC7FFFH
+
+     Choice "D000-D02F, FFFD0000-FFFD7FFF"
+
+          pos[0]=XXXX111Xb
+          io 0D000H-0D02FH
+          mem 0FFFD0000H-0FFFD7FFFH
+
+
+
+Help
+
+"The I/O address ranges shown are the 
+addresses at which the adapter
+will decode for control and use of the
+network controller, reset function,
+and Ethernet ID address PROM.  
+
+The RAM address will determine where 
+the adapter's packet buffer RAM will 
+appear in host system's memory map."
+
+
+nameditem
+        Prompt  "Interrupt Request Level"
+
+     Choice "IRQ 3"
+
+     pos[0]=X000XXXXb
+     int 3
+
+     Choice "IRQ 4"
+     pos[0]=X001XXXXb
+     int 4
+
+     Choice "IRQ 5"
+     pos[0]=X010XXXXb
+     int 5
+
+     Choice "IRQ 9"
+     pos[0]=X011XXXXb
+     int 9
+
+     Choice "IRQ 10"
+     pos[0]=X100XXXXb
+     int 10
+
+     Choice "IRQ 11"
+     pos[0]=X101XXXXb
+     int 11
+
+
+
+Help
+
+"The IRQ selection assigns which interrupt
+request line the lan adapter will use to
+signal the microprocessor via the interrupt
+controller."
+
+
+
+nameditem
+        Prompt  "Connector Selection"
+
+
+     Choice "Thin Wire"
+
+     pos[0]=1XXXXXXXb
+
+     Choice "Thick Wire"
+     pos[0]=0XXXXXXXb
+
+Help
+
+"This selection allows the user to choose
+either the thick or thin connector available
+on the board."
+
+

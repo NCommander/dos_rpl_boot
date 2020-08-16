@@ -1,0 +1,68 @@
+#####################################
+#                                   #
+#     NetWare ODIKIT Update         #
+#                                   #
+#####################################
+
+@REMOTE
+@PRODUCT=ODI_KIT, V1.04, NetWare v3.1x ODI support files update kit., , MPRDINST ODI_KIT
+@UpgradeFrom=ODI_KIT,ODIKIT
+@ReqSpace=977106
+@SupportedOS=3.11^3.12
+@IncompatibleWith=NWSAA^CONNECT^MPR_UN^MPRPLUS^MPR_2^MPR_4^MPR_8^WANLINK^SNALINKS^WANSUPT
+
+#####################################
+#                                   #
+# NetWare ODIKIT Disk 1             #
+#                                   #                                                                                           
+#####################################
+
+@REMOVE=SYS:\SYSTEM\CNE2100.LAN
+@REMOVE=SYS:\SYSTEM\CNE2100.LDI
+@DISK=SERVER, ODIKIT Server Disk
+
+system,         rspawn.nlm,                     N, Y, N, N, N, N
+system\nls\4,   nls4\rspawn.msg,                N, Y, N, N, N, Y, 3.12
+system,         MPRDINST.NLM,                   N, Y, N, N, N, N
+system\nls\4,   nls4\MPRDINST.MSG,              N, Y, N, N, N, Y, 3.12
+system,         33spec\*.nlm,                   N, Y, N, N, N, N, 3.12
+system,         33spec\*.lan,                   N, Y, N, N, N, N, 3.12
+system,         33spec\*.ldi,                   N, Y, N, N, N, N, 3.12
+system,         33spec\312\*.nlm,               N, Y, N, N, N, N, 3.12
+system,         32spec\*.nlm,                   N, Y, N, N, N, N, 3.11
+system,         32spec\*.lan,                   N, Y, N, N, N, N, 3.11
+system,         32spec\31x\*.nlm,               N, Y, N, N, N, N, 3.11
+system,         32spec\31x\311\*.nlm,           N, Y, N, N, N, N, 3.11
+
+
+#####################################
+#                                   #
+# NetWare ODIKIT Disk 2             #
+#                                   #
+#####################################
+
+
+@DISK=RPL, ODIKIT RPL Disk
+
+system,         rpl.nlm,                        N, Y, N, N, N, N, 3.11^3.12
+system,         dosgen.exe,                     N, Y, N, N, N, N, 3.11^3.12
+login,          *.rpl,                          N, Y, N, N, N, N, 3.11^3.12
+
+
+###############################################################################
+#------------------------------------------------------------------------------
+#
+#       (C) Copyright 1994 Novell, Inc.  All Rights Reserved.
+#
+# THIS WORK IS SUBJECT TO U.S. AND INTERNATIONAL COPYRIGHT LAWS AND
+# TREATIES.  NO PART OF THIS WORK MAY BE USED, PRACTICED, PERFORMED,
+# COPIED, DISTRIBUTED, REVISED, MODIFIED, TRANSLATED, ABRIDGED,
+# CONDENSED, EXPANDED, COLLECTED, COMPILED, LINKED, RECAST,
+# TRANSFORMED OR ADAPTED WITHOUT THE PRIOR WRITTEN CONSENT OF
+# NOVELL.  ANY USE OR EXPLOITATION OF THIS WORK WITHOUT AUTHORIZATION
+# COULD SUBJECT THE PERPETRATOR TO CRIMINAL AND CIVIL LIABILITY.
+#
+#------------------------------------------------------------------------------
+###############################################################################
+
+

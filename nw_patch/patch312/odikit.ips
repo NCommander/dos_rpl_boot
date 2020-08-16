@@ -1,0 +1,315 @@
+@Version 1.05
+; ***************************************************************
+;
+; This script has been developed to install Novell ODI support files
+; and modules.  It is also developed to install ODI Drivers written 
+; by Novell.
+;
+; Date: 05/17/99
+;
+; ***************************************************************
+; "CoPyRiGhT=(c) 1999 Novell, Inc.  All Rights Reserved."
+; VeRsIoN=1.05
+
+   CopyToServer SYSTEM, SERVER\\MPRDINST.NLM, '', ''
+   CopyToServer SYSTEM\NWUPDATE, PI_ICMD.NLM, '', ''
+   Command NWUPDATE\PI_ICMD
+
+   ValueSet Install33SPEC, 0
+   ValueSet Install32SPEC, 0
+
+; ***************************************************************
+@FileSet
+
+   Description: "ODI 3.31 support files update kit." 
+   Name: ODIKIT_33Spec
+   CLASS: OPTIONAL
+   ATTRIBUTE:0, 1
+   HELP: "Do not install the ODI 3.31 support files update kit on file 
+   servers that have NetWare Connect v2.0 (or lower), MPR v3.0 (or lower).
+   Please read the section titled, Instructions for NetWare for SAA customers, 
+   included in the readme file ODI33Gx.TXT to understand the issues with 
+   HSM specification versions prior to installing these files.  
+   Select only one of the file groups listed."
+
+   ValueSet Install33SPEC, 1
+
+; Get the source paths for the 33spec.
+   GetPath SourceDrive, 1, '%{NWSRC}\\server\\33spec\\41X', '', NWSRC
+   GetPath SourceRootDrive, 1, '%{NWSRC}\\server\\33spec', '', NWSRC
+
+@EndFileSet
+; ***************************************************************
+@FileSet
+
+   Description: "ODI 3.20 support files update kit." 
+   Name: ODIKIT_32Spec
+   CLASS: OPTIONAL_OFF
+   ATTRIBUTE:0, 1
+   HELP: "The ODI 3.20 support files update kit is not supported on v4.11/4.2
+   file servers.  Make sure you read ODI33G.TXT to understand the issues 
+   with HSM specification versions prior to installing these files.  Select 
+   only one of the file groups listed."
+
+   ValueSet Install32SPEC, 1
+
+; Get the source paths for the 32spec.
+   GetPath SourceDrive, 1, '%{NWSRC}\\server\\32spec\\410', '', NWSRC
+   GetPath SourceRootDrive, 1, '%{NWSRC}\\server\\32spec', '', NWSRC
+
+@EndFileSet
+; ***************************************************************
+
+; Get the common source paths.
+   Getpath SourceRPL, 1, '%{NWSRC}\\RPL', ''
+
+; Get the destination paths.
+   Getpath DestinationDrive_System, 1, 'SYS:\\SYSTEM', ''
+   Getpath DestinationDrive_Login, 1, 'SYS:\\LOGIN', ''
+   GetPath InstallDrive, 1, 'SYS:\\SYSTEM\\NWUPDATE', ''
+
+; Skip the WAN check if installing 32spec.
+   GotoIfEqual 1, %{Install32SPEC}, SkipWanCheck
+
+; Check and see if there are any products installed that use WAN drivers.
+; If there are any, do not install.  Some WAN TSM modules will not load
+; with the new MSM module.
+
+   ReadProductRecord MPR, 1, ID, cCode
+   GotoIfEqual %{cCode}, 0, MPR_WAN_Message
+Label CheckForNIAS
+   ReadProductRecord NIAS, 1, ID, cCode
+   GotoIfEqual %{cCode}, 0, NIAS_WAN_Message
+Label ContinueWANCheck
+   ReadProductRecord NWSAA, 1, ID, cCode
+   GotoIfEqual %{cCode}, 0, ERROR_WAN_Installed
+   ReadProductRecord CONNECT, 1, ID, cCode
+   GotoIfEqual %{cCode}, 0, ERROR_WAN_Installed
+   ReadProductRecord MPR_UN, 1, ID, cCode
+   GotoIfEqual %{cCode}, 0, ERROR_WAN_Installed
+   ReadProductRecord MPRPLUS, 1, ID, cCode
+   GotoIfEqual %{cCode}, 0, ERROR_WAN_Installed
+   ReadProductRecord MPR_2, 1, ID, cCode
+   GotoIfEqual %{cCode}, 0, ERROR_WAN_Installed
+   ReadProductRecord MPR_4, 1, ID, cCode
+   GotoIfEqual %{cCode}, 0, ERROR_WAN_Installed
+   ReadProductRecord MPR_8, 1, ID, cCode     
+   GotoIfEqual %{cCode}, 0, ERROR_WAN_Installed
+   ReadProductRecord WANLINK, 1, ID, cCode
+   GotoIfEqual %{cCode}, 0, ERROR_WAN_Installed
+   ReadProductRecord SNALINKS, 1, ID, cCode
+   GotoIfEqual %{cCode}, 0, ERROR_WAN_Installed
+   ReadProductRecord WANSUPT, 1, ID, cCode
+   GotoIfEqual %{cCode}, 0, ERROR_WAN_Installed
+
+Label SkipWanCheck
+
+; This Install script if for 4.1x/4.2 Netware only.  The last version of OS
+; that the 32spec should be installed on is 4.10 NetWare.
+
+   GotoIfNEqual %{PI_OSMajorVersion}, 4, ERROR_WrongOS
+   GotoIfLess %{PI_OSMinorVersion}, 10, ERROR_WronOS
+ 
+   GotoIfEqual %{Install33SPEC}, %{Install32SPEC}, ERROR_MustSelectOneOption
+
+   GotoIfEqual 1, %{Install33SPEC}, NotTryingToInstall32specOn411
+   GotoIfGrEqual %{PI_OSMinorVersion}, 11, ERROR_32specNotSupported
+
+Label NotTryingToInstall32specOn411
+   GotoIfEqual 0, '%{PI_OSType}', NativeFiles
+   GotoIfEqual 1, '%{PI_OSType}', NWOS2
+   GotoIfEqual 2, '%{PI_OSType}', SFT3Files
+   Goto CleanUp
+
+; ***************************************************************
+Label NativeFiles
+Label NWOS2
+
+   GotoIfEqual 1, %{Install32SPEC}, SkipNBIJump1
+   CopyFile 0, 0, 0, 1, 0, DestinationDrive_System, 'NBI.NLM', '', '', DestinationDrive_System, 'OLDLAN', '', '', 0
+   CopyFile 0, 0, 0, 1, 0, NWBOOT, 'NBI.NLM', '', '', NWBOOT, 'OLDLAN', '', '', 0
+   CopyFile 0, 0, 1, 2, 00060081, SourceRootDrive, '*.LDI', '', '', DestinationDrive_System, '', '', '', 0
+   CopyFile 0, 0, 1, 1, 0, SourceRootDrive, '*.LDI', '', '', NWBOOT, '', '', '', 5
+   EraseFile 0, DestinationDrive_System, CNE2100.*, '', ''
+   EraseFile 0, NWBOOT, CNE2100.*, '', ''
+
+Label SkipNBIJump1
+
+   CopyFile 0, 0, 0, 1, 0, DestinationDrive_System, 'MSM.NLM', '', '', DestinationDrive_System, 'OLDLAN', '', '', 0
+   CopyFile 0, 0, 0, 1, 0, DestinationDrive_System, 'ETHERTSM.NLM', '', '', DestinationDrive_System, 'OLDLAN', '', '', 0
+   CopyFile 0, 0, 0, 1, 0, DestinationDrive_System, 'TOKENTSM.NLM', '', '', DestinationDrive_System, 'OLDLAN', '', '', 0
+   CopyFile 0, 0, 0, 1, 0, DestinationDrive_System, 'FDDITSM.NLM', '', '', DestinationDrive_System, 'OLDLAN', '', '', 0
+   CopyFile 0, 0, 1, 2, 00060081, SourceDrive, '*.*', '', '', DestinationDrive_System, '', '', '', 0
+   CopyFile 0, 0, 1, 2, 00060081, SourceRootDrive, 'ETHERTSM.NLM', '', '', DestinationDrive_System, '', '', '', 0
+   CopyFile 0, 0, 1, 2, 00060081, SourceRootDrive, 'TOKENTSM.NLM', '', '', DestinationDrive_System, '', '', '', 0
+   CopyFile 0, 0, 1, 2, 00060081, SourceRootDrive, 'FDDITSM.NLM', '', '', DestinationDrive_System, '', '', '', 0
+   CopyFile 0, 0, 1, 2, 00060081, SourceRootDrive, '*.LAN', '', '', DestinationDrive_System, '', '', '', 0
+   CopyFile 0, 0, 1, 2, 00060081, SourceRootDrive, 'ROUTE.NLM', '', '', DestinationDrive_System, '', '', '', 0
+   CopyFile 0, 0, 1, 2, 00060081, SourceRPL, 'RPL.NLM', '', '', DestinationDrive_System, '', '', '', 0
+   CopyFile 0, 0, 1, 2, 00060081, SourceRPL, '*.RPL', '', '', DestinationDrive_Login, '', '', '', 0
+   CopyFile 0, 0, 1, 2, 00060081, SourceRPL, 'DOSGEN.EXE', '', '', DestinationDrive_System, '', '', '', 0
+   CopyFile 0, 0, 0, 1, 0, NWBOOT, 'MSM.NLM', '', '', NWBOOT, 'OLDLAN', '', '', 0
+   CopyFile 0, 0, 0, 1, 0, NWBOOT, 'ETHERTSM.NLM', '', '', NWBOOT, 'OLDLAN', '', '', 0
+   CopyFile 0, 0, 0, 1, 0, NWBOOT, 'TOKENTSM.NLM', '', '', NWBOOT, 'OLDLAN', '', '', 0
+   CopyFile 0, 0, 0, 1, 0, NWBOOT, 'FDDITSM.NLM', '', '', NWBOOT, 'OLDLAN', '', '', 0
+   CopyFile 0, 0, 1, 1, 0, SourceDrive, '*.*', '', '', NWBOOT, '', '', '', 0
+   CopyFile 0, 0, 1, 1, 0, SourceRootDrive, 'ETHERTSM.NLM', '', '', NWBOOT, '', '', '', 0
+   CopyFile 0, 0, 1, 1, 0, SourceRootDrive, 'TOKENTSM.NLM', '', '', NWBOOT, '', '', '', 0
+   CopyFile 0, 0, 1, 1, 0, SourceRootDrive, 'FDDITSM.NLM', '', '', NWBOOT, '', '', '', 0
+   CopyFile 0, 0, 1, 1, 0, SourceRootDrive, '*.LAN', '', '', NWBOOT, '', '', '', 5
+   CopyFile 0, 0, 1, 1, 0, SourceRootDrive, 'ROUTE.NLM', '', '', NWBOOT, '', '', '', 5
+
+   Display 2, "Done copying files."
+
+   Display 0, "ODIKIT File Server update complete!"
+
+   Goto Done
+
+; ***************************************************************
+
+Label SFT3Files
+
+   CopyToServer SYSTEM, PI_IOCON.NLM, '', ''
+   CopyToServer SYSTEM, PI_IOMKD.NLM, '', ''
+
+   GotoIfEqual 1, %{Install32SPEC}, SkipNBIJump2
+   CopyFile 0, 0, 0, 1, 0, DestinationDrive_System, 'NBI.NLM', '', '', DestinationDrive_System, 'OLDLAN', '', '', 0
+   CopyFile 0, 0, 1, 2, 00060081, SourceRootDrive, '*.LDI', '', '', DestinationDrive_System, '', '', '', 0
+   EraseFile 0, DestinationDrive_System, CNE2100.*, '', ''
+
+
+Label SkipNBIJump2
+
+
+   CopyFile 0, 0, 0, 1, 0, DestinationDrive_System, 'MSM.NLM', '', '', DestinationDrive_System, 'OLDLAN', '', '', 0
+   CopyFile 0, 0, 0, 1, 0, DestinationDrive_System, 'ETHERTSM.NLM', '', '', DestinationDrive_System, 'OLDLAN', '', '', 0
+   CopyFile 0, 0, 0, 1, 0, DestinationDrive_System, 'TOKENTSM.NLM', '', '', DestinationDrive_System, 'OLDLAN', '', '', 0
+   CopyFile 0, 0, 0, 1, 0, DestinationDrive_System, 'FDDITSM.NLM', '', '', DestinationDrive_System, 'OLDLAN', '', '', 0
+   CopyFile 0, 0, 1, 2, 00060081, SourceDrive, '*.*', '', '', DestinationDrive_System, '', '', '', 0
+   CopyFile 0, 0, 1, 2, 00060081, SourceRootDrive, 'ETHERTSM.NLM', '', '', DestinationDrive_System, '', '', '', 0
+   CopyFile 0, 0, 1, 2, 00060081, SourceRootDrive, 'TOKENTSM.NLM', '', '', DestinationDrive_System, '', '', '', 0
+   CopyFile 0, 0, 1, 2, 00060081, SourceRootDrive, 'FDDITSM.NLM', '', '', DestinationDrive_System, '', '', '', 0
+   CopyFile 0, 0, 1, 2, 00060081, SourceRootDrive, '*.LAN', '', '', DestinationDrive_System, '', '', '', 0
+   CopyFile 0, 0, 1, 2, 00060081, SourceRootDrive, 'ROUTE.NLM', '', '', DestinationDrive_System, '', '', '', 0
+   CopyFile 0, 0, 1, 2, 00060081, SourceRPL, 'RPL.NLM', '', '', DestinationDrive_System, '', '', '', 0
+   CopyFile 0, 0, 1, 2, 00060081, SourceRPL, '*.RPL', '', '', DestinationDrive_Login, '', '', '', 0
+   CopyFile 0, 0, 1, 2, 00060081, SourceRPL, 'DOSGEN.EXE', '', '', DestinationDrive_System, '', '', '', 0
+
+   GetDOSServer saveEngineNum
+   SetVar engineNum, 0
+
+Label SFT3_DoOtherEngine
+
+   SetDOSServer %{engineNum}, ccode
+   GotoIfNEqual 0, %{ccode}, SFT3_IOEngineNotPresent
+
+   GotoIfEqual 1, %{Install32SPEC}, SkipNBIJump3
+   CopyFile 0, 0, 0, 1, 0, NWBOOT, 'NBI.NLM', '', '', NWBOOT, 'OLDLAN', '', '', 0
+   CopyFile 0, 0, 1, 1, 0, SourceRootDrive, '*.LDI', '', '', NWBOOT, '', '', '', 5
+   EraseFile 0, NWBOOT, CNE2100.*, '', ''
+
+
+Label SkipNBIJump3
+
+   CopyFile 0, 0, 0, 1, 0, NWBOOT, 'MSM.NLM', '', '', NWBOOT, 'OLDLAN', '', '', 0
+   CopyFile 0, 0, 0, 1, 0, NWBOOT, 'ETHERTSM.NLM', '', '', NWBOOT, 'OLDLAN', '', '', 0
+   CopyFile 0, 0, 0, 1, 0, NWBOOT, 'TOKENTSM.NLM', '', '', NWBOOT, 'OLDLAN', '', '', 0
+   CopyFile 0, 0, 0, 1, 0, NWBOOT, 'FDDITSM.NLM', '', '', NWBOOT, 'OLDLAN', '', '', 0
+   Display 2, "Copying new files to IOEngine[%{engineNum}]."
+   CopyFile 0, 0, 1, 1, 0, SourceDrive, '*.*', '', '', NWBOOT, '', '', '', 0
+   CopyFile 0, 0, 1, 1, 0, SourceRootDrive, 'ETHERTSM.NLM', '', '', NWBOOT, '', '', '', 0
+   CopyFile 0, 0, 1, 1, 0, SourceRootDrive, 'TOKENTSM.NLM', '', '', NWBOOT, '', '', '', 0
+   CopyFile 0, 0, 1, 1, 0, SourceRootDrive, 'FDDITSM.NLM', '', '', NWBOOT, '', '', '', 0
+   CopyFile 0, 0, 1, 1, 0, SourceRootDrive, '*.LAN', '', '', NWBOOT, '', '', '', 5
+   CopyFile 0, 0, 1, 1, 0, SourceRootDrive, 'ROUTE.NLM', '', '', NWBOOT, '', '', '', 5
+
+Label SFT3_IOEngineNotPresent_continue
+
+   ValueAdd engineNum, 1
+   GotoIfEqual 1, %{engineNum}, SFT3_DoOtherEngine
+   SetDOSServer %{saveEngineNum}, ccode
+   Display 2, "Done copying files."
+   Display 0, "ODIKIT File Server update complete!"
+   Goto Done
+    
+
+Label SFT3_IOEngineNotPresent
+    
+   Display 0, 'IOEngine[%{engineNum}] not present, this IOEngine will be skipped.'
+   Goto SFT3_IOEngineNotPresent_continue
+
+; ***************************************************************
+; Message section.
+; ***************************************************************
+
+
+Label ERROR_MustSelectOneOption
+
+    display 0, 'ERROR: Must select ONE of the two ODI Specification groups only.'
+    Goto CleanUp    ; Skip to the CLEANUP stuff (we never copied anything)
+
+Label ERROR_WrongOS
+   display 0, 'ERROR: This server is the wrong OS version.'
+   Goto CleanUp
+
+Label ERROR_32specNotSupported
+   display 0, 'ERROR: The 3.20 ODI spec. is not supported on versions of NetWare after v4.10.'
+   Goto CleanUp
+
+Label ERROR_WAN_Installed
+   display 1, 'ERROR: The product "%{ID}" is currently installed on the Server and can not be overwritten by this ODI update.  The ODI update will not be installed.  See the readme for details on WAN drivers.'
+   Goto CleanUp
+
+Label MPR_WAN_Message
+   display 1, 'Note: MPR V3.1 WAN drivers will not load after installing ODI33x.EXE until ODIWANx.EXE has also been installed.  See the readme for details.'
+   Goto CheckForNIAS
+
+Label NIAS_WAN_Message
+   display 1, 'Note: NIAS V4.0 WAN drivers will not load after installing ODI33x.EXE until ODIWANx.EXE has also been installed.  See the readme for details.'
+   Goto ContinueWANCheck
+
+; ***************************************************************
+
+Label Done
+
+   ;****Remove old records from products.dat****
+   ReadProductRecord LANKIT, 1, ID, cCode
+   GotoIfNEqual %{cCode}, 0, SkipRemoveProductRecord
+   NLMExec 1, 'SYS:\\SYSTEM\\MPRDINST LANKIT', ccode
+
+Label SkipRemoveProductRecord
+
+   display 1, 'Important Note: WAN drivers from MPR V3.1 and NIAS V4.0 will not load after installing ODI33x.EXE until ODIWANx.EXE has also been installed.  See the readme for details.'
+   GotoIfEqual 1, %{Install32SPEC}, Record32Spec
+      ;NetWare for OS/2 will page fault for some customers adding the ProductRecord.
+      GotoIfEqual 1, %{PI_OSType}, SkipProductRecord_ForNWOS2
+     ProductRecord ODI_KIT, 1, "ODI 3.31/1.11 support files update kit."
+     ProductRecord ODI_KIT, 0, "V1.05"
+     ProductRecord ODI_KIT, 4, "MPRDINST ODI_KIT"
+     ReadProductRecord ODIKIT, 1, ID, cCode
+     GotoIfNEqual %{cCode}, 0, CleanUp
+     NLMExec 1, 'SYS:\\SYSTEM\\MPRDINST ODIKIT', ccode
+
+
+      Goto CleanUp
+
+Label Record32Spec
+
+   ;NetWare for OS/2 will page fault for some customers adding the ProductRecord.
+   GotoIfEqual 1, '%{PI_OSType}', SkipProductRecord_ForNWOS2
+      ProductRecord ODIKIT, 1, "ODI 3.20 support files update kit."
+      ProductRecord ODIKIT, 0, "V1.04"
+      ProductRecord ODIKIT, 4, "MPRDINST ODIKIT"
+
+
+Label SkipProductRecord_ForNWOS2
+
+Label CleanUp
+
+   EraseFile 1, InstallDrive, '','',''
+   EraseFile 0, DestinationDrive_System, 'PI_IOMKD.NLM','',''
+   EraseFile 0, DestinationDrive_System, 'PI_IOCON.NLM','',''
+
+; ***************************************************************
+; ***************************************************************
+

@@ -1,0 +1,141 @@
+PREVFIX.TXT
+Technical Information Document (TID) # 2926235
+
+
+Fixes carried over from IPXRT4:
+---------------------------------
+
+1. The SAP from a print server, was not aged out, if RIP and SAP were in
+AUTO mode.
+
+2. Wildcard filters inappropriately applied the source of the packet, to
+all interfaces.
+
+3. The server responded with the nearest Directory Server, when SET REPLY
+TO GET NEAREST SERVER was set to OFF.
+
+4. An IPXRTRNM abend.
+
+5. Failure of IPXCON to display a level 2 neighbor.
+
+
+Fixes carried over from 41RTR4:
+--------------------------------
+
+ 1. After applying IPXRTR.NLM from 41RTR3.EXE or a build date of 11/28/95 or
+newer, the SFT III IO engine abended at IPXRTR.
+
+   2. Wrong number of hops and ticks value were reported when one of the SFT
+III IO engines went down.
+
+   3. Fixed ABEND problem when entering "set load balance local lan=on"
+command on SFT III system.
+
+   4. IPXRTR routeless services were not retained if an IPX Default Route
+was present.
+
+   5. IPXRTR was forwarding SAP packets that advertised an unreachable server
+(16 hops away) even when the ROUTING=NONE parameter was used.
+
+  6. No Load Balancing between server and local clients.
+
+  7. An abend, if an SPX application sent a packet to the internal network
+(such as NXPIPX.NLM module of NetExplorer) while load balancing for the local
+ LAN was turned on, using the SET LOAD BALANCE command.
+
+  8. Frame type set incorrectly, for IPX, if the default was not selected.
+
+  9. The SAP from a print server, was not aged out, if RIP and SAP were
+operating in AUTO mode.
+
+  10. Wildcard filters applied inappropriately, to the source of the packet to
+all interfaces.
+
+  11. Responding with the nearest Directory Server, if the SET REPLY TO GET
+NEAREST SERVER option was off.  (Because, IPXRTR did not allow static routes or
+ services to be added, to a link, that was not using static routing.)
+
+  12. IPXRTRNM abended on the NetWare Client for Windows.
+
+  13. IPXCON did not display some neighbors.
+
+ 
+FEATURES carried over from IPXRT4.EXE:
+--------------------------------------
+
+F1. Routeless Services
+Originally, IPX Services were absorbed only if the network number on which the
+service resides was explicitly reachable.  If a default route (FF-FF-FF-FE
+network number) is defined for IPX, IPXRTR will optionally absorb services
+without an explicit route to the service being reachable.
+
+This is implemented via a SET command. By default, IPXRTR requires a explicit
+network number for the service to be reachable.  By using a SET command the 
+check for an explicit network number before absorbing services is removed.
+
+The syntax of the set command is: set required network for services= <on> /
+<off>.
+
+By default the SET is ON.   This means that IPXRTR will check to see if the
+network number on which a service resides is explicitly reachable.  If the service 
+is reachable, the service will be absorbed, otherwise it will be dropped.
+
+Note: The IPX default route cannot be explicity created on a server running
+IPXRTR. The IPX default route can only be learned from another IPX router that
+is configured to originate the IPX default route.
+
+If set to OFF, IPXRTR will check to see if the network number on which the
+service resides is explicitly reachable.  If so, the service will be absorbed. 
+If the network number is not reachable IPXRTR will check to see if there is a
+default route (FF-FF-FF-FE network number).  If a default route is present and
+reachable, the service will be absorbed.
+If an explicit route and the default route are not reachable, the service will
+be dropped.
+
+F2. Ability to bind multiple NICs to a single network number.
+
+F3. Load balancing, which is useful when connecting two or more interfaces on
+a file server to an Ethernet switch.
+ 
+F4. SNMP instrumentation for IPX, RIP/SAP, and NLSP, along with an IPX console
+(IPXCON.NLM). 
+
+F5. NLSP, a link state routing protocol for IPX that greatly reduces routing
+overhead and provides more diagnostics on the operation of IPX and IPX routing.
+
+F6. IPXPING.NLM, a utility that tests connectivity between systems running
+IPXRTR.
+
+F7. Use of the NetWare 3.12 hashing algorithm for RIP/SAP processing, which
+greatly reduces CPU utilization on NetWare 3.11 in large IPX RIP networks.
+ 
+F8. Ability to turn off IPX routing on servers with multiple NICs.
+ 
+F9. Filtering of NetBIOS packets, which is enabled by a SET command.
+
+F10. Ability for NLSP to switch automatically from broadcast to multicast when
+all NLSP nodes on a LAN support multicast.
+
+F11. Three product MIBs that you can integrate with Novell and third-party
+network management software.  These ASN.1 text files are in SUPP\REFMIBS. Refer
+to the documentation for these products for information about
+installing additional MIBs.
+
+
+FEATURES carried over from 41RTR4.EXE:
+--------------------------------------
+
+  F1. IPXRTR.NLM can now run on the Japanese version of NetWare.
+
+  F2. A new INETCFG.NLM provides improved conversion of load commands, from
+NetWare for Macintosh to the INETCFG database.
+
+  F3. NLSP can now switch automatically from Broadcast to Multicast, if all
+NLSP nodes on the LAN support multicast.
+
+  F4. For an OS/2 enviroment, new BRIDGE and PARSER NLMs provide bridging
+which
+ can now work concurrently over X.25 and Frame Relay.
+
+  F5. For an OS/2 enviroment, a new LLC8022.NLM which provides LAN Network
+ Manager functionality.

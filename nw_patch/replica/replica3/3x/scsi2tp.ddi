@@ -1,0 +1,105 @@
+;DrIvEr DeScRiPtIoN
+
+SyntaxVersion: 1.00
+    ; file: SCSI2TP.DDI
+
+    Driver SCSI2TP
+    {
+		Description:	$SCSI2TP_1
+		Help:			$SCSI2TP_2
+		PAR:			1.00
+		File:			SCSI2TP.CDM
+		PROD:			'SCSI.01.ARCHIVE.PYTHON.*',
+						'SCSI.01.ARCHIVE.IBM4326.*',
+						'SCSI.01.ARCHIVE.ANCDA*.*',
+						'SCSI.01.ARCHIVE.VIPER 2525.*',
+						'SCSI.01.CIPHER.T826S.*',
+						'SCSI.01.CIPHER.T860S.*',
+						'SCSI.01.CONNER.CTMS  3200.*',
+						'SCSI.01.CONNER.CTT8000-S.*',
+						'SCSI.01.DEC.TLZ06.*',
+						'SCSI.01.DEC.DLT2000.*',
+						'SCSI.01.EXABYTE.*.*',
+						'SCSI.01.HP.HP35450A.*',
+						'SCSI.01.HP.HP35470A.*',
+						'SCSI.01.HP.HP35480A.*',
+						'SCSI.01.HP.C1533A.*',
+						'SCSI.01.HP.C1553A.*',
+						'SCSI.01.QUANTUM.*.*',
+						'SCSI.01.SONY.SDT-1000.*',
+						'SCSI.01.SONY.SDT-4000.*',
+						'SCSI.01.SONY.SDT-5000.*',
+						'SCSI.01.TANDBERG. TDC 3800.*',
+						'SCSI.01.TANDBERG. TDC 4100.*',
+						'SCSI.01.TANDBERG. TDC 4120.*',
+						'SCSI.01.TANDBERG. TDC 4200.*',
+						'SCSI.01.TANDBERG. TDC 4220.*',
+						'SCSI.01.WANGDAT.MODEL 3200.*',
+						'SCSI.01.WANGDAT.MODEL 3400DX.*',
+						'SCSI.01.WANGDAT.MODEL 1300.*',
+						'SCSI.01.WANGDAT.MODEL 3100.*',
+						'SCSI.01.WANGTEK.6130*.*',
+						'SCSI.01.WANGTEK.5525ES.*',
+						'SCSI.01.*.*.*'
+    }
+
+
+
+
+DLANG:	4
+;English
+	$SCSI2TP_1 = "NPA Compliant SCSI-2 Tape Device Driver."
+	$SCSI2TP_2 = "This driver supports a specific set of SCSI-2
+                                         tape devices. It is dependent on the presence
+                                         of a SCSI HAM (Host Adapter Module).
+                                         Under SFT3, SCSI2TP.CDM must be loaded in the
+                                         MS Engine."
+
+;DrIvEr DeScRiPtIoN EnD
+
+LANG: 6
+;FRENCH
+	$SCSI2TP_1 = "Pilote de pÇriphÇrique de bande SCSI-2 accommodant NPA."
+	$SCSI2TP_2 = "Ce pilote supporte un ensemble spÇcifique de pÇriphÇrique
+de bande SCSI-2. Il dÇpend de la prÇsence d'un HAM (module
+adaptateur hìte) SCSI. Sous SFT3, SCSI2TP.CDM doit àtre
+chargÇ dans le MS Engine."
+
+
+LANG: 7
+;GERMAN
+	$SCSI2TP_1 = "NPA entsprechender SCSI-2-BandgerÑtetreiber"
+	$SCSI2TP_2 = "Dieser Treiber unterstÅtzt einen bestimmten Satz von SCSI-2-
+BandgerÑten. Er hÑngt vom Vorhandensein eines SCSI HAMs
+(Host-Adapter-Moduls) ab. Unter SFT3 mu· SCSI2TP.CDM im MS
+Enginegeladen sein."
+
+
+LANG: 8
+;ITALIAN
+	$SCSI2TP_1 = "Driver di dispositivo a nastro SCSI-2 conforme NPA."
+	$SCSI2TP_2 = "Questo driver supporta un insieme specifico di dispositivi a
+nastro SCSI-2. Dipende dalla presenza di un HAM (Host Adapter
+Module) SCSI. Sotto SFT3, SCSI2TP.CDM deve essere caricato in
+MS Engine."
+
+
+LANG: 12
+;PORTUGUESE-BRAZIL
+	$SCSI2TP_1 = "Driver de Dispositivo de Fita SCSI-2 Sujeito a NPA."
+	$SCSI2TP_2 = "Este driver suporta um conjunto espec°fico de dispositivos de
+ita SCSI-2. Ele depende da presenáa de um HAM (Host
+Adapter Module) SCSI. Sob o SFT3, o SCSI2TP.CDM deve ser
+carregado no MS Engine."
+
+
+LANG: 14
+;SPANISH
+	$SCSI2TP_1 = "Controlador del dispositivo de cinta NPA de complemento SCS I-2."
+	$SCSI2TP_2 = "Este controlador ofrece soporte a un conjunto
+                                              espec°fico de cintas de dispositivos SCSI-2.
+                                           Depende de la presencia de la tarjeta
+                                       SCSI HAM (M¢dulo adaptador de tarjeta). Cuando se
+                               utiliza SFT3, SCSI2TP.CDM el controlador debe cargarse en
+                        el n£cleo MSEngine."
+

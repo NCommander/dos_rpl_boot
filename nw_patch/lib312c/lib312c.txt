@@ -1,0 +1,96 @@
+NOVELL TECHNICAL INFORMATION DOCUMENT
+
+TITLE:  CLIB Update for NetWare 3.12 & 3.2
+TID #:  2951913
+README FOR:  LIB312C.EXE
+
+SUPERSEDES:
+LIB312B.EXE
+
+NOVELL PRODUCTS and VERSIONS:
+NetWare 3.12
+NetWare 3.2
+
+ABSTRACT:
+
+This file contains the latest version of CLIB for NetWare 3.12 and 3.2.  This
+new release of CLIB.NLM contains two fixes for Year 2000 (Y2K) issues.  Neither
+of these year 2000 issues pose any threat to the network or to data integrity.
+
+
+
+-----------------------------------------------------------------
+DISCLAIMER
+THE ORIGIN OF THIS INFORMATION MAY BE INTERNAL OR EXTERNAL TO 
+NOVELL.  NOVELL MAKES ALL REASONABLE EFFORTS TO VERIFY THIS 
+INFORMATION.  HOWEVER, THE INFORMATION PROVIDED IN THIS DOCUMENT 
+IS FOR YOUR INFORMATION ONLY.  NOVELL MAKES NO EXPLICIT OR IMPLIED 
+CLAIMS TO THE VALIDITY OF THIS INFORMATION.
+-----------------------------------------------------------------
+
+
+INSTALLATION INSTRUCTIONS:
+
+Before installing the new modules included in this update kit, it is
+recommended that you make a backup of all files that will be overwritten.
+
+1- Copy files to appropriate subdirectory (ea. CLIB.NLM to SYS:\SYSTEM\, and
+NWSNUT.MSG to SYS:\SYSTEM\NLS\4\).
+
+2- Re-load the updated modules or just restart the server using the console
+command "RESTART SERVER".
+
+ISSUE: 
+
+This file contains a new version of CLIB.NLM and CLIBAUX.NLM. Two issues were
+addressed in CLIB.NLM and one issue was addressed in CLIBAUX.NLM.
+
+CLIB.NLM Issues:
+    
+1. The wrong day of the week is returned by applications that use the CTIME API
+after February 29, 2000. For example, March 1, 2000 is a Wednesday, but some
+backup software products using this API displayed March 1, 2000 as a Tuesday. 
+If backups were set for every Tuesday, two backups would occur the week of
+February 29, 2000. Backups made after Tuesday, February 29, 2000 would be off
+by one day. This problem does not affect any application that uses dates in
+numeric format, only those applications using the CTIME API that rely on the
+day of the week.
+
+Applications using the API STRFTIME with the %D  parameter return
+the wrong date.  If the date is February 01, 2000, it return 02/01/100 instead
+of 02/01/00.
+
+Developers:
+  These problems are seen with NLMs developed using ANCII C source code, with
+the Novell APIs STRFTIME and CTIME.  These problems are seen only with NetWare
+versions 3.12 and 3.2, and have not been observed in NetWare versions 4.x or
+5.x.
+
+
+CLIBAUX.NLM Issue:
+
+1. Fixed a 4 byte overwrite of the stat structure in the routines stat() and
+fstat(). This can only be seen on a NetWare 3.12 or 3.2 server. 
+
+
+Self-Extracting File Name: LIB312C.EXE
+
+Files Included            Size          Date            Time
+..\
+     LIB312C.TXT   (This file)  
+       A3112.NLM         15906     2-11-1997     10:55:24 am
+    AFTER311.NLM         16127     2-11-1997     10:54:58 am
+        CLIB.NLM        355394     5-14-1999      9:41:48 am
+     CLIBAUX.NLM          8717     1-27-1999      2:04:10 pm
+     MATHLIB.NLM         12458    12-20-1995     10:27:44 am
+    MATHLIBC.NLM         16832    12-20-1995     10:27:38 am
+      NWSNUT.MSG          2984      4-4-1994      9:42:08 am
+      NWSNUT.NLM        175546    10-17-1994      3:14:20 pm
+
+
+
+-----------------------------------------------------------------
+Any trademarks referenced in this document are the property of their respective
+owners.  Consult your product manuals for complete trademark information.
+-----------------------------------------------------------------
+

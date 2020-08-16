@@ -1,0 +1,301 @@
+TRBSHT.TXT
+
+
+Examining Your IPX Network 
+===============================
+
+How to use the IPX network management console (IPXCON) to examine any NLSP
+system or NetWare LAN in your IPX network.  IPXCON can help you identify
+problems with your routers and LANs.
+
+IPXCON uses SNMP to exchange management information and statistics with
+NLSP routers on the network.  IPXCON operates over either IPX or Internet
+Protocol (IP) networks using the User Datagram Protocol (UDP) transport.
+
+Selecting a Server or Router 
+----------------------------
+IPXCON gives you management access to any server or dedicated router that
+uses NLSP as its routing protocol.  In this section, the term "Local
+System" refers to the server or router from which you load IPXCON; "Remote
+System" refers to any other server or router on the network.
+
+> If You Want to Access the Local System 
+
+To gain management access to the local system, just type the following
+command at the prompt:
+
+LOAD IPXCON <Enter> 
+
+IPXCON accesses the local system by default.
+
+> If You Want to Access a Remote System
+
+Complete the following steps to gain management access to a remote server
+or router: 
+
+
+PROCEDURE 
+
+1. Go to a local server or router and type the following command at the
+prompt: LOAD IPXCON <Enter> 
+
+The "Available Options" window appears. 
+
+2. SNMP Access Configuration is already highlighted; press 
+<Enter>.
+
+The "SNMP Access Configuration" window appears. 
+
+3. Select the "Transport Protocol" field.
+
+The "Transport Protocol" window appears. 
+
+4. Select TCP/IP or IPX. 
+
+The "SNMP Access Configuration" window reappears. 
+
+5. The Host Address field is already highlighted; press <Ins> to see a list
+of available hostnames and addresses.
+
+NOTE: If you already know the system's hostname or address, just type it
+in. 
+
+6. Scroll through the list to find the system; press <Enter> to select it. 
+
+IMPORTANT: IPXCON can only access systems that are running IPXRTRNM.  If
+you do not see the system in this list, check whether IPXRTRNM is loaded on
+that system. 
+
+7. Press <Esc> to return to the "Available Options" menu.
+
+In a few moments, IPXCON begins recording statistics for the system you
+selected.
+
+Determining Where NLSP is Running in Your Network 
+--------------------------------------------------
+After migrating your network, you can identify which LANs on your IPX
+network are using NLSP or RIP - or both - as the routing protocol.
+
+If you partitioned your IPX network into routing areas, note the following
+points: 
+
+- The procedure in this section shows only the LANs and NLSP routers that
+are within the same routing area as the system you are currently
+monitoring. 
+
+- RIP should be running only on the routers at area boundaries.
+
+For an explanation of routing areas, see the "IPX Upgrade for NetWare
+Servers 1.1 NLSP Migration Guide".
+
+To find LANs on which NLSP or RIP is running, complete the following steps:
+
+
+PROCEDURE
+
+1. Load IPXCON and select a system as described in "Selecting a Server or
+Router", above. 
+
+2. Select NLSP Information.
+
+The "NLSP Information" window appears. 
+
+3. Select LANs.
+
+The Known LANs window displays the following information about each NetWare
+LAN of which the local system is aware: 
+
+Network Number 
+External network number of the LAN.
+Throughput 
+Number of Megabits Per Second (MbPS) reported by the LAN board. 
+
+Delay 
+Time, in microseconds, for packets to reach the LAN from the Designated
+Router.
+
+If NLSP is importing RIP routes to a LAN, the entry is labeled RIP Active. 
+If the entry is labeled Unreachable, the LAN is no longer accessible from
+the local system.  No label means that NLSP is the only routing protocol
+running on the LAN and that the LAN is reachable. 
+
+4. Select one of the LANs to see which NLSP routers are on it. 
+
+Checking Your Network for Inactive Routers 
+------------------------------------------
+You can use IPXCON to identify routers on your network that are inactive
+that is, not routing for some reason.  This information can often help you
+locate a defective network interface. 
+
+To check your network for inactive routers, complete the following steps: 
+
+PROCEDURE
+
+1. Load IPXCON and select a system as described in "Selecting a Server or
+Router", above. 
+
+2. Select NLSP Information.  
+The "NLSP Information" window appears. 
+
+3. Select Routers.  
+IPXCON lists the NLSP routers known to the system you are monitoring. 
+
+4. Scroll through the list.
+
+Any router labeled Unreachable is either down or has a defective network
+interface.
+
+Any router labeled Overloaded has run out of memory and can no longer
+process NLSP routing information.
+
+Routers not labeled Unreachable or Overloaded are operating properly. 
+
+5. Select one of the routers.
+
+A new window displays the following information: 
+
+- Attachment 
+NLSP routers or IPX networks connected to the router you selected. 
+
+- Network 
+If the attachment is an IPX network, the networks external network number;
+if the attachment is a router, the router s internal network number. 
+
+- Media Type 
+LAN or WAN medium, such as Ethernet 802.3 or X.25.
+
+- Throughput 
+Number of Mbps reported by the routers interface board.
+
+NOTE: For WANs, the throughput value is an estimate. Because of rounding
+errors, this estimate is typically less than the actual speed of the WAN
+link. 
+
+- Delay 
+Estimated time, in microseconds, for packets to be forwarded to the
+attached medium.
+
+Checking Your Network for Duplicate Network Numbers 
+---------------------------------------------------
+Each external network number that identifies a LAN on your IPX network must
+be unique.  Incorrect configurations and other problems can cause two LANs
+to have the same external network number.
+
+One way in which this can occur is when a bridge connecting two LAN
+segments fails, a condition known as a "split LAN".  When the bridge fails,
+each segment becomes a separate LAN but retains the same external network
+number.  As a result, routers forwarding packets to that network number see
+two destinations and simply choose the nearest one.
+
+To check your network for duplicate network numbers, complete the following
+steps: 
+
+PROCEDURE
+
+1. Load IPXCON and select a system as described in "Selecting a Server or
+Router", above. 
+
+2. Select "NLSP Information".
+The "NLSP Information" window appears. 
+
+3. Select LANs.  The "Known LANs" window appears.  The LANs are listed in
+numeric order by network number.
+
+4. Scroll through the list of LANs; look for duplicate network numbers. 
+
+Checking Your Network for Duplicate System IDs 
+-----------------------------------------------
+To check your network for duplicate System IDs, complete the following
+steps: 
+
+PROCEDURE
+
+1. Load IPXCON and select a system as described in Selecting a Server or
+Router, above. 
+
+2. Select NLSP Information.  The "NLSP Information" window appears. 
+
+3. System Information is already highlighted; just press <Enter>. 
+
+4. The field associated with Detailed NLSP System Information is already
+highlighted; just press <Enter>. 
+
+5. Check the numbers associated with the Sequence Number Skips and Own LSP
+Purges fields. 
+
+If either of these numbers is increasing, there are two or more NLSP
+routers on your network with the same System ID.  Change the System ID on
+one of the routers.
+
+
+Finding NLSP Routers with Insufficient Memory 
+---------------------------------------------
+To check your network for routers that have run out of memory, complete the
+following steps: 
+
+PROCEDURE
+
+1. Load IPXCON and select a system as described in "Selecting a Server or
+Router", above. 
+
+2. Select NLSP Information.
+
+The "NLSP Information" window appears. 
+
+3. System Information is already highlighted; just press <Enter>.
+
+The field associated with Level 1 Overloaded should read No.  If it reads
+Yes, the router does not have enough memory to process routing information.
+
+4. As a further check, select "Detailed NLSP System Information".
+
+The "Level 1 Database Overloads" field indicates how many times the router
+has run out of memory.
+
+Finding the Designated Router on a LAN 
+--------------------------------------
+The Designated Router is an NLSP router elected by its peers to represent
+and keep track of the connectivity of its LAN.  The Designated Router
+handles exchanges of link state information on behalf of all other NLSP
+routers on the LAN. 
+
+To find the Designated Router on a LAN, complete the following steps: 
+
+PROCEDURE
+
+1. Load IPXCON and select a system as described in "Selecting a Server or
+Router", above. 
+
+2. Select Circuits.
+
+The Circuits window displays the name, type, and state of each circuit. 
+Only broadcast (LAN) circuits have Designated Routers. 
+
+3. Select a broadcast circuit.
+
+The Circuit Information window displays, among other information, the name
+of the Designated Router and the external network number of the LAN it
+represents.
+
+4. To see more information about the Designated Router, complete the
+following steps: 
+
+- 4a. Record the name of the Designated Router. 
+
+- 4b. Press <Esc> until you return to the "Available Options" menu. 
+
+- 4c. Select SNMP Access Configuration. 
+
+- 4d. Select IPX as the transport protocol. 
+
+- 4e. Type the name of the Designated Router in the Host Address field,
+then press <Enter>. 
+
+- 4f. Press <Esc> to return to the "Available Options" menu.  
+
+In a few moments, IPXCON will begin recording statistics for the Designated
+Router.
+
+
+
+

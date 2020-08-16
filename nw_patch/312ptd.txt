@@ -1,0 +1,146 @@
+NOVELL TECHNICAL INFORMATION DOCUMENT
+
+TITLE:  312PTd.EXE; NetWare 3.12 Updates
+README FOR:  312PTD.EXE
+
+NOVELL PRODUCTS and VERSIONS:
+NetWare 3.12
+
+ABSTRACT:
+
+This file contains the operating system patches for NetWare 3.12.
+
+ Changes since 312PTc.EXE - Removed the NTBIOFIX.NLM
+
+
+
+ -----------------------------------------------------------------
+ DISCLAIMER
+ THE ORIGIN OF THIS INFORMATION MAY BE INTERNAL OR EXTERNAL TO
+ NOVELL.  NOVELL MAKES ALL REASONABLE EFFORTS TO VERIFY THIS
+ INFORMATION.  HOWEVER, THE INFORMATION PROVIDED IN THIS DOCUMENT
+ IS FOR YOUR INFORMATION ONLY.  NOVELL MAKES NO EXPLICIT OR IMPLIED
+ CLAIMS TO THE VALIDITY OF THIS INFORMATION.
+ -----------------------------------------------------------------
+
+
+ISSUE: 
+
+INSTALLATION INSTRUCTIONS
+
+ 1. Extract the file on the SYS Volume.
+ 2. At the server console prompt type "LOAD PATCH312".
+ 3. At the prompt select "Copy OS Patches to Server".
+ 4. At the prompt to Enter Patch Source Path type SYS:312PTC. (Or directory
+path where the file was extracted.)
+ 5. Select EXIT when the file copy is finished.
+ 6. DOWN and EXIT the server and restart.
+
+
+ ISSUE:
+ When installing a patch kit using PATCH312.NLM, all files copied to the DOS
+partition will not retain the original file date and time. All files copied
+will obtain the current date and time. However, the "MODULES" console command
+will display the correct date and time as well as version of the modules.
+
+
+Self-Extracting File Name: 312ptd.exe
+
+Files Included     Size     Date      Time
+
+..\
+      312PTD.TXT     (This file)
+      312PTD.TXT            6919         3-17-98      5:38:44 pm
+..\312PTD\
+    PATCH312.NLM           17699          2-5-98     11:18:24 am
+..\312PTD\NATIVE\
+..\312PTD\NATIVE\LOADER\
+      LOADER.EXE           67440         8-21-97     10:05:08 am
+       LSWAP.EXE           55597         5-28-96      1:51:52 pm
+       LSWAP.NLM           46534         5-28-96      1:52:26 pm
+..\312PTD\NATIVE\OTHER\
+..\312PTD\NATIVE\OTHER\AUTO\
+     IPXSOCK.NLM            3971         9-20-95      3:24:18 pm
+    NLICLEAR.NLM            4434          4-6-95      3:34:54 pm
+     RTRTIME.NLM            2018         2-12-96     11:18:18 am
+    SERVHOPS.NLM            1891          4-6-94      1:39:36 pm
+    SYNCTIME.NLM            1948          5-3-94      5:03:30 pm
+..\312PTD\NATIVE\START\
+    ADROUTFX.NLM            1309         4-10-95     11:14:02 am
+    AUDITFIX.NLM            1046         4-17-95     10:54:36 am
+    BCKTTSFX.NLM            1218         7-15-94      8:26:30 am
+    BHANDFIX.NLM             972        10-18-94     12:16:50 pm
+    CON0PBFX.NLM            1158          4-9-96     10:43:32 am
+     COPYFIX.NLM            1738         1-20-98      1:40:36 pm
+    CTRSTKFX.NLM             972        12-21-94     12:48:10 pm
+    DAICCFIX.NLM            1076        12-18-95      3:04:22 pm
+    DESLOTFX.NLM            1114         4-10-95     10:13:08 am
+    DFILTRFX.NLM            1054         2-27-95     10:53:42 am
+     DHANDFX.NLM            3650        12-23-94     12:04:12 pm
+    DIRSPCFX.NLM            1212         4-26-94      9:06:54 am
+    DOSFNDFX.NLM            4808          2-7-97      8:49:50 am
+    EAACCFIX.NLM             970         4-26-94      9:06:10 am
+    EAALLCFX.NLM            1627          4-4-95     12:05:02 pm
+    EADATFIX.NLM            1181         4-26-94      4:33:36 pm
+    EAFLTFIX.NLM            1309        12-21-94     12:59:28 pm
+    EAREPLFX.NLM            1182         4-26-94      9:00:04 am
+    EASUBFIX.NLM             965         7-26-94      7:44:22 am
+    EAWRITFX.NLM            1036         12-2-97     10:09:28 am
+     EAWRNFX.NLM            5308        11-26-97     10:46:46 am
+     ELEVFIX.NLM            1717         4-26-94      9:08:38 am
+    EVNTRPFX.NLM            1008         1-18-96     10:59:22 pm
+    GETNSPFX.NLM            1317         2-13-96      8:30:28 am
+    GLOCKFIX.NLM            1088         2-12-96     11:20:56 am
+      GNSFIX.NLM            1099         3-28-94      8:47:10 am
+    GTALLYFX.NLM            1490        10-18-94     12:42:08 pm
+       HFFIX.NLM            1054         5-26-94     11:46:20 am
+    IOHANDFX.NLM            1070         5-26-94     11:41:54 am
+    IPXRCVFX.NLM             976         4-26-94      9:04:52 am
+    LSLUNBFX.NLM            1035        12-21-94      1:19:26 pm
+    LSTECBFX.NLM            1302         7-26-94      7:51:42 am
+     MACNMFX.NLM            1086         8-12-96      3:29:54 pm
+    MMACCFIX.NLM            1006         4-26-94      8:54:54 am
+    MMHANDFX.NLM            3123         2-13-96      8:26:54 am
+    MMMIRRFX.NLM            1075         3-19-96      3:07:14 pm
+    NCPCHKFX.NLM            1147          4-5-95     11:48:42 am
+    NCPXTNFX.NLM            1638        11-21-95      2:49:40 pm
+    NPAPATCH.NLM            2516         8-12-96      1:50:50 pm
+    PBWANFIX.NLM            3028         4-19-94      9:41:08 am
+       PM312.NLM           14825          2-5-96     11:19:02 am
+    READQFIX.NLM            1612         8-10-94      4:37:10 pm
+    REALMFIX.NLM            2920         2-12-96     11:30:32 am
+    REGOBJFX.NLM            1035         5-26-94      1:06:46 pm
+    RENDIRFX.NLM            1134          9-5-95     10:19:34 am
+    RKIELFIX.NLM            1044          5-4-94      2:38:54 pm
+    RTCHGFIX.NLM             984        12-18-95      2:41:00 pm
+       SAPFX.NLM            1970        12-18-95      1:50:14 pm
+    SEARCHFX.NLM            1145         4-28-95      3:03:18 pm
+    SHRRAMFX.NLM            3432          1-8-96     11:41:14 am
+    SIGLOGFX.NLM            1159        12-21-94      1:06:30 pm
+    SPXDDFIX.NLM            1148         1-23-96      2:51:28 pm
+     SPXFIX2.NLM            1035         1-23-96      2:52:48 pm
+    SPXNSFIX.NLM            1044         1-23-96      2:55:40 pm
+    STDIRHFX.NLM            1115         9-23-96      1:43:28 pm
+    SYNCMFIX.NLM            1025         4-26-94      8:58:16 am
+    TRBUFFIX.NLM            1059         5-26-94     12:57:28 pm
+    UNLDIRFX.NLM            1971        12-21-94      1:24:08 pm
+    UNLOADFX.NLM             992        12-18-95      1:38:32 pm
+    VOLMTFIX.NLM            1027         8-10-95      1:03:40 pm
+    WRLENFIX.NLM            1087        12-21-94      1:23:32 pm
+    WSMSGFIX.NLM            1132        12-18-95      1:20:44 pm
+    ZEROBFIX.NLM            1054         7-18-96      7:44:34 pm
+
+
+Installation Instructions:
+
+For detailed information on the fix information reference TIDs 2934544 &
+2934545.
+
+
+
+ -----------------------------------------------------------------
+ Any trademarks referenced in this document are the property of their
+respective owners.  Consult your product manuals for complete trademark
+information.
+ -----------------------------------------------------------------
+

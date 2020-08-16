@@ -1,0 +1,157 @@
+;;ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+;;บ File:     NWASPI.DDI                                                   บ
+;;บ                                                                        บ
+;;บ Purpose:  Description and installation file for NWASPI.CDM.            บ
+;;บ                                                                        บ
+;;บ Author:   Mirza Baig                                                   บ
+;;บ                                                                        บ
+;;บ Notice:   (C) Copyright 1998 Adaptec, Inc.                             บ
+;;บ           All rights reserved.                                         บ
+;;บ                                                                        บ
+;;บ           This program is an unpublished, copyrighted work that is     บ
+;;บ           proprietary to Adaptec, Inc., and contains confidential      บ
+;;บ           information that is not to be reproduced or disclosed to any บ
+;;บ           other person or entity without prior written consent from    บ
+;;บ           Adaptec, Inc., in each and every instance.                   บ
+;;บ                                                                        บ
+;;บ           WARNING: Unauthorized reproduction of this program, as well  บ
+;;บ           as unauthorized preparation of derivative works based upon   บ
+;;บ           the program, or distribution of copies by sale, rental,      บ
+;;บ           lease, or lending, are violations of federal copyright laws  บ
+;;บ           and state trade secret laws, punishable by civil and         บ
+;;บ           criminal penalties.                                          บ
+;;ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+;DrIvEr DeScRiPtIoN
+Version: 2.0
+SyntaxVersion: 1.00
+
+Driver NWASPI
+{
+    File:               NWASPI.CDM
+
+    PAR:                8.00
+
+    Description:        $NWASPI_Description
+    Help:               $NWASPI_Help
+
+    Prod:               'SCSI.01.*.*.*'
+
+    ;@# SProd:          'Adaptec~ASPI Transport Layer Driver'
+
+    ;@# Alias:          'ASPITRAN.DSK'
+}
+
+DLang:   4 ; English (American)
+  $NWASPI_Description =
+         "NWPA Compliant ASPI layer."
+  $NWASPI_Help =
+         "This driver presents an ASPI layer for server
+         based backup/archive applications which
+         rely on that interface. It is expected to
+         be a temporary solution until the applications
+         are converted to Media Manager."
+
+Lang:    6 ; French (France)
+  $NWASPI_Description =
+         "COuche ASPI conforme … NWPA."
+  $NWASPI_Help =
+         "Ce pilote prsente une couche ASPI pour les applications
+         d'archivage/sauvegarde bases sur serveur
+         qui utilisent cette interface. Ceci reprsente
+         une solution temporaire jusqu'… ce que les applications
+         soient converties au Gestionnaire de mdias."
+
+Lang:    7 ; German
+  $NWASPI_Description =
+         "Eine NWPA entsprechende ASPI-Schicht"
+  $NWASPI_Help =
+         "Dieser Treiber enthlt eine ASPI-Schicht fr auf dem Server
+         basierende Sicherungs-/Archivierungsanwendungen,
+         die von jener Schnittstelle abhngen. Dies soll
+         eine temporre L”sung sein, bis die Anwendungen
+         zum Media Manager konvertiert werden."
+
+Lang:    8 ; Italian
+  $NWASPI_Description =
+         "Strato ASPI conforme a NWPA."
+  $NWASPI_Help =
+         "Questo driver presenta uno strato ASPI per applicazioni di
+         backup/archiviazione basate su server che si affidano a tale
+         interfaccia Si tratta di una soluzione temporanea fino a quando
+         le applicazioni non verranno convertite a Media Manager."
+
+Lang:    9 ; Japanese
+  $NWASPI_Description =
+         "NWPA Compliant ASPI layer."
+  $NWASPI_Help =
+         "This driver presents an ASPI layer for server
+         based backup/archive applications which
+         rely on that interface. It is expected to
+         be a temporary solution until the applications
+         are converted to Media Manager."
+
+Lang:   10 ; Korean
+  $NWASPI_Description =
+         "NWPA Compliant ASPI layer."
+  $NWASPI_Help =
+         "This driver presents an ASPI layer for server
+         based backup/archive applications which
+         rely on that interface. It is expected to
+         be a temporary solution until the applications
+         are converted to Media Manager."
+
+Lang:   12 ; Portugese (Brazil)
+  $NWASPI_Description =
+         "Camada ASPI do Padrฦo NWPA."
+  $NWASPI_Help =
+         "Este driver tem uma camada ASPI para
+         aplicativos de backup/armazenamento baseados em
+         servidores, os quais dependem da interface.
+         Espera-se que isto seja uma soluฦo tempor ria
+         at que os aplicativos sejam convertidos para
+         o Gerenciador de Mกdia."
+
+Lang:   13 ; Russian
+  $NWASPI_Description =
+         "NWPA Compliant ASPI layer."
+  $NWASPI_Help =
+         "This driver presents an ASPI layer for server
+         based backup/archive applications which
+         rely on that interface. It is expected to
+         be a temporary solution until the applications
+         are converted to Media Manager."
+
+Lang:   14 ; Spanish (Latin America)
+  $NWASPI_Description =
+         "Nivel ASPI de complemento NWPA"
+  $NWASPI_Help =
+         "Este controlador presenta un nivel ASPI para las
+         aplicaciones de respaldo/copia de seguridad basadas en servidor
+         que usan esa interfaz. Se espera que sea una
+         soluciขn temporal hasta que las aplicaciones
+         sean convertidas al Gestor de medios(Media Manager)."
+
+Lang:   16 ; Chinese (Traditional)
+  $NWASPI_Description =
+         "NWPA Compliant ASPI layer."
+  $NWASPI_Help =
+         "This driver presents an ASPI layer for server
+         based backup/archive applications which
+         rely on that interface. It is expected to
+         be a temporary solution until the applications
+         are converted to Media Manager."
+
+Lang:    1 ; Chinese (Simplified)
+  $NWASPI_Description =
+         "NWPA Compliant ASPI layer."
+  $NWASPI_Help =
+         "This driver presents an ASPI layer for server
+         based backup/archive applications which
+         rely on that interface. It is expected to
+         be a temporary solution until the applications
+         are converted to Media Manager."
+
+;DrIvEr DeScRiPtIoN EnD
+;;ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+;;บ End of NWASPI.DDI                                                      บ
+;;ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ

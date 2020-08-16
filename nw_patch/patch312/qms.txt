@@ -1,0 +1,27 @@
+QMS.TXT
+
+Use the following information to determine whether a QMS printer can
+interoperate with NLSP:
+
+The "classic" NetWare daughter boards listen for RIP and SAP information
+and age this information to keep it current. The newer boards, known as
+"CrownNet-style" boards, query the bindery of their file server to extract
+the information they need. You can determine which type of board you have
+in one of three ways:
+
+A. The "classic" board supports only NetWare.  The CrownNet board supports
+TCP/IP, AppleTalk and LAN Manager/LAN Server. These protocols are visible
+in the keypad options.
+
+B. When QMS printers start up, they generate a startup page.  The system
+displays the communications options on that page.  The identification of
+the daughter board is displayed under the Serial and Parallel options.
+CrownNet boards are identified by the words "CrownNet xxx".
+     
+C. Some QMS printers support two optional daughter boards.  For those
+printers, look for "CrownNet" under the interface information column on the
+startup page.
+
+Do not use NLSP on the IPX network segments that have "classic" daughter
+boards in your printer.  These boards require RIP and SAP. 
+

@@ -1,0 +1,10 @@
+NEARSERV.EXE is a Personal Netware Nearest Server TSR.
+
+Available command line options:
+/?     Display the help screen.
+/S     Get status of NEARSERV.EXE in memory.
+/U     Unload NEARSERV.EXE from memory.
+
+This TSR is for use with Personal Netware NetWorks, but only when there
+are no NetWare File Servers on the NetWork.
+

@@ -1,0 +1,98 @@
+ -----------------------------------------------------------------
+ DISCLAIMER
+ THE ORIGIN OF THIS INFORMATION MAY BE INTERNAL OR EXTERNAL TO NOVELL.  NOVELL
+MAKES EVERY EFFORT WITHIN ITS MEANS TO VERIFY THIS INFORMATION.  HOWEVER, THE
+INFORMATION PROVIDED IN THIS DOCUMENT IS FOR YOUR INFORMATION ONLY.  NOVELL
+MAKES NO EXPLICIT OR IMPLIED CLAIMS TO THE VALIDITY OF THIS INFORMATION.
+ -----------------------------------------------------------------
+
+
+ISSUE: 
+
+RPL.NLM, TOKEN.RPL, and RBOOT.RPL have been updated with the following 
+changes:
+
+ 1.  Under rare circumstances BOOTCONF.SYS was left locked open after a
+workstation would boot using RPL.   This has been fixed in RPL.NLM.
+
+ 2.  If a workstation changed to a locally administered address when loading
+IBM's Lan Support Program, the workstation would lose communication with the
+file server.  This has been fixed in TOKEN.RPL and RBOOT.RPL.
+
+ 3.  On some machines workstations would get the error "Non-System Disk or Disk
+error Replace and press any key when ready." when trying to open the image
+file.  This has been fixed in TOKEN.RPL and RBOOT.RPL.
+
+ 4.  In some cases, when RPL.NLM is bound to the LAN driver using the PS= and
+the NODEFAULT parameters, workstations would get the error "RBOOT-RPL-100:
+Unable to CONNECT to <SERVERNAME>; RPL HALTED".  This has been fixed in
+TOKEN.RPL and RBOOT.RPL.
+
+ 5.  Incorporated changes from IBM for TOKEN.RPL to support an additional range
+of IRQ's and a 16K page size.
+
+
+Installation Instructions:
+
+ RPLNLM.DOC:
+
+ RPLNLM.DOC provides instructions on how to install the RPL.NLM server function
+and related files on a NetWare v3.x or v4.x File Server:
+
+               RPL.NLM
+               RBOOT.RPL
+               PCN2L.RPL
+               ETHER.RPL
+               F1ETH.RPL
+               TOKEN.RPL
+
+
+ RPLCOM.DOC
+
+ RPLCOM.DOC provides instructions on how to install the RPL.COM server function
+and related files on a Novell DOS ODI Client:
+
+               RPL.COM
+               BOOTNCP.COM
+               RBOOT.RPL
+               PCN2L.RPL
+               ETHER.RPL
+               F1ETH.RPL
+               TOKEN.RPL
+
+
+ RPLVP1.DOC
+
+ RPLVP1.DOC provides instructions on how to install the RPL.VP1 server function
+and related files on a Novell v2.x File Server or External Router:
+(Ethernet_802.2 Virtual drivers)
+
+               RPL.VP1
+               RPCONFIG.COM
+               RBOOT.RPL
+               ETHER.RPL
+               F1ETH.RPL
+               TOKEN.RPL
+               A8022.OBJ
+               B8022.OBJ
+               C8022.OBJ
+               D8022.OBJ
+               A8022.LAN
+               DCONFIG.EXE
+
+
+ Solution Specifics:
+
+ The above files allow for RPL "find-found" frames to be communicated between
+RPL workstations and Novell servers.  The RPL proms that are supported are
+Novell Enhanced Boot Proms and IBM RPL proms.
+
+
+
+ -----------------------------------------------------------------
+ Any trademarks referenced in this document are the property of their
+respective owners.  Consult your product manuals for complete trademark
+information.
+ -----------------------------------------------------------------
+
+

@@ -1,0 +1,85 @@
+NOVELL TECHNICAL INFORMATION DOCUMENT
+
+TITLE:  VRP386.EXE; VREPAIR.NLM for NetWare v3.1x
+README FOR:  VRP386.EXE
+
+NOVELL PRODUCTS and VERSIONS:
+NetWare 3.11
+NetWare 3.12
+
+ABSTRACT:
+
+This file contains VREPAIR.NLM for NetWare v3.11 & v3.12.  The file checks for
+collisions on the network in such a way that speed is significantly increased. 
+This version will allow you to purge deleted files, repairs more errors and
+fixes a problem with checking extended attributes.
+
+
+ -----------------------------------------------------------------
+ DISCLAIMER
+ THE ORIGIN OF THIS INFORMATION MAY BE INTERNAL OR EXTERNAL TO NOVELL.  NOVELL
+MAKES EVERY EFFORT WITHIN ITS MEANS TO VERIFY THIS INFORMATION.  HOWEVER, THE
+INFORMATION PROVIDED IN THIS DOCUMENT IS FOR YOUR INFORMATION ONLY.  NOVELL
+MAKES NO EXPLICIT OR IMPLIED CLAIMS TO THE VALIDITY OF THIS INFORMATION.
+ -----------------------------------------------------------------
+
+
+ISSUE: 
+
+Problems Addressed:
+ This version of VREPAIR checks for collisions in such a way that speed is
+significantly increased. Also, a problem has been fixed in the read ahead code
+that could cause a wrong value to be passed to the comparison algorithm if the
+read ahead had not completed one request before a second request is passed in.
+
+ This version of VREPAIR WILL ALLOW YOU TO PURGE DELETED FILES FROM THE DRIVE. 
+The default option under this new version is to retain all deleted files. 
+However, if you wish to purge the deleted files from the disk, choose "SET
+VREPAIR OPTIONS" from the VREPAIR main menu.  You will then be shown the
+default options at the top of the screen of which one will be "Retain Deleted
+Files".  To change this default, simply choose Option 4, "Purge All Deleted
+Files".
+
+ WARNING!!!!!  Be aware that after VREPAIR is run with this option all
+"SALVAGEABLE" files will be gone.
+
+ This version of VREPAIR enhances the functionality to support correction of
+some errors that in the past, vrepair reported as unrepairable.  These are many
+of the directory FAT errors.  This version of VREPAIR also fixes a problem
+checking extended attributes.
+
+
+Self-Extracting File Name: vrp386.exe
+
+Files Included     Size     Date      Time
+
+..\
+      VRP386.TXT     (This file)
+     VREPAIR.NLM           91893         5-23-94      8:23:04 am
+
+
+Installation Instructions:
+
+To INSTALL this version of VREPAIR.NLM:
+
+ 1) Bring up the file server without attempting to mount the bad volume.
+
+ 2) Using the diskette that has this version of VREPAIR on it type, at the
+console prompt, LOAD A:VREPAIR.
+
+ You can load VREPAIR from the network drive or a C partition, however, it is
+recommended that this VREPAIR be loaded from the A drive so as not to confuse
+it with the standard VREPAIR already loaded on the system.
+
+ ****Note: The problems you have encountered that required the use of VREPAIR
+may have been caused by hard drive and/or disk controller problems and the
+necessary steps should be taken to trouble shoot the system.
+
+
+
+ -----------------------------------------------------------------
+ Any trademarks referenced in this document are the property of their
+respective owners.  Consult your product manuals for complete trademark
+information.
+ -----------------------------------------------------------------
+

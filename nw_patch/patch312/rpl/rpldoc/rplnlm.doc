@@ -1,0 +1,568 @@
+
+Disclaimer
+
+Novell, Inc. makes no representations or warranties with respect to
+the contents or use of this manual, and specifically  disclaims any
+express or implied warranties of merchantability or fitness for any
+particular purpose.  Further, Novell, Inc. reserves the right to
+revise this publication and to make changes to its content, at any
+time, without obligation to notify any person or entity of such
+revisions or changes.
+
+Further, Novell, Inc. makes no representations or warranties with
+respect to any NetWare software, and specifically  disclaims any
+express or implied warranties of merchantability or fitness for any
+particular purpose.  Further, Novell, Inc. reserves the right to
+make changes to any and all parts of Netware software, at any time,
+without obligation to notify any person or entity of such revisions
+or changes.
+
+
+Novell, Incorporated
+122 East 1700 South
+Provo, Utah  84606 USA
+
+
+
+Trademarks
+
+NetWare and Novell are registered trademarks of Novell, Inc.
+IBM is a registered trademark of IBM, Inc.
+
+
+
+References
+
+The following publications contain information that may be helpful
+in reading this document:
+
+     1) NOVELL NetWare Version 3.11 Installation
+          (See Appendix D: Using DOSGEN to Add Remote Reset)
+     2) IBM Local Area Network Technical Reference, SC30-3383-3
+     3) IBM Remote Program Load User's Guide, 83X7840
+     4) IBM Token-Ring Network Architecture Reference, SC30-3374-02
+
+
+
+(c) Copyright 1995 Novell, Inc.  All rights reserved.  No part of
+this publication may be reproduced, photocopied, stored on a
+retrieval system, or transmitted without the express prior written
+consent of the publisher.
+
+
+
+
+
+
+RPL.nlm is a NetWare Loadable Module that acts as a Protocol
+Stack and responds to the IBM architected Remote Program Load (RPL)
+frames as defined in the "IBM Remote Program Load User's Guide". 
+It is used in networks that have diskless workstations installed
+with the RPL BIOS Module.  Currently, this is supported on the
+following network adapters:
+
+     IBM Ethernet Adapters
+     IBM PC Network Adapters
+     IBM Token-Ring Network Adapters
+
+
+
+Specifically, RPL.nlm will respond to the following frames:
+
+     FIND                RPL.nlm will respond with a FOUND frame.
+     SEND.FILE.REQUEST   RPL.nlm will respond with a
+                         FILE.DATA.RESPONSE frame.
+
+
+
+RPL.nlm is intended to be a replacement for the following NetWare
+v3.11 modules:
+
+     PCN2LRPL.nlm   For networks using the IBM PC Network Adapter.
+     ETHERRPL.nlm   For networks using the IBM Ethernet Adapter.
+     TOKENRPL.nlm   For networks using the IBM Token-Ring Adapter.
+
+
+
+Features and Fixes of RPL.nlm
+
+RPL.nlm comes with five new and improved BOOTSTRAP programs:
+ETHER.rpl, F1ETH.rpl, PCN2L.rpl, RBOOT.rpl, and TOKEN.rpl. 
+Together, these files offer the following features and fixes:
+
+     BOOTCONF.sys        Wildcard characters (* and ?) are allowed
+                         in specifying Node Addresses.  Also, more
+                         than one Disk Image File name is allowed
+                         per Node Address.  BOOTCONF.sys is parsed
+                         by RPL.nlm at the File Server to minimize
+                         the amount of Network Traffic.
+
+     IBM LAN Support Program  RPL now works reliably the the IBM
+                              LAN Support Program.
+
+     RPLFIX and RPLODI   These two programs are NOT required when
+                         booting a workstation.
+
+     Source Routing      You may now boot across a Source Routing
+                         Bridge.
+
+
+     PS/2 REFERENCE      The *.rpl files will communicate with the
+                         BIOS on a PS/2 machine and ask it if it needs
+                         to run REFERENCE.  If the BIOS says "yes" to
+                         this query, RBOOT.RPL, ETHER.RPL, TOKEN.RPL,
+                         F1ETH.RPL, AND PCN2L.RPL will automatically
+                         present a menu on the workstation screen
+                         with a "MXX.REF" boot image file name, where
+                         "XX" is the PS/2 Model number returned by
+                         the PS/2's BIOS.  This file name is for
+                         the reference diskette image that needs to
+                         be dosgened and copied into the \LOGIN
+                         directory.  An example of one of these file
+                         names would be:  MF8.REF where F8 is the model
+                         number returned by a PS/2 Model 56LS BIOS.   
+
+
+
+Installing RPL.nlm on the File Server
+
+The following BOOTSTRAP programs come with RPL.nlm and should be
+installed in the SYS:\LOGIN directory of the file server:
+
+     ETHER.rpl      For IBM MCA Ethernet Adapters
+     F1ETH.rpl      For IBM Model 25SX Ethernet Adapters
+     PCN2L.rpl      For IBM PC Network Adapters
+     RBOOT.rpl      For Adapters using the Novell Boot ROM Kit
+     TOKEN.rpl      For IBM Token-Ring Network Adapters
+
+An appropriate BOOTSTRAP program gets downloaded to the workstation
+in response to a SEND.FILE.REQUEST from the Boot ROM RPL Module.
+
+RPL.nlm should be installed in the SYS:\SYSTEM directory of the
+file server.  In addition, certain IBM Micro-Channel computers,
+such as the new 386SLC, have a BIOS image file associated with
+them.  This file comes with the computer on a diskette, and has a
+file extension of .IML.  You MUST create a directory called
+SYS:\LOGIN\IBMLAN\DCDB\IMAGES and install ALL .IML files in this
+directory.
+
+
+
+Loading RPL.nlm on the File Server
+
+RPL.nlm is loaded the same as any NetWare NLM:
+
+     LOAD RPL
+
+at the file server command prompt.  There are no parameters
+associated with loading RPL.nlm.
+
+
+
+
+Binding RPL.nlm to the 802.2 Board
+
+Since RPL.nlm is a Protocol Stack, it must be bound to any and all
+boards that have RPL clients attached to them:
+
+     BIND RPL to board [ACK],[FRAME=ff],[GNS],[NODEFAULT],
+                          [PROTECT],[PS=server],[TRO],
+                          [WAIT TIME=ssss]
+
+where board is the name of any NetWare LAN driver that is
+configured for IEEE 802.2 frame type.
+
+
+
+
+RPL.nlm BIND Time Parameters
+
+The parameters specified by [..] are OPTIONAL, NOT Case Sensitive,
+separated by blanks or commas, and may be entered in any order.
+They are described below:
+
+     ACK       Use this parameter if you wish to configure the RPL
+               BOOT ROM Module to ACKnowledge FILE.DATA.RESPONSE
+               frames sent by RPL.nlm.  By DEFAULT, RPL.nlm will
+               send FILE.DATA.RESPONSE frames in a BURST mode. 
+               This parameter allows pacing by the workstation, if
+               the Adapter on the workstation cannot keep up with
+               RPL.nlm.
+
+     FRAME=ff  Use this parameter if you wish to configure the
+               BOOTSTRAP program to use a frame type other than
+               the default to access the file server.  Valid
+               responses are:
+
+               FRAME=802.2    This is the DEFAULT.
+
+               FRAME=EII      Configure the BOOTSTRAP program for
+                              ETHERNET_II.  This option should
+                              only be used on ETHERNET networks.
+
+               FRAME=SNAP     Configure the BOOTSTRAP program for
+                              SNAP.
+
+               If FRAME=EII or FRAME=SNAP is selected, RPL.nlm 
+               will force the BOOTSTRAP program to do a Get
+               Nearest Server (GNS).
+
+               The FRAME parameter is fully supported on BOOT ROMs
+               that use the RBOOT.rpl BOOTSTRAP program.  This
+               parameter is IGNORED on BOOT ROMs that use
+               PCN2L.rpl and TOKEN.rpl.  However, FRAME=EII or
+               FRAME=SNAP will configure ETHER.rpl to use
+               ETHERNET_II instead of 802.3.  Specifying FRAME=EII
+               on a Token-Ring BOOT ROM will be ignored.
+
+     GNS       This parameter specifies that you wish the
+               workstation to do a Get Nearest Server request when
+               the appropriate BOOTSTRAP program gets downloaded. 
+               Normally, RPL.nlm will fill in the bootstrap
+               program with the file server information, so that
+               it does NOT need to do a Get Nearest Server
+               request.  Using this parameter MAY cause the
+               workstation to find a server OTHER than the one
+               where RPL.nlm is located.
+
+     NODEFAULT This parameter tells RPL.nlm to NOT respond to a
+               FIND frame UNLESS the node address of the
+               workstation is found in the BOOTCONF.sys file.  It
+               is provided for security reasons.  The workstation
+               WILL NOT boot until the system administrator
+               inserts into the BOOTCONF.sys file the node address
+               and associated Disk Image File name(s) to use when
+               booting the workstation.  A further description of
+               BOOTCONF.sys is given under the heading of Unique
+               Boot Sequences using RPL.nlm.
+
+     PROTECT   This parameter tells RPL.nlm to configure the
+               BOOTSTRAP program so that it will protect itself in
+               the workstation memory.  It does this by adjusting
+               the Memory Size variable in the BIOS data area
+               (40:13) to reflect the amount of memory that it
+               uses.  Using this parameter will REDUCE the amount
+               of memory that the workstation has available for
+               DOS by about 12k.  It is recommended that this
+               parameter NOT be USED unless absolutely necessary.
+
+     PS=server This parameter tells the BOOTSTRAP program to
+               attach to a NetWare file server other than the one
+               where RPL.nlm is loaded.  server is the name of a
+               NetWare file server that contains the Image file
+               for the workstation.
+
+     TRO       This parameter specifies that you wish the
+               BOOTSTRAP program to do a This Ring Only count of
+               THREE (3) on all Broadcasts frames.  It is useful
+               in a SOURCE ROUTING environment and Servers are
+               available on the local ring.
+
+     WAIT TIME=ssss This parameter specifies the number of SECONDS
+                    you wish the workstation to wait before
+                    automatically selecting the cursored Disk
+                    Image Name when multiple Disk Image Names are
+                    specified in BOOTCONF.sys.  (See "BOOTCONF.sys
+                    Extensions")
+
+                    The DEFAULT for this parameter is 0000, which
+                    means forever.  Any value from 0000 to 65535
+                    is allowed.
+
+
+Using RPL.nlm from a DiskLess Workstation 
+
+To use RPL.nlm, you must have installed the RPL ROM Module on your
+network adapter board in the workstation.  This module must be
+capable of sending the IBM architected RPL frame sequence.  See the
+"IBM Remote program Load User's Guide" for information on this
+architecture.
+
+Implementing the RPL function consists of creating a Disk Image
+File in the SYS:\LOGIN directory of the file server. A description
+of this process is given in the NOVELL NetWare Version 3.11
+Installation manual.
+
+At the server console you must load and bind RPL.nlm:
+
+     LOAD RPL
+     BIND RPL to board [ACK],[FRAME=ff],[GNS],[NODEFAULT],
+                          [PROTECT],[PS=server],[TRO]
+
+where board is any board that is configured for IEEE 802.2 frame
+type.  When you boot the workstation, the Disk Image File you
+created with DOSGEN will get executed.
+
+
+
+Unique Boot Sequences using RPL.nlm
+
+BOOTCONF.sys is an ASCII text file that allows you to specify a
+unique Disk Image File for each workstation that needs access to
+different files.  You create BOOTCONF.sys using your favorite text
+editor.  The process of creating unique Disk Image Files is
+described in detail in the NOVELL NetWare Version 3.11 Installation
+manual.
+
+
+
+BOOTCONF.sys Extensions
+
+When RPL.nlm loads it will search the SYS:\LOGIN directory of the
+file server for a BOOTCONF.sys file.  If it finds it, it will read
+it into a memory buffer so that it can parse it when a FIND frame
+is received from a workstation.  Note that the parsing of
+BOOTCONF.sys is done by RPL.nlm and NOT the BOOTSTRAP program to
+minimize the amount of traffic on the network during the RPL
+process.  The extensions to BOOTCONF.sys are given in this section.
+
+
+
+Using Wildcard Characters in BOOTCONF.sys
+
+Wildcard characters (* and ?) are allowed in the line specifying
+the node address of the workstation.  This will allow the system
+administrator more flexibility in building the BOOTCONF.sys file. 
+The rules for these wildcard characters are:
+
+     *    Use the ASTERISK character to specify a RANGE of digits
+          in the node address. For example, if the node address of
+          the workstation is 10005A123456, it may be specified as
+          0x*123456 in BOOTCONF.sys.  In this example, RPL.nlm will
+          match the node address with ANY node address that ends in
+          123456.
+
+          Note that only ONE asterisk (*) may appear in the node
+          address.
+
+     ?    Use the QUESTION MARK character to specify ANY digit in
+          the node address.  In the example above, the node address
+          could be specified as 0x??????123456 which is equivalent
+          to 0x*123456.
+
+          You may use wildcard characters to specify a DEFAULT Disk
+          Image File for all workstations on the network that do
+          not have a specific Disk Image File.  You do this by
+          placing the line:
+
+                    0x* = DEFAULT.sys
+          or        0x???????????? = DEFAULT.sys
+
+          as the LAST line in BOOTCONF.sys.  Either one of these
+          lines will match on ALL workstation node addresses.  The
+          DEFAULT.sys (or any name you desire) Disk Image File is
+          generated by DOSGEN, the same as any Disk Image File.
+
+
+
+More than ONE Disk Image File per Node Address
+
+Each line in BOOTCONF.sys that contains a node address may specify
+more than one Disk Image File name, separated by one or more BLANK
+characters.  In this case, the BOOTSTRAP program will present the
+workstation user a PROMPT at boot up time to select the Disk Image
+File to boot.  For example,  if a workstation's node address is
+10005A123456, the line:
+
+     0x10005a123456 = ONE.sys TWO.sys THREE.dos
+
+     will cause the BOOTSTRAP program to present:
+
+
+
+     Place CURSOR on DISK IMAGE file; Hit ENTER when Ready: 
+
+          ONE.sys
+          TWO.sys
+          THREE.dos
+
+
+
+     on the workstation screen.  The BOOTSTRAP program will then
+     use NCP calls to open the selected Disk Image File.  If it
+     does NOT exist, it will display:
+
+          Unable to OPEN Disk Image File
+
+     and retry the operation.
+
+     Up to TEN Disk Image File names may be entered for each node
+     address in BOOTCONF.sys.  Note that they must be separated by
+     one or more BLANK characters, and they must all fit on ONE
+     line.
+
+
+
+Multiple Lines per Node Address
+
+The ASCII COLON (:) can be used to allow for multiple lines when
+specifying a particular node address in BOOTCONF.sys.  It is
+provided for convenience when specifying multiple parameters on the
+Node Address line.
+
+To use this feature, place the ASCII COLON (:) at the end of the
+line.  Note that it must be preceded by at LEAST one ASCII blank:
+
+     0x10005A460025 = NET$DOS.sys FRED.sys :
+               JOE.sysBOOTCONF.sys BIND Override Parameters
+
+When RPL.nlm parses BOOTCONF.sys, it allows the user the override
+the BIND time parameters with parameters specific to a particular
+workstation that is being booted.  By default, the parameters that
+were entered at BIND time apply to ALL workstations that are
+attached to the particular board specified in the BIND command. 
+The following commands are allowed on a per NODE basis, which, if
+used, will override the BIND time parameters:
+
+
+     ACK       Use this parameter if you wish to configure the RPL
+               BOOT ROM Module to ACKnowledge FILE.DATA.RESPONSE
+               frames sent by RPL.nlm.  By DEFAULT, RPL.nlm will
+               send FILE.DATA.RESPONSE frames in a BURST mode. 
+               This parameter allows pacing by the workstation, if
+               the Adapter on the workstation cannot keep up with
+               RPL.nlm.
+
+
+     FRAME=ff  Use this parameter if you wish to configure the
+               BOOTSTRAP program to use a frame type other than
+               the default to access the file server.  Valid
+               responses are:
+
+               FRAME=802.2    This is the DEFAULT.
+
+               FRAME=EII      Configure the BOOTSTRAP program for
+                              ETHERNET_II.  This option should
+                              only be used on ETHERNET networks.
+
+               FRAME=SNAP     Configure the BOOTSTRAP program for
+                              SNAP.
+
+               If FRAME=EII or FRAME=SNAP is selected, RPL.nlm 
+               will force the BOOTSTRAP program to do a Get
+               Nearest Server (GNS).
+
+               The FRAME parameter is fully supported on BOOT ROMs
+               that use the RBOOT.rpl BOOTSTRAP program.  This
+               parameter is IGNORED on BOOT ROMs that use
+               PCN2L.rpl and TOKEN.rpl.  However, FRAME=EII or
+               FRAME=SNAP will configure ETHER.rpl to use
+               ETHERNET_II instead of 802.3.  Specifying FRAME=EII
+               on a Token-Ring BOOT ROM will be ignored.
+
+
+     GNS       This parameter specifies that you wish the
+               workstation to do a Get Nearest Server request when
+               the appropriate BOOTSTRAP program gets downloaded. 
+               Normally, RPL.nlm will fill in the bootstrap
+               program with the file server information, so that
+               it does NOT need to do a Get Nearest Server
+               request.  Using this parameter MAY cause the
+               workstation to find a server OTHER than the one
+               where RPL.nlm is located.
+
+     NOACK     This parameter will override the ACK parameter
+               specified on the BIND command.
+
+     NOGNS     This parameter will override the GNS parameter
+               specified on the BIND command.
+
+     NOPROTECT This parameter will override the PROTECT parameter
+               specified on the BIND command.
+
+     NOTRO     This parameter will OVERRIDE the TRO parameter if
+               specified on the BIND command.
+
+     PROTECT   This parameter tells RPL.nlm to configure the
+               BOOTSTRAP program so that it will protect itself in
+               the workstation memory.  It does this by adjusting
+               the Memory Size variable in the BIOS data area
+               (40:13) to reflect the amount of memory that it
+               uses.  Using this parameter will REDUCE the amount
+               of memory that the workstation has available for
+               DOS by about 12k.  It is recommended that this
+               parameter NOT be USED unless absolutely necessary.
+
+
+     PS=server This parameter tells the BOOTSTRAP program to
+               attach to a NetWare file server other than the one
+               where RPL.nlm is loaded.  server is the name of a
+               NetWare file server that contains the Image file
+               for the workstation.
+
+
+     REP       string1|string2 allows you to REPlace ALL
+               occurrences of string1 with string2 in the Disk
+               Image File.  The '|' (ASCII 7Ch) delimiter is
+               REQUIRED to delimit the string values.
+
+               Use this parameter to DYNAMICALLY re-configure a
+               Disk Image File during the RPL process.  It is
+               useful for tailoring files such as AUTOEXEC.BAT or
+               CONFIG.SYS to a specific workstation.
+
+               The rules for using REP are given below:
+                    
+               1)   The search IS case sensitive.  The BOOTSTRAP
+                    program will search for string1 EXACTLY as it
+                    is entered in BOOTCONF.sys.
+               2)   ALL occurrences of string1 will be replaced
+                    with string2 in the Disk Image File.
+               3)   string2 MUST be equal to OR shorter than
+                    string1.
+               4)   If string2 is shorter than string1, the Disk
+                    Image File will be padded with ASCII Blanks
+                    when the substitution is made.
+               5)   string2 must contain NO embedded ASCII Blanks.
+                    The FIRST blank that is encountered is
+                    interpreted as the end of the string.
+
+
+     TRO       This parameter specifies that you wish the
+               BOOTSTRAP program to do a This Ring Only count of
+               THREE (3) on all Broadcasts frames.  It is useful
+               in a SOURCE ROUTING environment and Servers are
+               available on the local ring.
+
+
+     WAIT TIME=ssss This parameter specifies the number of SECONDS
+                    you wish the workstation to wait before
+                    automatically selecting the cursored Disk
+                    Image Name when multiple Disk Image Names are
+                    specified in BOOTCONF.sys.
+
+                    The DEFAULT for this parameter is 0000, which
+                    means forever.  Any value from 0000 to 65535
+                    is allowed.
+
+
+RPL.nlm parses the Node Address line of BOOTCONF.sys looking for
+these keywords.  If an entry if found, but does not match one of
+the keywords, it is assumed to be a Disk Image File name. 
+Therefore, you should NOT have a Disk Image File named the same as
+any of these keywords.  Note that these parameters are OPTIONAL,
+NOT Case Sensitive, separated by blanks, and may be entered in any
+order.
+
+An example of a BOOTCONF.sys line using these parameters is:
+
+     0x*1234 = NET$DOS.sys gns protect rep NODE=^^^^^|NODE=67890
+
+In this case, gns and protect will be interpreted as KEYWORDS and
+not Disk Image File names. In addition, the string 'NODE=^^^^^'
+will be REPLACED with 'NODE=67890' wherever it occurs in the Disk
+Image File.
+
+
+
+Changing BOOTCONF.sys
+
+RPL.nlm reads BOOTCONF.sys into a memory buffer at LOAD time.  If
+the user changes it AFTER BOOTCONF.sys is loaded, RPL.nlm will
+detect the change and re-load it automatically.  There may be a
+five second delay from the time the changes are saved and the time
+RPL.nlm invokes the changes.
+
+RPL.nlm will suspend processing of frames while BOOTCONF.sys is
+being loaded into memory.
+

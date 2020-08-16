@@ -1,0 +1,118 @@
+LANDR9.EXE Installation Instructions on 4.10 versions of NetWare using INSTALL.NLM.
+===========================================================================
+
+Section  1     Installing ODI Drivers on a Native NetWare Server.
+Section  2     Installing ODI Drivers on a NetWare SFT III Server.
+___________________________________________________________________________
+
+
+     Novell has provided an installation script to be used with INSTALL.NLM 
+     "Product Options".  However, it is still possible to manually copy the 
+     ODI drivers to the file server.
+
+     This script file can be run in serveral ways:
+		1- From local A: Drive at Server.
+		2- From local Drive at Client useing Rconsole (F4).
+		3- From local SYS: volume (F3), by specifying the path including 
+		  volume name..ie SYS:\LANDRx.
+		4- From a diffrent server on the network (F3) by specifying
+		  full path including server name..ie Server_Name\SYS:\LANDRx.
+
+		NOTE: Fastest installation in order of performance is: 
+			option 3, option 4, option 2, option 1.
+
+------------------------------------------------------------------------------------
+     Issue: 
+
+     When selecting "PRODUCT OPTIONS" option in install, Screen to copy file appears 
+     instead of the "PRODUCT OPTIONS" screen. 
+
+     (Copy Files Option, SCREEN)
+     ----------------------------------------------------------------------------       
+     |                                            				|
+     |  NetWare files will be installed from path:                    		|
+     |                                            				|
+     |    NW410:\NW410\INSTALL\ENGLISH\                     			|
+     |                                            				|
+     |  If you are installing from CD-ROM or a network directory, verify   	|
+     |  that the above path corresponds to the source directory where the       |
+     |  NetWare server installation files are located.  On CD-ROM, this    	|
+     |  will be path <drive_or_vo_name>:\NW410\INSTALL\<language_dir>.     	|
+     |                                            				|
+     |    Press <F3> to specify a different path;                		|
+     |    Press <Enter> to continue.                             		|
+     |                                            				|
+     ----------------------------------------------------------------------------
+
+     Solution:
+
+     Copy the following files from the NetWare CD: NETMAIN.ILS, NETMAIN.ICS,
+     LANGFS.ILS to C:\NWSERVER.
+
+          D:\NW410\BOOT\NATIVE\NETMAIN.ICS              6,560  11-17-94  2:16p 
+          D:\NW410\INSTALL\ENGLISH\NETMAIN.ILS         33,024  11-15-94  1:41p
+          D:\NW410\INSTALL\ENGLISH\SCRIPTS\LANGFS.ILS   2,130  10-31-94  4:57p 
+
+     Generally this is a result of manually installing the server rather than
+     installing though INSTALL.BAT.
+
+ 
+===========================================================================
+Section  1     Installing ODI Drivers on a Native NetWare Server.
+___________________________________________________________________________
+
+IF INSTALLING ON A NATIVE NETWARE SERVER:
+
+     To Copy files :
+          Explode the LANDR9 to a diskette.
+          Place diskette in "A:" drive at the Server.
+          Load "INSTALL.NLM",  
+          Select "PRODUCT OPTIONS"
+          Select "INSTALL A PRODUCT NOT LISTED"
+          Select "ENTER" (Copy from A:\)
+
+          NOTE:  PI_ICMD.NLM will load and copy files from the A: drive using 
+		 the *.IPS script.
+
+          The following events will occur:
+               Save existing NBI, MSM, and TSM files in sys:system to 
+               sys:system\oldlan if they exist.
+               Copy ODI drivers and support modules to sys:system.
+               Save existing NBI, MSM, and TSM files on the boot drive to
+               a "oldlan" subdirectory if they exist.
+               Copy NBI, MSM, and TSM files to the boot drive.
+               Copy *.lan and *.ldi to the boot drive if a file with the
+               same name already exists there.
+
+===========================================================================
+Section  2     Installing ODI Drivers on a NetWare SFT III Server.
+---------------------------------------------------------------------------
+
+     To Copy files :
+          Explode the LANDR9 to a diskette.
+          Place diskette in "A:" drive at the Server.
+          Load "INSTALL.NLM",  
+          Select "PRODUCT OPTIONS"
+          Select "INSTALL A PRODUCT NOT LISTED"
+          Select "ENTER" (Copy from A:\)
+
+          NOTE:  PI_ICMD.NLM will load and copy files from the A: drive using 
+		 the *.IPS script.
+
+          The following events will occur:
+               Save existing NBI, MSM, and TSM files in sys:system to 
+               sys:system\oldlan if they exist.
+               Copy ODI drivers and support modules to sys:system.
+               Save existing NBI, MSM, and TSM files on the boot drive to
+               a "oldlan" subdirectory if they exist.
+               Copy NBI, MSM, and TSM files to the boot drive.
+               Copy *.lan and *.ldi to the boot drive if a file with the
+               same name already exists there.
+
+           Note:  The files copied to the dos partition on each IOEngine will have
+            the date of the machine when they were copied.
+___________________________________________________________________________
+          
+
+          
+
